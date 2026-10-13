@@ -1,67 +1,67 @@
 "use client";
 
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import { useRef } from "react";
 import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
 import { EASE, Words } from "./motion";
-import { Arrow, lux } from "./ui";
+import { Arrow, Icon, lux } from "./ui";
 
-const services = ["Bank-approved homes", "Commercial spaces", "Investment advisory", "Home-loan support"];
-
+/**
+ * Framed hero: the photo sits in a rounded, inset card; copy is centred over it.
+ * On scroll the card eases back slightly so the page reads as lifting off it.
+ */
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "18%"]);
-  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const bgY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "14%"]);
+  const frameScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 0.94]);
+  const copyY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -60]);
+  const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: reduce ? 0 : 16 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.9, ease: EASE, delay },
+  });
 
   return (
-    <section
-      ref={ref}
-      className="lux-scope lux-grain relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ink-950 text-ivory"
-    >
-      <motion.div style={{ y: bgY }} className="absolute inset-0 -z-20">
-        <motion.div
-          className="absolute inset-0"
-          initial={{ scale: reduce ? 1 : 1.12 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2.4, ease: EASE }}
-        >
-          <Image
-            src="/images/hero-living.jpg"
-            alt="Sunlit living room in a premium Delhi NCR residence"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-60"
-          />
-        </motion.div>
-      </motion.div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950 via-ink-950/80 to-ink-950/20" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-ink-950 to-transparent" />
-      <div className="absolute -right-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-royal/40 blur-[140px]" />
-
+    <section ref={ref} className="lux-scope bg-ivory p-2 sm:p-3 md:p-4">
       <motion.div
-        style={{ opacity: fade }}
-        className="mx-auto grid w-full max-w-[1320px] flex-1 items-center gap-14 px-6 pb-16 pt-36 md:px-10 lg:grid-cols-[1.35fr_0.65fr] lg:pt-40"
+        style={{ scale: frameScale }}
+        className="lux-grain relative isolate flex h-[calc(100svh-1rem)] min-h-[640px] flex-col overflow-hidden rounded-[24px] bg-ink-950 text-white sm:h-[calc(100svh-1.5rem)] md:h-[calc(100svh-2rem)] md:rounded-[32px]"
       >
-        <div>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
-            className="lux-label text-brass-soft"
+        {/* Photo with a slow settle-in zoom and scroll parallax */}
+        <motion.div style={{ y: bgY }} className="absolute inset-0 -z-20">
+          <motion.div
+            className="absolute inset-0"
+            initial={{ scale: reduce ? 1 : 1.12 }}
+            animate={{ scale: 1.04 }}
+            transition={{ duration: 2.6, ease: EASE }}
           >
+            <Image
+              src="/images/hero-living.jpg"
+              alt="Sunlit living room in a premium Delhi NCR residence"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          </motion.div>
+        </motion.div>
+        {/* Legibility: light overall wash, a soft pool behind the copy, darker edges top and bottom */}
+        <div className="absolute inset-0 -z-10 bg-ink-950/30" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_45%,rgba(5,12,31,0.55),transparent_75%)]" />
+        <div className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-ink-950/60 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-ink-950/70 to-transparent" />
+
+        <motion.div
+          style={{ y: copyY, opacity: fade }}
+          className="flex flex-1 flex-col items-center justify-center px-6 pt-20 text-center"
+        >
+          <motion.p {...rise(0.1)} className="lux-label text-brass-soft">
             Delhi NCR · Bank-approved property advisors
           </motion.p>
           <Words
@@ -69,136 +69,67 @@ export default function Hero() {
             immediate
             delay={0.2}
             text="Expert advocacy for your *lifetime* real estate goals."
-            className="lux-display mt-7 max-w-[13ch] text-[clamp(3rem,7.2vw,7rem)]"
+            className="lux-display mt-6 max-w-[18ch] text-[clamp(2.5rem,5.4vw,5.25rem)] leading-[1.02] tracking-[-0.04em]"
           />
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.75 }}
-            className="mt-8 max-w-[34rem] font-text text-lg leading-relaxed text-ivory/75 md:text-xl"
+            {...rise(0.7)}
+            className="mt-6 max-w-[38rem] font-text text-lg leading-relaxed text-white/85 md:text-xl"
           >
-            Only 100% bank-approved residential and corporate properties — with a consultant who
-            stays beside you from the first site visit to long after possession.
+            Only 100% bank-approved homes and offices — with a consultant who stays beside you
+            from the first site visit to long after possession.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.9 }}
-            className="mt-10 flex flex-wrap gap-4"
-          >
-            <Cta href={site.whatsapp} className={lux.gold}>
+          <motion.div {...rise(0.85)} className="mt-10 flex flex-wrap justify-center gap-3">
+            <Cta href={site.whatsapp} className={lux.heroPrimary}>
               Book a free consultation <Arrow />
             </Cta>
-            <Cta href="/projects" className={lux.ghostDark}>
+            <Cta href="/projects" className={lux.heroGlass}>
               See running deals
             </Cta>
           </motion.div>
-        </div>
 
+          <motion.ul
+            {...rise(1)}
+            className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 font-text text-sm text-white/75"
+          >
+            <li className="flex items-center gap-2">
+              Verified by
+              <span className="flex items-center gap-1.5">
+                <span className="grid h-7 place-items-center rounded-full bg-white px-2.5">
+                  <Image src="/images/sbi.png" alt="SBI" width={108} height={56} className="h-4 w-auto" />
+                </span>
+                <span className="grid h-7 place-items-center rounded-full bg-white px-2.5">
+                  <Image src="/images/pnb.png" alt="PNB" width={124} height={53} className="h-4 w-auto" />
+                </span>
+              </span>
+            </li>
+            <li className="hidden h-4 w-px bg-white/30 sm:block" aria-hidden />
+            <li>
+              <span className="font-semibold text-white tabular-nums">23+</span> years
+            </li>
+            <li className="hidden h-4 w-px bg-white/30 sm:block" aria-hidden />
+            <li>
+              <span className="font-semibold text-white tabular-nums">1000+</span> families
+            </li>
+          </motion.ul>
+        </motion.div>
+
+        {/* Corner controls, echoing the reference's quiet utility buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 40, rotateX: reduce ? 0 : 12 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          transition={{ duration: 1.2, ease: EASE, delay: 0.55 }}
-          style={{ perspective: 1200 }}
+          {...rise(1.15)}
+          className="flex items-center gap-3 px-5 pb-5 md:px-8 md:pb-7"
         >
-          <TrustCard />
+          <a
+            href={site.phone.href}
+            aria-label={`Call ${site.phone.display}`}
+            className="lux-focus grid h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/15 text-white backdrop-blur-md transition-colors hover:bg-white/25"
+          >
+            <Icon name="phone" className="h-5 w-5" />
+          </a>
+          <span className="hidden font-text text-sm text-white/70 sm:inline">
+            ← Speak to an advisor now · {site.phone.display}
+          </span>
         </motion.div>
       </motion.div>
-
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-[1320px] flex-wrap items-center justify-between gap-x-8 gap-y-3 px-6 py-6 font-text text-sm text-ivory/70 md:px-10">
-          <ul className="flex flex-wrap gap-x-8 gap-y-2">
-            {services.map((s) => (
-              <li key={s} className="flex items-center gap-3">
-                <span className="h-1 w-1 rounded-full bg-brass" aria-hidden />
-                {s}
-              </li>
-            ))}
-          </ul>
-          <span className="hidden items-center gap-3 md:flex" aria-hidden>
-            Scroll
-            <span className="relative h-8 w-px overflow-hidden bg-white/20">
-              <motion.span
-                className="absolute inset-x-0 top-0 h-3 bg-brass"
-                animate={reduce ? undefined : { y: [-12, 32] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </span>
-          </span>
-        </div>
-      </div>
     </section>
-  );
-}
-
-/** Glass credential card that tilts toward the pointer; layers sit at different depths. */
-function TrustCard() {
-  const reduce = useReducedMotion();
-  const px = useMotionValue(0.5);
-  const py = useMotionValue(0.5);
-  const spring = { stiffness: 140, damping: 18, mass: 0.6 };
-  const rotateY = useSpring(useTransform(px, [0, 1], [-10, 10]), spring);
-  const rotateX = useSpring(useTransform(py, [0, 1], [10, -10]), spring);
-  const glareX = useTransform(px, (v) => `${v * 100}%`);
-  const glareY = useTransform(py, (v) => `${v * 100}%`);
-  const glare = useMotionTemplate`radial-gradient(420px circle at ${glareX} ${glareY}, rgb(255 255 255 / 0.16), transparent 55%)`;
-
-  function onMove(e: React.PointerEvent<HTMLDivElement>) {
-    if (reduce || e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    px.set((e.clientX - r.left) / r.width);
-    py.set((e.clientY - r.top) / r.height);
-  }
-  function onLeave() {
-    px.set(0.5);
-    py.set(0.5);
-  }
-
-  return (
-    <motion.div
-      onPointerMove={onMove}
-      onPointerLeave={onLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="lux-glass relative mx-auto max-w-[400px] rounded-[28px] p-8"
-    >
-      <motion.div
-        aria-hidden
-        style={{ background: glare }}
-        className="pointer-events-none absolute inset-0 rounded-[28px]"
-      />
-      <div style={{ transform: "translateZ(50px)" }}>
-        <p className="lux-label text-ivory/60">Verified by</p>
-        <div className="mt-4 flex gap-3">
-          {[
-            { src: "/images/sbi.png", alt: "State Bank of India", w: 108, h: 56 },
-            { src: "/images/pnb.png", alt: "Punjab National Bank", w: 124, h: 53 },
-          ].map((l) => (
-            <span key={l.src} className="grid h-14 flex-1 place-items-center rounded-xl bg-white px-3">
-              <Image src={l.src} alt={l.alt} width={l.w} height={l.h} className="h-9 w-auto" />
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ transform: "translateZ(80px)" }} className="mt-10">
-        <p className="font-serif text-[88px] leading-none text-brass tabular-nums">100%</p>
-        <p className="mt-2 font-text text-lg text-ivory">Bank-approved assets, every time</p>
-      </div>
-
-      <dl
-        style={{ transform: "translateZ(40px)" }}
-        className="mt-8 grid grid-cols-2 border-t border-white/10 pt-6"
-      >
-        {[
-          { v: "23+", l: "Years of legacy" },
-          { v: "1000+", l: "Families served" },
-        ].map((s, i) => (
-          <div key={s.l} className={i ? "border-l border-white/10 pl-6" : ""}>
-            <dd className="font-serif text-4xl text-ivory tabular-nums">{s.v}</dd>
-            <dt className="mt-1 font-text text-xs uppercase tracking-[0.14em] text-ivory/60">{s.l}</dt>
-          </div>
-        ))}
-      </dl>
-    </motion.div>
   );
 }

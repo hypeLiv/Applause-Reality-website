@@ -7,6 +7,9 @@ export const lux = {
   gold: `${base} bg-brass text-ink-950 shadow-[0_12px_32px_-12px_rgba(212,162,76,0.75)] hover:-translate-y-0.5 hover:bg-brass-soft active:translate-y-0`,
   ghostDark: `${base} border border-white/20 text-ivory hover:border-white/50 hover:bg-white/5`,
   ghostLight: `${base} border border-ink-900/15 text-ink-900 hover:border-ink-900/40 hover:bg-ink-900/[0.03]`,
+  // Hero pair: solid ivory primary + tinted glass secondary, sized up for the framed hero.
+  heroPrimary: `${base} bg-ivory px-9 py-[18px] text-base text-ink-950 shadow-[0_18px_40px_-16px_rgba(0,0,0,0.6)] hover:-translate-y-0.5 hover:bg-white active:translate-y-0`,
+  heroGlass: `${base} border border-white/30 bg-white/15 px-9 py-[18px] text-base text-white backdrop-blur-md hover:bg-white/25`,
 };
 
 const paths = {

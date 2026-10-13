@@ -22,16 +22,16 @@
   --color-royal: #2445a0;
   --color-brass: #d4a24c;
   --color-brass-soft: #e8c98a;
-  --font-serif: var(--ff-serif), var(--ff-deva), Georgia, serif;
-  --font-deva: var(--ff-deva), var(--ff-hind), Georgia, serif;
+  --font-serif: var(--font-sans);
+  --font-deva: var(--ff-hind), var(--font-sans);
   --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Wix Madefor has no Devanagari, so Hind picks up the Hindi taglines. */
-  --font-display: var(--ff-madefor-display), var(--ff-hind), system-ui, sans-serif;
-  --font-text: var(--ff-madefor-text), var(--ff-hind), system-ui, sans-serif;
-  --font-inter: var(--ff-inter), var(--ff-hind), system-ui, sans-serif;
-  /* "Aether" is a Wix-licensed face; Space Grotesk is the closest free match. */
-  --font-aether: var(--ff-aether), var(--ff-hind), system-ui, sans-serif;
+  /* Inter everywhere; Hind only fills in Devanagari glyphs Inter lacks. */
+  --font-sans: var(--ff-inter), var(--ff-hind), system-ui, sans-serif;
+  --font-display: var(--font-sans);
+  --font-text: var(--font-sans);
+  --font-inter: var(--font-sans);
+  --font-aether: var(--font-sans);
 }
 
 html {
@@ -95,9 +95,14 @@ body {
 }
 
 .lux-display {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  line-height: 1.02;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+/* Former serif accents (numerals, quotes, step titles) read best in medium Inter. */
+.font-serif {
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 .lux-display em {
