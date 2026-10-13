@@ -143,7 +143,7 @@ export default function ProjectsPage() {
               Ready to discuss your own property plans?
             </h2>
             <Cta href={site.whatsapp} className={`${btn.navy} mt-8`}>
-              Contact on WhatsApp
+              Talk to an advisor
             </Cta>
           </div>
         </div>
@@ -195,7 +195,7 @@ function ProjectShowcase({ project: p, flip }: { project: Project; flip: boolean
   );
 
   return (
-    <section className="relative isolate overflow-hidden px-4 py-12 md:py-16">
+    <section id={p.key} className="relative isolate scroll-mt-24 overflow-hidden px-4 py-12 md:py-16">
       <PhotoBackdrop src={p.backdrop} />
       <div className="absolute inset-0 -z-10 bg-white/80" />
       <div className="mx-auto grid max-w-[1420px] items-center gap-10 lg:grid-cols-2">

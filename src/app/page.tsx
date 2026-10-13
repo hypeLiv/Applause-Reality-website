@@ -8,6 +8,7 @@ import Showcase from "@/components/home/Showcase";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import Stats from "@/components/home/Stats";
 import Testimonials from "@/components/home/Testimonials";
+import Walkthrough from "@/components/home/Walkthrough";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <SmoothScroll />
       <Hero />
       <Promise />
+      <Walkthrough />
       <Journey />
       <Showcase />
       <Stats />
