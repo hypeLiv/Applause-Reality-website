@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Applause-Reality-website
 
-## Getting Started
+Next.js (App Router, TypeScript, Tailwind v4) rebuild of [applausereality.com](https://www.applausereality.com), moving the site off Wix. Routes match the live Wix URLs so existing links and rankings carry over.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/` — one route per page: `/`, `/locations`, `/projects`, `/about-applause-reality`, `/blog`, `/post/[slug]`, `/privacy-policy`
+- `src/components/` — header, footer, shared sections, advisor form, video card
+- `src/lib/site.ts` — phone numbers, email, WhatsApp links, nav
+- `src/content/posts.ts` — blog posts
+- `public/` — images, project videos and brochure PDFs downloaded from the Wix site
 
-## Learn More
+## Before launch
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Blog posts:** article bodies still need importing from the Wix blog export (Blog → Settings → Export) into `src/content/posts.ts`.
+- **Privacy policy:** paste the client's approved text into `src/app/privacy-policy/page.tsx`.
+- **Advisor form:** currently opens a pre-filled WhatsApp chat; wire up email/CRM if enquiries should land in an inbox.
+- **Large media:** `public/videos` and `public/brochures` are ~160 MB; consider moving them to a CDN.
