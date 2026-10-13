@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ConsultLink from "@/components/ConsultLink";
 import { site } from "@/lib/site";
 
 export function HindiTagline({ as: Tag = "p" }: { as?: "p" | "h2" }) {
@@ -41,6 +42,14 @@ function isExternal(href: string) {
 }
 
 export function Cta({ href, children, className = "" }: CtaProps) {
+  // WhatsApp CTAs are device-aware: WhatsApp on phones, the consultation form on laptops.
+  if (href.startsWith("https://api.whatsapp.com")) {
+    return (
+      <ConsultLink whatsapp={href} className={className}>
+        {children}
+      </ConsultLink>
+    );
+  }
   if (isExternal(href)) {
     const newTab = href.startsWith("http");
     return (
