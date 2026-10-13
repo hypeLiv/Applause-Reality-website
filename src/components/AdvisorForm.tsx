@@ -33,19 +33,22 @@ export default function AdvisorForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-lg bg-black/40 p-6">
+    <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
       {fields.map((f) => (
-        <label key={f.name} className="block font-text text-sm text-white">
+        <label
+          key={f.name}
+          className={`block font-text text-[13px] font-medium text-slate-ink ${f.name === "email" || f.name === "company" ? "sm:col-span-2" : ""}`}
+        >
           {f.label}*
           {f.name === "phone" ? (
-            <span className="mt-1 flex items-center gap-2 border border-white/30 bg-white/5 px-3">
+            <span className="mt-1.5 flex items-center gap-2 rounded-xl border border-ink-900/15 bg-white px-4 transition-colors focus-within:border-royal">
               <span aria-hidden>🇮🇳</span>
               <input
                 required
                 name={f.name}
                 type={f.type}
                 autoComplete={f.autoComplete}
-                className="h-10 w-full bg-transparent text-white outline-none"
+                className="h-12 w-full bg-transparent text-base text-ink-900 outline-none"
               />
             </span>
           ) : (
@@ -54,19 +57,19 @@ export default function AdvisorForm() {
               name={f.name}
               type={f.type}
               autoComplete={f.autoComplete}
-              className="mt-1 h-10 w-full border border-white/30 bg-white/5 px-3 text-white outline-none focus:border-white"
+              className="mt-1.5 h-12 w-full rounded-xl border border-ink-900/15 bg-white px-4 text-base text-ink-900 outline-none transition-colors focus:border-royal"
             />
           )}
         </label>
       ))}
       <button
         type="submit"
-        className="h-11 w-full rounded-sm bg-white font-text text-black transition-colors hover:bg-mist"
+        className="lux-focus mt-2 h-14 w-full rounded-full bg-ink-900 font-text text-[15px] font-semibold text-ivory transition-colors hover:bg-royal sm:col-span-2"
       >
-        Submit
+        Request a callback
       </button>
       {sent && (
-        <p role="status" className="text-center text-sm text-mist">
+        <p role="status" className="text-center text-sm text-slate-ink sm:col-span-2">
           Thanks! Finish sending your details in WhatsApp.
         </p>
       )}

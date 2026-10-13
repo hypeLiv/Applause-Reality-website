@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import {
   Hind,
+  Instrument_Serif,
   Inter,
   Space_Grotesk,
+  Tiro_Devanagari_Hindi,
   Wix_Madefor_Display,
   Wix_Madefor_Text,
 } from "next/font/google";
@@ -28,6 +30,18 @@ const hind = Hind({
   weight: ["400", "600", "700"],
   variable: "--ff-hind",
 });
+// Echoes the serif "REALITY" in the logo; used by the landing page.
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--ff-serif",
+});
+const deva = Tiro_Devanagari_Hindi({
+  subsets: ["devanagari", "latin"],
+  weight: "400",
+  variable: "--ff-deva",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -46,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${madeforDisplay.variable} ${madeforText.variable} ${inter.variable} ${aether.variable} ${hind.variable}`}
+      className={`${madeforDisplay.variable} ${madeforText.variable} ${inter.variable} ${aether.variable} ${hind.variable} ${serif.variable} ${deva.variable}`}
     >
       <body>
         <Header />
