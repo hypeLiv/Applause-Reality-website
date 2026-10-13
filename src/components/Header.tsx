@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import ConsultLink from "@/components/ConsultLink";
 import { nav, site } from "@/lib/site";
 
 export default function Header() {
@@ -103,10 +104,7 @@ export default function Header() {
             </svg>
             {site.phone.display}
           </a>
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
+          <ConsultLink
             className={`hidden rounded-full px-5 py-2.5 font-text text-[14px] font-semibold transition-colors md:block ${
               onHero
                 ? "border border-white/35 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
@@ -114,7 +112,7 @@ export default function Header() {
             }`}
           >
             Free Consultation
-          </a>
+          </ConsultLink>
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -151,14 +149,12 @@ export default function Header() {
           <a href={site.phone.href} className="px-4 py-3 font-text font-semibold text-ink-900">
             Call {site.phone.display}
           </a>
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
+          <ConsultLink
+            onClick={() => setOpen(false)}
             className="rounded-full bg-ink-900 px-4 py-3 text-center font-text font-semibold text-ivory"
           >
             Free Consultation
-          </a>
+          </ConsultLink>
         </nav>
       )}
     </header>
