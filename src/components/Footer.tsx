@@ -48,7 +48,7 @@ export default function Footer() {
       monoFamily={INTER}
       // The word is fitted to the width, so its height scales with vw. The
       // floor leaves room for the link block plus the promise lines on phones.
-      height="max(680px, calc(340px + 22vw))"
+      height="max(740px, calc(360px + 22vw), calc(1000px - 55vw))"
     />
   );
 }

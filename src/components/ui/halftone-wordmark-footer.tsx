@@ -157,12 +157,12 @@ const HWF_CSS = `
 .hwf-top {
   position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, 1fr));
   gap: 24px; padding: clamp(22px, 3.4vw, 40px) clamp(20px, 3.4vw, 44px) 0;
-  font-family: var(--hwf-mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; line-height: 1.75;
+  font-family: var(--hwf-mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; line-height: 1.85;
 }
-.hwf-brand strong { display: block; font-weight: 500; }
+.hwf-brand strong { display: block; font-size: 14px; font-weight: 500; }
 .hwf-brand span { opacity: .45; }
 .hwf-statement {
-  margin-top: 18px; max-width: 34rem; font-family: var(--hwf-body, inherit); font-size: 15px; line-height: 1.75;
+  margin-top: 18px; max-width: 36rem; font-family: var(--hwf-body, inherit); font-size: 17.5px; line-height: 1.75;
   letter-spacing: 0; text-transform: none; opacity: .8;
 }
 .hwf-statement p { margin: 0 0 6px; }
@@ -181,7 +181,7 @@ const HWF_CSS = `
   position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 16px;
   margin: clamp(18px, 2.6vw, 30px) clamp(20px, 3.4vw, 44px) 0; padding-top: 12px;
   border-top: 0.5px solid color-mix(in srgb, var(--hwf-ink) 16%, transparent);
-  font-family: var(--hwf-mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+  font-family: var(--hwf-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
 }
 .hwf-note { opacity: .45; }
 .hwf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
