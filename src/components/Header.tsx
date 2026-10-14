@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import ConsultLink from "@/components/ConsultLink";
 import { nav, site } from "@/lib/site";
 
+/** Pages whose hero is dark, matched by path so the first paint is already right. */
+const DARK_HERO = /^\/($|locations|projects|blog|post\/|about-applause-reality)/;
+
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -31,10 +34,11 @@ export default function Header() {
     };
   }, [pathname]);
 
-  // Over a dark hero the bar dissolves into it: the homepage's framed photo
-  // until you scroll, or any marked section while it's behind the bar.
-  // Everywhere else it is the frosted pill.
-  const onHero = !open && ((pathname === "/" && !scrolled) || overDark);
+  // Over a dark hero the bar dissolves into it: on any page that opens on a
+  // dark hero until you scroll, and over any marked section while it's behind
+  // the bar. Light-topped pages (consultation, privacy) keep the frosted pill.
+  const darkTop = DARK_HERO.test(pathname);
+  const onHero = !open && ((darkTop && !scrolled) || overDark);
 
   const shell = `mx-auto flex h-16 items-center justify-between gap-3 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
     onHero
