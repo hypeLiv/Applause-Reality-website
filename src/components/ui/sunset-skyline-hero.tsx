@@ -37,6 +37,8 @@ export interface TokyoSkylineHeroProps {
   /** Small label above the opening title. */
   eyebrow?: string;
   title?: string;
+  /** Heading level for the title: h1 when this section opens the page. */
+  titleAs?: "h1" | "h2";
   scrollHint?: string;
   /** Large line that composes in once the footage reaches its end. */
   brandMark?: string;
@@ -46,6 +48,10 @@ export interface TokyoSkylineHeroProps {
   action?: React.ReactNode;
   navItems?: NavItem[];
   signature?: { name: string; url: string } | false;
+  /** Keep the site header transparent while this section is behind it. */
+  darkHeader?: boolean;
+  /** Darkening (0–1) over the opening frame so the title reads; lifts as the title fades. */
+  openingVeil?: number;
   /** Scroll distance (px) spent scrubbing, on top of one viewport of pinning. */
   scrubDistance?: number;
   id?: string;
@@ -70,12 +76,15 @@ export default function TokyoSkylineHero({
   skylineSrc,
   eyebrow,
   title,
+  titleAs: TitleTag = "h2",
   scrollHint = "SCROLL",
   brandMark,
   caption,
   action,
   navItems = [],
   signature = false,
+  openingVeil = 0,
+  darkHeader = false,
   scrubDistance = 3200,
   id,
   className = "",
@@ -140,8 +149,8 @@ export default function TokyoSkylineHero({
     function paint(p: number) {
       if (duration > 0) seekTo(clamp(p / VIDEO_END, 0, 1) * duration);
 
+      const t = 1 - clamp(p / 0.3, 0, 1);
       if (titleRef.current) {
-        const t = 1 - clamp(p / 0.3, 0, 1);
         titleRef.current.style.opacity = String(t);
         titleRef.current.style.transform = `translateY(${(1 - t) * -24}px) scale(${0.96 + t * 0.04})`;
         titleRef.current.style.filter = `blur(${(1 - t) * 10}px)`;
@@ -149,7 +158,7 @@ export default function TokyoSkylineHero({
       if (hintRef.current) hintRef.current.style.opacity = p > 0.02 ? "0" : "1";
 
       const b = clamp((p - TEXT_START) / (TEXT_END - TEXT_START), 0, 1);
-      if (veilRef.current) veilRef.current.style.opacity = String(b * 0.6);
+      if (veilRef.current) veilRef.current.style.opacity = String(Math.max(b * 0.6, t * openingVeil));
       if (brandRef.current) {
         brandRef.current.style.opacity = String(b);
         brandRef.current.style.transform = `translateY(${(1 - b) * 16}px) scale(${0.98 + b * 0.02})`;
@@ -219,12 +228,13 @@ export default function TokyoSkylineHero({
       video.removeEventListener("loadeddata", onLoadedData);
       video.removeEventListener("seeked", onSeeked);
     };
-  }, [scrubDistance]);
+  }, [scrubDistance, openingVeil]);
 
   return (
     <section
       ref={sectionRef}
       id={id}
+      data-header-over-dark={darkHeader || undefined}
       className={`relative bg-ink-950 ${className}`}
       style={{ height: reduce ? "100dvh" : `calc(100dvh + ${scrubDistance}px)`, ...style }}
     >
@@ -281,13 +291,13 @@ export default function TokyoSkylineHero({
             className="pointer-events-none absolute inset-0 z-[4] flex flex-col items-center justify-center px-6 text-center"
           >
             {eyebrow && (
-              <p className="mb-5 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-brass-soft">
+              <p className="mb-5 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-accent-soft">
                 {eyebrow}
               </p>
             )}
-            <h2 className="max-w-[16ch] font-sans text-[clamp(2.25rem,5.4vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.035em] [text-shadow:0_4px_30px_rgba(0,0,0,0.5)]">
+            <TitleTag className="max-w-[16ch] font-sans text-[clamp(2.25rem,5.4vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.035em] [text-shadow:0_4px_30px_rgba(0,0,0,0.5)]">
               {title}
-            </h2>
+            </TitleTag>
           </div>
         )}
 
@@ -315,7 +325,7 @@ export default function TokyoSkylineHero({
         <div className="absolute inset-x-0 bottom-0 z-[5] h-0.5 bg-white/10">
           <div
             ref={progressBarRef}
-            className="h-full w-full origin-left bg-gradient-to-r from-brass/60 to-brass"
+            className="h-full w-full origin-left bg-gradient-to-r from-accent/60 to-accent"
             style={{ transform: "scaleX(0)" }}
           />
         </div>

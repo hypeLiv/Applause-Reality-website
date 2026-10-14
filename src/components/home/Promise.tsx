@@ -20,7 +20,10 @@ export default function Promise() {
       <div className="mx-auto max-w-[1100px]">
         <Reveal>
           <p className="lux-label text-royal">Our partnership promise</p>
-          <h2 className="mt-8 font-deva text-[clamp(2.1rem,5vw,4.4rem)] leading-[1.25] text-royal">
+          {/* Tagline renders ~17x its font-size wide, so size it to the
+              container (viewport minus side padding, capped at 1100px)
+              and keep it on one line. */}
+          <h2 className="mt-8 whitespace-nowrap font-deva text-[clamp(1rem,calc((100vw-5rem)/17.6),3.9rem)] leading-[1.25] text-royal">
             {site.tagline}
           </h2>
         </Reveal>

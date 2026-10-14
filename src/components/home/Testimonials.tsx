@@ -58,17 +58,18 @@ export default function Testimonials() {
           className="flex flex-col"
         >
           <Reveal>
-            <p className="lux-label text-brass-soft">Trusted by those who fund the nation</p>
+            <p className="lux-label text-accent-soft">Trusted by those who fund the nation</p>
           </Reveal>
           <Words
             text="Bankers buy *through us.*"
             className="lux-display mt-7 text-[clamp(2.6rem,5vw,4.75rem)]"
           />
 
-          <div className="relative mt-12 min-h-[300px] flex-1 md:min-h-[260px]">
-            <span aria-hidden className="absolute -left-2 -top-10 font-serif text-[140px] leading-none text-brass/30">
-              &ldquo;
-            </span>
+          <div className="relative mt-12 min-h-[356px] flex-1 md:min-h-[316px]">
+            {/* In flow above the quote (not overlaid), sized as an icon so it can't collide with the text. */}
+            <svg aria-hidden viewBox="0 0 32 24" className="mb-6 h-8 w-auto text-accent/50" fill="currentColor">
+              <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
+            </svg>
             <AnimatePresence mode="wait">
               <motion.figure
                 key={active}
@@ -106,7 +107,7 @@ export default function Testimonials() {
                   {i === active && (
                     <motion.span
                       key={`${active}-${paused}`}
-                      className="absolute inset-0 origin-left bg-brass"
+                      className="absolute inset-0 origin-left bg-accent"
                       initial={{ scaleX: paused ? 1 : 0 }}
                       animate={{ scaleX: 1 }}
                       transition={{ duration: paused || reduce ? 0 : HOLD_MS / 1000, ease: "linear" }}

@@ -4,7 +4,7 @@ const base =
   "lux-focus group inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 font-text text-[15px] font-semibold transition-all duration-200 ease-[var(--ease-lux)]";
 
 export const lux = {
-  gold: `${base} bg-brass text-ink-950 shadow-[0_12px_32px_-12px_rgba(212,162,76,0.75)] hover:-translate-y-0.5 hover:bg-brass-soft active:translate-y-0`,
+  primary: `${base} lux-primary hover:-translate-y-0.5 active:translate-y-0`,
   ghostDark: `${base} border border-white/20 text-ivory hover:border-white/50 hover:bg-white/5`,
   ghostLight: `${base} border border-ink-900/15 text-ink-900 hover:border-ink-900/40 hover:bg-ink-900/[0.03]`,
   // Hero pair: solid ivory primary + tinted glass secondary, sized up for the framed hero.

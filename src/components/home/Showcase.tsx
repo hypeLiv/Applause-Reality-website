@@ -3,48 +3,49 @@ import VideoCard from "@/components/VideoCard";
 import { Reveal, Words } from "./motion";
 import { Arrow } from "./ui";
 
-const films = [
+type Film = { src: string; poster: string; name: string; meta: string };
+
+const landscape: Film[] = [
   {
     src: "/videos/godrej-arden.mp4",
     poster: "/images/poster-godrej-arden.jpg",
     name: "Godrej Arden",
     meta: "Sample flat · Sigma III, Greater Noida",
-    frame: "aspect-video",
-    cell: "md:col-span-7",
-  },
-  {
-    src: "/videos/gulshan.mp4",
-    poster: "/images/poster-gulshan.jpg",
-    name: "Gulshan Empire",
-    meta: "Walkthrough · Wave City, Ghaziabad",
-    frame: "aspect-[9/16] md:aspect-auto md:flex-1",
-    cell: "md:col-span-5 md:row-span-2",
   },
   {
     src: "/videos/eternia.mp4",
     poster: "/images/poster-eternia.jpg",
     name: "Eternia Residences",
     meta: "Lobby · Greater Noida West",
-    frame: "aspect-video",
-    cell: "md:col-span-7",
   },
 ];
 
+const portrait: Film = {
+  src: "/videos/gulshan.mp4",
+  poster: "/images/poster-gulshan-headlines.jpg",
+  name: "Gulshan Empire",
+  meta: "Campaign film · Wave City, Ghaziabad",
+};
+
+/**
+ * Two 16:9 films stacked beside one 9:16 film. Every card is sized from a
+ * single height (`--h` in `.film-wall`), so the wall always fits one screen.
+ */
 export default function Showcase() {
   return (
-    <section className="lux-scope lux-on-light bg-ivory px-6 py-28 text-ink-900 md:px-10 md:py-36">
-      <div className="mx-auto max-w-[1320px]">
-        <div className="grid items-end gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+    <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 xl:py-20">
+      <div className="film-wall mx-auto grid max-w-[1320px] gap-12 xl:grid-cols-[20rem_1fr] xl:items-center xl:gap-16">
+        <div className="md:grid md:grid-cols-[1.2fr_0.8fr] md:items-end md:gap-10 xl:block">
           <div>
             <Reveal>
               <p className="lux-label text-royal">Now showing</p>
             </Reveal>
             <Words
               text="Bank-approved NCR assets for *confident* ROI."
-              className="lux-display mt-7 text-[clamp(2.6rem,5vw,4.75rem)]"
+              className="lux-display mt-6 text-[clamp(2.4rem,4.6vw,4.25rem)] xl:text-[2.5rem]"
             />
           </div>
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="mt-6 md:mt-0 xl:mt-7">
             <p className="font-text text-lg leading-relaxed text-slate-ink">
               Step inside a few of the projects we are guiding families toward right now — each one
               bank-approved and backed by builders we trust.
@@ -58,22 +59,40 @@ export default function Showcase() {
           </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-12 md:gap-8">
-          {films.map((f, i) => (
-            <Reveal key={f.name} delay={i * 0.08} className={`${f.cell} flex flex-col`}>
-              <figure className="group flex h-full flex-col">
-                <div className="flex flex-1 flex-col overflow-hidden rounded-[28px] shadow-[0_30px_60px_-30px_rgba(11,23,51,0.45)] transition-transform duration-500 ease-[var(--ease-lux)] group-hover:-translate-y-1.5">
-                  <VideoCard src={f.src} poster={f.poster} title={f.name} className={`w-full ${f.frame}`} />
-                </div>
-                <figcaption className="mt-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <span className="font-serif text-2xl">{f.name}</span>
-                  <span className="font-text text-sm text-slate-ink">{f.meta}</span>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
+        <div className="flex flex-col gap-5 md:flex-row md:justify-center xl:justify-end">
+          <div className="flex flex-col gap-5 md:shrink-0 md:items-start">
+            {landscape.map((f, i) => (
+              <Reveal key={f.name} delay={i * 0.08}>
+                <FilmCard
+                  film={f}
+                  index={i === 0 ? 1 : 3}
+                  className="aspect-video w-full md:h-[calc((var(--h)-var(--gap))/2)] md:w-auto"
+                />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.12} className="md:shrink-0">
+            <FilmCard
+              film={portrait}
+              index={2}
+              className="mx-auto aspect-[9/16] w-full max-w-sm md:mx-0 md:h-[var(--h)] md:w-auto md:max-w-none"
+            />
+          </Reveal>
         </div>
       </div>
     </section>
+  );
+}
+
+function FilmCard({ film, index, className }: { film: Film; index: number; className: string }) {
+  return (
+    <VideoCard
+      src={film.src}
+      poster={film.poster}
+      title={film.name}
+      meta={film.meta}
+      label={`Film ${String(index).padStart(2, "0")}`}
+      className={`rounded-[24px] shadow-[0_30px_60px_-30px_rgba(11,23,51,0.5)] ring-1 ring-ink-900/5 transition-transform duration-500 ease-[var(--ease-lux)] hover:-translate-y-1 ${className}`}
+    />
   );
 }

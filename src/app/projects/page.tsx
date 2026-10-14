@@ -5,7 +5,7 @@ import { Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import { Arrow, lux } from "@/components/home/ui";
 import PageHero from "@/components/page/PageHero";
-import ProjectsWheel from "@/components/page/ProjectsWheel";
+import ProjectsTimeline from "@/components/page/ProjectsTimeline";
 import StoryGrid from "@/components/page/StoryGrid";
 import { Cta } from "@/components/sections";
 import { projects } from "@/content/projects";
@@ -73,7 +73,7 @@ export default function ProjectsPage() {
       </PageHero>
 
       <div id="launches" className="scroll-mt-0">
-        <ProjectsWheel projects={projects} />
+        <ProjectsTimeline projects={projects} />
       </div>
 
       {/* Banking perks */}

@@ -29,7 +29,7 @@ export default function ClosingCta({
 
       <div className="lux-glass mx-auto w-full max-w-[820px] rounded-[28px] px-8 py-14 text-center md:px-16 md:py-20">
         <Reveal>
-          <p className="lux-label justify-center text-brass-soft">{label}</p>
+          <p className="lux-label justify-center text-accent-soft">{label}</p>
         </Reveal>
         <Words
           text={title}
@@ -38,7 +38,7 @@ export default function ClosingCta({
         <Reveal delay={0.1}>
           <p className="mx-auto mt-7 max-w-[34rem] font-text text-lg leading-relaxed text-ivory/75">{text}</p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Cta href={site.whatsapp} className={lux.gold}>
+            <Cta href={site.whatsapp} className={lux.primary}>
               {actionLabel} <Arrow />
             </Cta>
             <a href={site.phone.href} className={lux.ghostDark}>

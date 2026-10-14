@@ -43,7 +43,7 @@ export default function Footer() {
       ))}
       columns={columns}
       note={`© ${new Date().getFullYear()} ${site.name} · Delhi NCR`}
-      palette={{ background: "#050c1f", ink: "#f7f4ee", warm: "#d4a24c" }}
+      palette={{ background: "#050c1f", ink: "#f7f4ee", warm: "#8ea6e8" }}
       fontFamily='"Inter", system-ui, sans-serif'
       monoFamily={INTER}
       // The word is fitted to the width, so its height scales with vw. The

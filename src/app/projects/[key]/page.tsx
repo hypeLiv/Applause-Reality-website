@@ -1,0 +1,293 @@
+import fs from "node:fs";
+import path from "node:path";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import VideoCard from "@/components/VideoCard";
+import ClosingCta from "@/components/home/ClosingCta";
+import { Reveal } from "@/components/home/motion";
+import SmoothScroll from "@/components/home/SmoothScroll";
+import { Arrow, Icon, lux } from "@/components/home/ui";
+import { ExpandLanding, ExpandLink } from "@/components/page/ExpandTransition";
+import PageHero from "@/components/page/PageHero";
+import { Cta } from "@/components/sections";
+import { getProject, projects, type Project } from "@/content/projects";
+import { site } from "@/lib/site";
+
+type Params = { params: Promise<{ key: string }> };
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ key: p.key }));
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const p = getProject((await params).key);
+  if (!p) return {};
+  return {
+    title: `${p.name}, ${p.location}`,
+    description: p.summary,
+    openGraph: { images: [p.photo] },
+  };
+}
+
+/** Brochure size read from disk at build time, e.g. "11.3 MB". */
+function fileSize(href: string) {
+  try {
+    const bytes = fs.statSync(path.join(process.cwd(), "public", href)).size;
+    return `${(bytes / 1e6).toFixed(1)} MB`;
+  } catch {
+    return null;
+  }
+}
+
+const promises = ["Safe NCR growth", "Bank approved", "Corporate & HR schemes"];
+
+export default async function ProjectPage({ params }: Params) {
+  const p = getProject((await params).key);
+  if (!p) notFound();
+  const others = projects.filter((o) => o.key !== p.key);
+  const size = fileSize(p.brochure);
+
+  return (
+    <>
+      <SmoothScroll />
+      <ExpandLanding />
+      <PageHero
+        image={p.photo}
+        alt={p.photoAlt}
+        eyebrow={p.location}
+        title={p.name}
+        lead={p.summary}
+        actions={
+          <>
+            <a href={p.brochure} download className={lux.heroPrimary}>
+              <Icon name="download" className="h-5 w-5" /> Download brochure
+            </a>
+            <Cta href={site.whatsappProjects} className={lux.heroGlass}>
+              Talk to an advisor
+            </Cta>
+          </>
+        }
+      >
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
+          {p.facts.map((f) => (
+            <div key={f.label} className="bg-ink-950/50 px-5 py-4 backdrop-blur-md">
+              <dd className="font-sans text-xl font-semibold tabular-nums text-white md:text-2xl">{f.value}</dd>
+              <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-white/60">{f.label}</dt>
+            </div>
+          ))}
+        </dl>
+      </PageHero>
+
+      <Overview project={p} />
+      <Inside project={p} />
+      <Brochure project={p} size={size} />
+      <OtherLaunches projects={others} />
+
+      <ClosingCta
+        image="/images/residential-complex.jpg"
+        label="Plan a visit"
+        title={`See *${p.name}* in person.`}
+        text="We arrange the site visit, walk you through the bank-approved paperwork and stay with you through possession and beyond."
+        actionLabel="Book a site visit"
+        footnote="Bank approved · Corporate & HR schemes"
+      />
+    </>
+  );
+}
+
+function Overview({ project: p }: { project: Project }) {
+  return (
+    <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <div className="mx-auto max-w-[1320px]">
+        <Link
+          href="/projects#launches"
+          className="lux-focus inline-flex items-center gap-2 font-text text-sm font-semibold text-slate-ink transition-colors hover:text-ink-900"
+        >
+          <Icon name="arrow" className="h-4 w-4 rotate-180" /> All launches
+        </Link>
+
+        <div className="mt-12 grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <Reveal>
+            <p className="lux-label text-royal">Overview</p>
+            <h2 className="lux-display mt-6 text-[clamp(2.2rem,4vw,3.6rem)]">About {p.name}</h2>
+            <span className="mt-8 inline-grid h-16 place-items-center rounded-2xl bg-white px-5 ring-1 ring-ink-900/10">
+              <Image src={p.logo.src} alt={p.logo.alt} width={p.logo.w} height={p.logo.h} className="h-9 w-auto" />
+            </span>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="space-y-5 font-text text-lg leading-relaxed text-slate-ink">
+              {p.overview.map((para) => (
+                <p key={para.slice(0, 24)}>{para}</p>
+              ))}
+            </div>
+
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {promises.map((t) => (
+                <li
+                  key={t}
+                  className="inline-flex items-center gap-2 rounded-full border border-ink-900/10 px-4 py-2 font-text text-sm font-medium text-ink-900"
+                >
+                  <Icon name="check" className="h-4 w-4 text-royal" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-ink-900/[0.08] pt-8">
+              <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">100% verified by</p>
+              <div className="flex items-center gap-5">
+                <Image src="/images/sbi.png" alt="State Bank of India" width={157} height={68} className="h-9 w-auto" />
+                <Image src="/images/pnb.png" alt="Punjab National Bank" width={124} height={53} className="h-9 w-auto" />
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Inside({ project: p }: { project: Project }) {
+  const film = p.film;
+  return (
+    <section className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+      <div className="mx-auto max-w-[1320px]">
+        <Reveal>
+          <p className="lux-label text-accent-soft">Inside the project</p>
+          <h2 className="mt-6 max-w-[18ch] font-sans text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
+            See it before you visit.
+          </h2>
+        </Reveal>
+
+        <div
+          className={`mt-14 grid items-start gap-6 md:gap-8 ${
+            film ? (film.portrait ? "lg:grid-cols-[minmax(0,22rem)_1fr]" : "lg:grid-cols-2") : ""
+          }`}
+        >
+          {film && (
+            <Reveal>
+              <VideoCard
+                src={film.src}
+                poster={film.poster}
+                title={film.title}
+                className={`w-full rounded-[24px] ring-1 ring-white/10 ${
+                  film.portrait ? "mx-auto aspect-[9/16] max-w-sm lg:max-w-none" : "aspect-video"
+                }`}
+              />
+            </Reveal>
+          )}
+
+          <Reveal delay={0.1} className={film ? "" : "max-w-4xl"}>
+            <figure>
+              <a
+                href={p.highlights}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-white/10"
+              >
+                <Image
+                  src={p.highlights}
+                  alt={`${p.name} project highlights`}
+                  width={1535}
+                  height={1024}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="h-auto w-full transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.02]"
+                />
+              </a>
+              <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
+                <span>Project highlights</span>
+                <a href={p.highlights} target="_blank" rel="noopener noreferrer" className="lux-focus font-semibold text-ivory/80 hover:text-ivory">
+                  Open full size ↗
+                </a>
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Brochure({ project: p, size }: { project: Project; size: string | null }) {
+  return (
+    <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-6 py-20 text-ink-900 md:px-10 md:py-28">
+      <Reveal className="mx-auto max-w-[1320px]">
+        <div className="grid items-center gap-8 rounded-[28px] bg-white p-7 ring-1 ring-ink-900/[0.06] md:grid-cols-[auto_1fr_auto] md:gap-10 md:p-10">
+          <span className="relative grid h-24 w-20 place-items-center rounded-xl bg-ink-900 text-white">
+            <Icon name="document" className="h-8 w-8" />
+            <span className="absolute bottom-2 font-text text-[10px] font-bold tracking-[0.18em]">PDF</span>
+          </span>
+          <div>
+            <p className="lux-label text-royal">Project brochure</p>
+            <h2 className="mt-4 font-sans text-[clamp(1.6rem,2.6vw,2.25rem)] font-semibold leading-tight tracking-[-0.025em]">
+              {p.name} brochure
+            </h2>
+            <p className="mt-2 font-text text-[15px] text-slate-ink">
+              The developer&rsquo;s full brochure for {p.name}{size ? <> · PDF, {size}</> : null}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a href={p.brochure} download className={lux.primary}>
+              <Icon name="download" className="h-4 w-4" /> Download
+            </a>
+            <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
+              View online
+            </a>
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+function OtherLaunches({ projects: list }: { projects: Project[] }) {
+  return (
+    <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <div className="mx-auto max-w-[1320px]">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="lux-label text-royal">More launches</p>
+            <h2 className="lux-display mt-6 text-[clamp(2rem,3.6vw,3.2rem)]">Other projects we&rsquo;re guiding.</h2>
+          </div>
+          <Link href="/projects#launches" className={lux.ghostLight}>
+            All launches <Arrow />
+          </Link>
+        </div>
+
+        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+          {list.map((o, i) => (
+            <li key={o.key} data-expand-root>
+              <Reveal delay={i * 0.06}>
+                <ExpandLink href={`/projects/${o.key}`} className="lux-focus group block">
+                  <span data-expand-source className="relative block aspect-[4/3] overflow-hidden rounded-[22px] bg-ink-900">
+                    <Image
+                      src={o.photo}
+                      alt={o.photoAlt}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.04]"
+                    />
+                  </span>
+                  <span className="mt-5 flex items-start justify-between gap-4">
+                    <span>
+                      <span className="block font-sans text-xl font-semibold tracking-[-0.01em]">{o.name}</span>
+                      <span className="mt-1 block font-text text-sm text-slate-ink">{o.location}</span>
+                    </span>
+                    <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-900/15 transition-colors group-hover:border-ink-900 group-hover:bg-ink-900 group-hover:text-white">
+                      <Icon name="arrow" className="h-4 w-4" />
+                    </span>
+                  </span>
+                </ExpandLink>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
