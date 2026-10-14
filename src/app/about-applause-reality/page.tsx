@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Cta, HindiTagline, PromiseBand, btn } from "@/components/sections";
+import BrandTagline from "@/components/BrandTagline";
+import ClosingCta from "@/components/home/ClosingCta";
+import { CountUp, Reveal, Words } from "@/components/home/motion";
+import SmoothScroll from "@/components/home/SmoothScroll";
+import { Arrow, Icon, type IconName, lux } from "@/components/home/ui";
+import AwardWall, { type Award } from "@/components/page/AwardWall";
+import JourneyLine from "@/components/page/JourneyLine";
+import Tilt from "@/components/page/Tilt";
+import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -10,216 +18,385 @@ export const metadata: Metadata = {
 };
 
 const bio = [
-  "Rajiv Kr. Pandey, Founder & Real Estate Consultant With a distinguished career spanning over 23 years, he has established himself as a pillar of trust for families and investors throughout the Delhi NCR landscape.",
-  "He has dedicated his professional life to serving as a steadfast companion to homeowners, helping a diverse range of clients navigate the pivotal milestones of property acquisition with ease and expertise. His approach is defined by a serene and composed guidance, offering a calm sanctuary in the often turbulent real estate market.",
-  "Rajiv specializes in supporting the aspirations of corporate professionals and employees from prestigious institutions such as SBI and PNB, ensuring their financial decisions are backed by thorough market intelligence and a gentle, patient understanding of their unique needs.",
-  "Beyond just a transaction, Rajiv’s sacred promise is to remain a devoted partner through every phase of the journey—from the very first site visit to the moment you receive your keys and well into the future. By managing complex documentation and loan approvals with absolute transparency, he ensures every client feels safe, protected and fully reassured that their legacy is in the most capable hands.",
+  "With a career spanning more than 23 years, Rajiv Kr. Pandey has become a pillar of trust for families and investors across Delhi NCR — a steady companion through the milestones of buying a home.",
+  "His guidance is calm and composed by design: a quiet place to think in a market that is often anything but. He works especially closely with corporate professionals and employees of institutions such as SBI and PNB, pairing thorough market intelligence with a patient understanding of each family’s needs.",
+  "Beyond the transaction, his promise is to stay a devoted partner through every phase — from the first site visit to the day you receive your keys, and well after. By managing documentation and loan approvals with complete transparency, he makes sure every client feels safe, protected and certain that their legacy is in capable hands.",
 ];
 
-const whyStats = [
-  { value: "100%", label: "Bank-Approved Projects" },
-  { value: "NCR", label: "Market Expertise" },
-  { value: "L1", label: "Leasing Strength" },
+const proofs: { value: React.ReactNode; label: string; text: string }[] = [
+  {
+    value: (
+      <>
+        <CountUp to={100} />%
+      </>
+    ),
+    label: "Bank-approved projects",
+    text: "Every home we recommend is backed by bank approval, so financing never becomes the surprise.",
+  },
+  {
+    value: "NCR",
+    label: "Market expertise",
+    text: "Noida, Greater Noida and Wave City, followed closely — price bands, approvals and growth corridors.",
+  },
+  {
+    value: "L1",
+    label: "Leasing strength",
+    text: "Top-tier reach in office and retail leasing across NCR’s high-visibility business districts.",
+  },
 ];
 
-const testimonials = [
+const services: { icon: IconName; title: string; text: string }[] = [
+  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living." },
+  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts." },
+  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios." },
+  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships." },
+];
+
+const awards: Award[] = [
+  { src: "/images/award-sbi.png", w: 1475, h: 1066, title: "Certificate of Excellence", meta: "State Bank of India" },
+  { src: "/images/award-2000cr.png", w: 1050, h: 1498, title: "₹2,000 Crore super launch", meta: "Godrej Properties · Outstanding performance, FY 23–24" },
+  { src: "/images/award-builder.png", w: 1121, h: 1403, title: "Growth Partners Meet 2026", meta: "Gulshan Homes · Gulshan Empire, Wave City" },
+  { src: "/images/award-partnership.png", w: 1507, h: 1044, title: "Partnership & performance", meta: "Recognised by Fusion Group" },
+  { src: "/images/award-corporate.png", w: 1143, h: 1376, title: "Legends of Excellence — Outstanding", meta: "Godrej Majesty" },
+  { src: "/images/award-5.png", w: 1296, h: 1214, title: "Channel partner recognition", meta: "The Prestige City" },
+];
+
+const stories: { quote: string; name: string; role: string; lang?: "hi" }[] = [
   {
     quote:
       "I purchased my builder flat through Mr. Rajeev Kumar Pandey, and my experience was very positive. He guided me throughout the entire process, from property selection to documentation. His professional approach, prompt communication, and transparency helped make the purchase smooth and hassle-free. He was always available to address my queries and provided valuable assistance at every stage. I appreciate his dedication and would recommend him to anyone looking for reliable real estate guidance.",
-    by: "Alok Kumar Mandal, Deputy Manager (State Bank of India)",
+    name: "Alok Kumar Mandal",
+    role: "Deputy Manager, State Bank of India",
   },
   {
     quote:
       "Rajiv made the entire home-buying and loan process much easier for clients. He was always available to guide the interested parties. I have also experienced the same and he patiently answered my queries, and helped me secure the right home. His knowledge, honesty, and commitment to helping clients truly stand out. I would happily recommend him to anyone looking for support with property purchase and home financing.",
-    by: "Netrapal Singh, AGM (State Bank of India)",
+    name: "Netrapal Singh",
+    role: "AGM, State Bank of India",
   },
   {
     quote:
       "I wanted to take a moment to sincerely thank you Rajeev Pandey ji of Applause group for all your help in securing my new dream flat Revulet of fusion group at Greater Noida. Your expertise, patience and dedication made what could have been stressful process feel incredibly smooth. I truly appreciate your going extra mile to bridge the gap between me and the builder. I could not have been done it without your honest efforts and guidance. Your candid approach towards the home buyers is testimonials for your credibility that one could trust you blindly for buying a flat at Noida/Greater Noida. All the best in your endeavours and for prospective home buyers in pursuit for a reliable builder amid lots of fake brokers around locality.",
-    by: "Praveen Mansinghka, Investor",
+    name: "Praveen Mansinghka",
+    role: "Investor",
   },
   {
     quote:
       "प्रिय राजीव पांडेय जी, जैसा कि हम सभी जानते हैं, दिल्ली एवं दिल्ली-एनसीआर में अपना एक सुंदर घर होना हर व्यक्ति का सपना होता है। रियल एस्टेट क्षेत्र में आपके 15 वर्षों से अधिक के अनुभव ने न जाने कितने लोगों के इस सपने को साकार करने में महत्वपूर्ण भूमिका निभाई है। लेकिन आपकी सबसे बड़ी विशेषता केवल आपका अनुभव नहीं, बल्कि आपका मानवीय दृष्टिकोण और लोगों के साथ लंबे समय तक भरोसेमंद संबंध बनाने की भावना है। आप सदैव अपने ग्राहकों की आवश्यकताओं को समझकर उन्हें ईमानदारी, पारदर्शिता और समर्पण के साथ सही मार्गदर्शन प्रदान करते हैं। आपकी कार्यशैली, व्यवहार-कुशलता और लोगों के प्रति आत्मीयता आपको इस क्षेत्र में एक विशिष्ट पहचान दिलाती है। मैं आपके उज्ज्वल भविष्य और निरंतर सफलता की कामना करता हूँ।",
-    by: "हनिश शर्मा, Investor",
-  },
-];
-
-const awards = [
-  { src: "/images/award-sbi.png", caption: "Certificate of excellence From SBI", w: 458, h: 331 },
-  { src: "/images/award-partnership.png", caption: "Partnerships and Perfomances Delivery", w: 458, h: 318 },
-  { src: "/images/award-2000cr.png", caption: "", w: 321, h: 458 },
-  { src: "/images/award-builder.png", caption: "Recognitions from Builder Perspective", w: 541, h: 394 },
-  { src: "/images/award-corporate.png", caption: "Corporate Leadership Tie Ups", w: 381, h: 458 },
-  { src: "/images/award-5.png", caption: "", w: 392, h: 367 },
-];
-
-const services = [
-  {
-    icon: "/images/service-residential.jpg",
-    title: "Residential Sales",
-    text: "Premium NCR homes and villas with verified bank approvals for secure living.",
-  },
-  {
-    icon: "/images/service-commercial.jpg",
-    title: "Commercial Leasing",
-    text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.",
-  },
-  {
-    icon: "/images/service-investment.jpg",
-    title: "Investment Advisory",
-    text: "Expert analysis and ROI strategies for residential and commercial property portfolios.",
-  },
-  {
-    icon: "/images/service-loan.jpg",
-    title: "Home Loan Assistance",
-    text: "Seamless loan processing and documentation support via our bank-approved partnerships.",
+    name: "हनिश शर्मा",
+    role: "Investor",
+    lang: "hi",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-black px-6 pb-20 pt-36 md:pt-40">
-        <div className="mx-auto max-w-[1400px]">
-          <h1 className="font-display text-4xl font-semibold uppercase tracking-[0.3em] text-navy md:text-[55px]">
-            Applause Reality
-          </h1>
-          <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_495px]">
-            <div className="space-y-4 font-text text-lg leading-snug text-white md:text-[22px]">
-              {bio.map((p) => (
-                <p key={p.slice(0, 24)}>{p}</p>
+      <SmoothScroll />
+
+      {/* 1 · Founder hero */}
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-24 pt-36 text-ivory md:px-10 md:pb-32 md:pt-44">
+        <div aria-hidden className="absolute -left-48 top-10 -z-10 h-[520px] w-[640px] rounded-full bg-royal/30 blur-[150px]" />
+        <div className="mx-auto grid max-w-[1320px] items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <div>
+            <Reveal>
+              <p className="lux-label text-accent-soft">About Applause Reality</p>
+            </Reveal>
+            <Words
+              as="h1"
+              immediate
+              delay={0.1}
+              text="Twenty-three years of *keeping promises.*"
+              className="lux-display mt-7 max-w-[14ch] text-[clamp(2.8rem,5.8vw,5.25rem)] leading-[1]"
+            />
+            <Reveal delay={0.35}>
+              <p className="mt-8 max-w-[34rem] font-text text-lg leading-relaxed text-ivory/70">
+                Founded and led by Rajiv Kr. Pandey, Applause Reality guides families, investors and SBI &amp;
+                PNB professionals to bank-approved homes across Delhi NCR — and stays with them long after
+                the keys are handed over.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Cta href={site.whatsapp} className={lux.primary}>
+                  Talk to Rajiv ji&rsquo;s team <Arrow />
+                </Cta>
+                <a href="#stories" className={lux.ghostDark}>
+                  Read client stories
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.5}>
+              <dl className="mt-14 grid max-w-[34rem] grid-cols-3 gap-6 border-t border-white/10 pt-8">
+                {[
+                  { v: "23+", l: "Years in NCR" },
+                  { v: "100%", l: "Bank-approved" },
+                  { v: "SBI · PNB", l: "Trusted by" },
+                ].map((s) => (
+                  <div key={s.l}>
+                    <dt className="font-text text-xs uppercase tracking-[0.14em] text-ivory/50">{s.l}</dt>
+                    <dd className="mt-2 font-sans text-2xl font-semibold tabular-nums md:text-3xl">{s.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.2} className="relative mx-auto w-full max-w-[460px]">
+            <Tilt max={5} className="rounded-[28px]">
+              <figure className="relative overflow-hidden rounded-[28px] ring-1 ring-white/10">
+                <Image
+                  src="/images/founder.png"
+                  alt="Rajiv Kr. Pandey, founder of Applause Reality"
+                  width={1120}
+                  height={1404}
+                  priority
+                  sizes="(min-width: 1024px) 460px, 90vw"
+                  className="h-auto w-full"
+                />
+                <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/85 to-transparent" />
+                <figcaption className="absolute inset-x-5 bottom-5">
+                  <span className="block font-sans text-xl font-semibold">Rajiv Kr. Pandey</span>
+                  <span className="font-text text-sm text-ivory/70">Founder &amp; Real Estate Consultant</span>
+                </figcaption>
+              </figure>
+            </Tilt>
+            {/* Proof chip, offset off the frame */}
+            <div className="absolute -left-6 top-10 hidden items-center gap-3 rounded-2xl bg-white px-4 py-3 text-ink-900 shadow-[0_24px_50px_-20px_rgba(0,0,0,0.6)] md:flex">
+              <Image src="/images/sbi.png" alt="" width={157} height={68} className="h-6 w-auto" />
+              <span className="font-text text-[13px] font-semibold leading-tight">
+                Certificate of
+                <br />
+                Excellence
+              </span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 2 · The founder's story */}
+      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
+        <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+          <div>
+            <div className="lg:sticky lg:top-32">
+              <Reveal>
+                <p className="lux-label text-royal">The founder</p>
+              </Reveal>
+              <Words text="A calm guide in a *restless* market." className="lux-display mt-6 text-[clamp(2.2rem,3.8vw,3.4rem)]" />
+              <Reveal delay={0.1}>
+                <BrandTagline size="lg" className="mt-8" />
+              </Reveal>
+            </div>
+          </div>
+          <div>
+            <div className="space-y-6 font-text text-lg leading-[1.8] text-slate-ink">
+              {bio.map((p, i) => (
+                <Reveal key={p.slice(0, 20)} delay={i * 0.05}>
+                  <p className={i === 0 ? "text-xl leading-[1.7] text-ink-900 md:text-2xl" : ""}>{p}</p>
+                </Reveal>
               ))}
             </div>
-            <figure>
-              <Image
-                src="/images/founder.png"
-                alt="Rajiv Kr. Pandey, founder of Applause Reality"
-                width={495}
-                height={587}
-                className="h-auto w-full"
-                priority
-              />
-              <figcaption className="mt-4 text-right font-text text-sm uppercase tracking-[0.15em] text-white/60">
-                Mr. Rajiv Kr Pandey, Founder – Applause Reality
-              </figcaption>
-            </figure>
+            <Reveal delay={0.1}>
+              <blockquote className="mt-12 border-l-2 border-royal pl-6 font-sans text-[clamp(1.4rem,2.4vw,1.9rem)] font-medium leading-snug tracking-[-0.02em]">
+                &ldquo;Not just a transaction — a devoted partner from your first visit to the keys, and
+                every year after.&rdquo;
+              </blockquote>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      <HindiTagline as="h2" />
+      {/* 3 · Mission & proof */}
+      <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[1320px]">
+          <Reveal>
+            <p className="lux-label text-royal">Our mission</p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <p className="mt-8 max-w-[24ch] font-sans text-[clamp(1.9rem,3.6vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em]">
+              Bridging corporate vision with residential excellence — and building legacies on{" "}
+              <span className="text-[#8a93a8]">trust and transparency.</span>
+            </p>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <p className="mt-8 max-w-[44rem] font-text text-lg leading-relaxed text-slate-ink">
+              We focus on secure, bank-approved properties that deliver long-term value for families,
+              corporates and investors across the NCR region — combining corporate professionalism with
+              deep residential expertise for real peace of mind.
+            </p>
+          </Reveal>
 
-      <section className="bg-white px-6 py-20">
-        <div className="mx-auto max-w-[1100px] text-center">
-          <h2 className="t-h2 font-inter font-semibold">Our Mission</h2>
-          <p className="t-body-lg mt-6 font-text">
-            At Applause Reality, our mission is to redefine urban living by bridging corporate
-            vision with residential excellence. We are committed to fostering trust and
-            transparency in every transaction, ensuring long-term value for families, corporates
-            and investors across the NCR region. Our focus remains steadfast on delivering secure,
-            bank-approved properties that build lasting legacies for our clients.
-          </p>
-        </div>
-      </section>
-
-      <section className="bg-black px-6 py-20">
-        <div className="mx-auto max-w-[1200px] text-center">
-          <h2 className="t-h2 font-inter font-semibold text-white">Why Choose Applause Reality</h2>
-          <p className="mx-auto mt-6 max-w-[760px] font-text text-lg text-white md:text-xl">
-            We bring a premium edge to the NCR market, combining corporate professionalism with
-            deep residential expertise to ensure your peace of mind.
-          </p>
-          <dl className="mt-16 grid gap-10 md:grid-cols-3">
-            {whyStats.map((s) => (
-              <div key={s.label} className="flex flex-col items-center gap-3">
-                <dd className="font-display text-6xl font-semibold text-navy md:text-[72px]">{s.value}</dd>
-                <dt className="order-last font-inter uppercase tracking-[0.12em] text-white/60">{s.label}</dt>
-              </div>
+          <dl className="mt-20 grid gap-10 md:grid-cols-3 md:gap-10">
+            {proofs.map((p, i) => (
+              <Reveal key={p.label} delay={i * 0.08} className="border-t border-ink-900/10 pt-6">
+                <dt className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">{p.label}</dt>
+                <dd>
+                  <span className="mt-5 block font-sans text-[clamp(3.5rem,6vw,5.5rem)] font-semibold leading-none tracking-[-0.04em] text-ink-900 tabular-nums">
+                    {p.value}
+                  </span>
+                  <span className="mt-5 block max-w-[30ch] font-text text-[15px] leading-relaxed text-slate-ink">{p.text}</span>
+                </dd>
+              </Reveal>
             ))}
           </dl>
         </div>
       </section>
 
-      <PromiseBand>
-        Applause Reality orbits your journey as a trusted family guide. From your first visit and
-        booking to bank approvals and eventual possession, we walk with you through every
-        milestone.
-      </PromiseBand>
-
-      <section className="bg-mist px-6 py-20">
-        <div className="mx-auto max-w-[1240px]">
-          <h2 className="t-h2 text-center font-display font-semibold md:text-6xl">Client Success Stories</h2>
-          <p className="mx-auto mt-6 max-w-[1000px] text-center font-text text-lg md:text-xl">
-            These are the genuine experiences and success stories of families, investors, and
-            banking partners who have placed their trust in Applause Reality under the steadfast
-            guidance of Mr. Rajiv Kumar Pandey (Rajiv ji). His career is built on the foundation of
-            transparency, unwavering honesty, and the cultivation of deep, long-term relationships.
-          </p>
-          <div className="mt-14 space-y-12">
-            {testimonials.map((t) => (
-              <figure key={t.by}>
-                <blockquote className="font-text text-lg italic leading-relaxed">
-                  &ldquo;{t.quote}&rdquo;
-                </blockquote>
-                <figcaption className="mt-2 text-right font-text text-[17px]">{t.by}</figcaption>
-              </figure>
-            ))}
+      {/* 4 · The journey we walk with you */}
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+        <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[460px] w-[620px] rounded-full bg-royal/25 blur-[150px]" />
+        <div className="mx-auto max-w-[1320px]">
+          <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <Reveal>
+                <p className="lux-label text-accent-soft">Walking with you</p>
+              </Reveal>
+              <Words text="One family guide, *every* milestone." className="lux-display mt-6 text-[clamp(2.3rem,4.4vw,4rem)]" />
+            </div>
+            <Reveal delay={0.1}>
+              <p className="font-text text-lg leading-relaxed text-ivory/65">
+                Applause Reality stays beside you as a trusted family guide — from the first visit and
+                booking to bank approvals and possession, and on into the years after.
+              </p>
+            </Reveal>
           </div>
-          <div className="mt-12 text-center">
-            <Cta href={site.whatsapp} className={`${btn.navy} uppercase tracking-[0.08em]`}>
-              Start Your Success Story
+          <JourneyLine
+            steps={[
+              { icon: "pin", title: "First visit", text: "Shortlisted, bank-approved options and site visits we attend with you." },
+              { icon: "document", title: "Booking", text: "Every form, check and signature handled with complete transparency." },
+              { icon: "bank", title: "Bank approval", text: "Loan processing through our SBI and PNB relationships." },
+              { icon: "key", title: "Possession & beyond", text: "Keys in hand — and still on call long after the handover." },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* 5 · Services */}
+      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[1320px]">
+          <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <Reveal>
+                <p className="lux-label text-royal">What we do</p>
+              </Reveal>
+              <Words text="Four pillars, *one* trusted partner." className="lux-display mt-6 text-[clamp(2.2rem,4vw,3.6rem)]" />
+            </div>
+            <Reveal delay={0.1}>
+              <p className="font-text text-lg leading-relaxed text-slate-ink">
+                Everything needed to secure the right asset in Delhi NCR — and to make the journey to it
+                straightforward.
+              </p>
+            </Reveal>
+          </div>
+          <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {services.map((s, i) => (
+              <li key={s.title}>
+                <Reveal delay={i * 0.06} className="h-full">
+                  <article className="group flex h-full flex-col rounded-[22px] bg-white p-7 shadow-[0_1px_0_rgba(11,23,51,0.05),0_30px_60px_-40px_rgba(11,23,51,0.35)] transition-transform duration-300 ease-[var(--ease-lux)] hover:-translate-y-1">
+                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-ink-900 text-white transition-colors duration-300 group-hover:bg-royal">
+                      <Icon name={s.icon} className="h-6 w-6" />
+                    </span>
+                    <h3 className="mt-8 font-sans text-xl font-semibold tracking-[-0.015em]">{s.title}</h3>
+                    <p className="mt-3 font-text text-[15px] leading-relaxed text-slate-ink">{s.text}</p>
+                  </article>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 6 · Recognition */}
+      <section className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+        <div className="mx-auto max-w-[1320px]">
+          <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <Reveal>
+                <p className="lux-label text-accent-soft">Awards, mentions &amp; trust</p>
+              </Reveal>
+              <Words text="Recognised by the people *we work with.*" className="lux-display mt-6 max-w-[18ch] text-[clamp(2.3rem,4.4vw,4rem)]" />
+            </div>
+            <Reveal delay={0.1}>
+              <p className="font-text text-lg leading-relaxed text-ivory/65">
+                From India&rsquo;s largest bank to the NCR&rsquo;s leading developers. Select any frame to see
+                it in full.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-14">
+            <AwardWall awards={awards} />
+          </div>
+        </div>
+      </section>
+
+      {/* 7 · Client stories */}
+      <section id="stories" className="lux-scope lux-on-light scroll-mt-24 bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[1320px]">
+          <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <Reveal>
+                <p className="lux-label text-royal">Client success stories</p>
+              </Reveal>
+              <Words text="In their *own words.*" className="lux-display mt-6 text-[clamp(2.3rem,4.4vw,4rem)]" />
+            </div>
+            <Reveal delay={0.1}>
+              <p className="font-text text-lg leading-relaxed text-slate-ink">
+                Genuine experiences from families, investors and banking professionals who trusted Rajiv ji
+                with one of life&rsquo;s biggest decisions.
+              </p>
+            </Reveal>
+          </div>
+
+          <ul className="mt-14 columns-1 gap-6 md:columns-2">
+            {stories.map((s, i) => (
+              <li key={s.name} className="mb-6 break-inside-avoid">
+                <Reveal delay={(i % 2) * 0.08}>
+                  <figure className="rounded-[22px] bg-ivory p-7 md:p-9">
+                    <svg aria-hidden viewBox="0 0 32 24" className="h-6 w-auto text-royal/40" fill="currentColor">
+                      <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
+                    </svg>
+                    <blockquote
+                      lang={s.lang}
+                      className={`mt-5 text-ink-900 ${s.lang === "hi" ? "font-deva text-[17px] leading-[1.9]" : "font-text text-[17px] leading-[1.75]"}`}
+                    >
+                      {s.quote}
+                    </blockquote>
+                    <figcaption className="mt-7 flex items-center gap-3 border-t border-ink-900/[0.08] pt-5">
+                      <span
+                        aria-hidden
+                        lang={s.lang}
+                        className={`grid h-10 w-10 place-items-center rounded-full bg-ink-900 text-sm font-semibold text-white ${s.lang === "hi" ? "font-deva" : "font-sans"}`}
+                      >
+                        {s.name.charAt(0)}
+                      </span>
+                      <span>
+                        <span lang={s.lang} className={`block font-semibold ${s.lang === "hi" ? "font-deva" : "font-sans"}`}>
+                          {s.name}
+                        </span>
+                        <span className="font-text text-sm text-slate-ink">{s.role}</span>
+                      </span>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+
+          <Reveal className="mt-8 flex justify-center">
+            <Cta href={site.whatsapp} className={lux.primary}>
+              Start your success story <Arrow />
             </Cta>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="bg-black px-6 py-20">
-        <div className="mx-auto max-w-[1400px]">
-          <h2 className="text-center font-display text-5xl font-semibold text-white md:text-[82px] md:leading-none">
-            Awards, Mentions &amp; Trust
-          </h2>
-          <div className="mt-14 columns-1 gap-8 sm:columns-2 lg:columns-3">
-            {awards.map((a) => (
-              <figure key={a.src} className="mb-8 break-inside-avoid">
-                {a.caption && (
-                  <figcaption className="mb-3 font-display text-lg font-semibold text-white">{a.caption}</figcaption>
-                )}
-                <Image src={a.src} alt={a.caption || "Applause Reality recognition"} width={a.w} height={a.h} className="h-auto w-full" />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#e6ecff] px-6 py-20">
-        <div className="mx-auto max-w-[1200px]">
-          <h2 className="t-h2 text-center font-inter font-semibold">Services Overview</h2>
-          <p className="mx-auto mt-5 max-w-[760px] text-center font-text text-lg md:text-xl">
-            Comprehensive real estate pillars designed to secure your prime assets and streamline
-            your property journey in Delhi NCR.
-          </p>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((s) => (
-              <article key={s.title} className="rounded-lg bg-white/70 p-6 text-center shadow-sm">
-                <Image src={s.icon} alt="" width={55} height={55} className="mx-auto h-[55px] w-[55px]" />
-                <h3 className="mt-4 font-display text-2xl font-semibold leading-tight">{s.title}</h3>
-                <p className="mt-2 font-text">{s.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-black px-6 py-24 text-center">
-        <h2 className="t-h2 font-inter font-semibold text-white">Book a Free Consultation</h2>
-        <p className="mx-auto mt-6 max-w-[620px] font-text text-lg text-white">
-          Discuss residential, commercial, leasing, investment or loan needs with our experts.
-        </p>
-        <Cta href={site.whatsapp} className={`${btn.white} mt-10`}>
-          Schedule Now
-        </Cta>
-      </section>
+      {/* 8 · Close */}
+      <ClosingCta
+        image="/images/residential-complex.jpg"
+        label="Book a free consultation"
+        title="Let's plan your next *property move.*"
+        text="Discuss residential, commercial, leasing, investment or loan needs with our experts — and get a clear, bank-approved shortlist."
+        actionLabel="Schedule now"
+        footnote="Residential · Commercial · Leasing · Investment · Loans"
+      />
     </>
   );
 }

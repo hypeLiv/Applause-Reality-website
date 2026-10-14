@@ -214,14 +214,98 @@ body {
   }
 }
 
-.prose-post h2 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.75rem;
-  margin: 2rem 0 0.75rem;
-}
-.prose-post p {
-  margin: 0 0 1rem;
-  line-height: 1.7;
+/* Long-form articles: an ~68ch column with a calm rhythm. */
+.lux-prose {
+  color: var(--color-slate-ink);
   font-size: 1.125rem;
+  line-height: 1.8;
+}
+.lux-prose > * + * {
+  margin-top: 1.25rem;
+}
+.lux-prose > p:first-child {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: var(--color-ink-900);
+}
+.lux-prose h2 {
+  margin-top: 3.25rem;
+  color: var(--color-ink-900);
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 7rem;
+}
+.lux-prose h3 {
+  margin-top: 2.25rem;
+  color: var(--color-ink-900);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.lux-prose h2 + *,
+.lux-prose h3 + * {
+  margin-top: 0.75rem;
+}
+.lux-prose ul,
+.lux-prose ol {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+.lux-prose li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+.lux-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 0.75em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--color-royal);
+  opacity: 0.55;
+}
+.lux-prose ol {
+  counter-reset: lux;
+}
+.lux-prose ol > li {
+  counter-increment: lux;
+  padding-left: 2.2rem;
+}
+.lux-prose ol > li::before {
+  content: counter(lux, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  color: var(--color-royal);
+  font-size: 0.85em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.lux-prose li b {
+  color: var(--color-ink-900);
+  font-weight: 600;
+}
+.lux-prose blockquote {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-left: 2px solid var(--color-royal);
+  padding-left: 1.5rem;
+  color: var(--color-ink-900);
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+.lux-prose aside {
+  margin-top: 2.5rem;
+  border-radius: 1rem;
+  background: var(--color-ivory);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
 }

@@ -48,6 +48,15 @@ const paths = {
   play: <path d="M8 5.5v13l11-6.5z" fill="currentColor" />,
   check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
   download: <path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14" />,
+  home: <path d="M4 11l8-6.5 8 6.5M6 9.5V20h12V9.5M10 20v-5h4v5" />,
+  building: <path d="M5 20.5V5l7-2v17.5M12 7l7 2.5v11M3 20.5h18M8 8v1M8 12v1M8 16v1M15.5 12v1M15.5 16v1" />,
+  chart: <path d="M4 19.5h16M7 16v-4M11 16V9M15 16v-6M19 16V6M6 10l4-4 3 2.5L19 3" />,
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof paths;
