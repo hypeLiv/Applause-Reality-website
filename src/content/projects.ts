@@ -10,6 +10,10 @@ export type Project = {
   highlights: string;
   facts: { value: string; label: string }[];
   summary: string;
+  /** Long-form description for the project's own page (from the live site). */
+  overview: string[];
+  /** Optional walkthrough film shown on the project page. */
+  film?: { src: string; poster: string; title: string; portrait?: boolean };
   brochure: string;
 };
 
@@ -31,6 +35,10 @@ export const projects: Project[] = [
     ],
     summary:
       "Premium 3 BHK residences in a limited three-tower community with landscaped greens, jogging tracks, a clubhouse, pool and fitness facilities — plus a proposed AQI-controlled environment for everyday wellness.",
+    overview: [
+      "Hero Homes Sector MU, Greater Noida, presents premium 3 BHK residences designed for spacious, modern and healthier living. Spread across approximately 4.7 acres, the limited three-tower community features landscaped green spaces, jogging tracks, a clubhouse, swimming pool and fitness facilities.",
+      "Thoughtfully planned homes range from 1,650 to 2,200 sq. ft., while the proposed AQI-controlled environment supports everyday wellness. It brings together contemporary design, privacy, comfort and lifestyle-focused amenities in a promising Greater Noida residential address.",
+    ],
     brochure: "/brochures/hero-homes.pdf",
   },
   {
@@ -49,6 +57,11 @@ export const projects: Project[] = [
     ],
     summary:
       "A premium enclave by the Gulshan Group inside Wave City on NH-24 — well-laid-out 3 and 4 BHK apartments amid planned greenery, wide roads and strong civic infrastructure.",
+    overview: [
+      "Gulshan Wave City in Ghaziabad is a premium residential enclave by the reputed Gulshan Group, offering a refined lifestyle amid planned green surroundings and strong civic infrastructure. The project features well-laid-out 3 and 4 BHK apartments with modern comforts and thoughtful community spaces.",
+      "Located within Wave City on NH-24, this integrated township is designed with ample open areas, wide roads and essential services, and enjoys convenient connectivity across the wider Delhi–NCR region.",
+    ],
+    film: { src: "/videos/gulshan.mp4", poster: "/images/poster-gulshan-headlines.jpg", title: "Gulshan Empire campaign film", portrait: true },
     brochure: "/brochures/gulshan-wave-city.pdf",
   },
   {
@@ -67,6 +80,11 @@ export const projects: Project[] = [
     ],
     summary:
       "Nine towers of spacious 3 and 4 BHK homes near Pari Chowk, kept quiet and private at around 90 residents per acre, with a multi-level clubhouse for every generation.",
+    overview: [
+      "Situated in the established neighbourhood of Pari Chowk, this development prioritises quiet living and family well-being. The estate covers 9.58 acres with nine residential towers comprising spacious 3 and 4 BHK layouts.",
+      "By maintaining a low density of just 90 residents per acre, the project offers a secure and private sanctuary for your loved ones. A dedicated multi-level clubhouse provides essential recreation for all generations.",
+    ],
+    film: { src: "/videos/godrej-arden.mp4", poster: "/images/poster-godrej-arden.jpg", title: "Godrej Arden sample flat" },
     brochure: "/brochures/godrej-arden.pdf",
   },
   {
@@ -85,6 +103,13 @@ export const projects: Project[] = [
     ],
     summary:
       "An ultra-luxury community of 1–4 BHK apartments linked to the Noida–Greater Noida Link Road, Yamuna Expressway and the Jewar Airport corridor, with a metro station, schools and hospitals close by.",
+    overview: [
+      "Eternia Residences in Greater Noida West is an ultra-luxury residential community in Tech Zone 4, planned for calm, comfortable family living. The project offers thoughtfully designed 1, 2, 3 and 4 BHK apartments with contemporary amenities and everyday conveniences.",
+      "The location connects smoothly to the Noida–Greater Noida Link Road, Yamuna Expressway and the upcoming Jewar Airport corridor. Daily needs are close by, with a nearby metro station, reputed schools like Lotus Valley, Fortis Hospital and Gaur City Mall all within a short drive.",
+    ],
+    film: { src: "/videos/eternia.mp4", poster: "/images/poster-eternia.jpg", title: "Eternia Residences lobby" },
     brochure: "/brochures/eternia.pdf",
   },
 ];
+
+export const getProject = (key: string) => projects.find((p) => p.key === key);

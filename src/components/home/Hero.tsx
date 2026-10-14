@@ -16,7 +16,7 @@ const featured = {
   location: "Sector MU, Greater Noida",
   image: "/images/hero-homes-render.png",
   logo: "/images/hero-homes-logo.png",
-  href: "/projects#hero-homes",
+  href: "/projects/hero-homes",
   brochure: "/brochures/hero-homes.pdf",
   facts: [
     { value: "3 BHK", label: "Premium residences" },
@@ -81,7 +81,7 @@ export default function Hero() {
         >
           {/* Brand promise */}
           <div>
-            <motion.p {...rise(0.1)} className="lux-label text-brass-soft">
+            <motion.p {...rise(0.1)} className="lux-label text-accent-soft">
               Delhi NCR&apos;s most trusted assets
             </motion.p>
             <Words
@@ -177,10 +177,10 @@ function FeaturedCard() {
         <span className="absolute bottom-3 left-4 font-text text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80">
           Bank approved · Corporate &amp; HR schemes
         </span>
-        <span className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-ink-950/60 px-3 py-1.5 font-text text-[11px] font-semibold uppercase tracking-[0.16em] text-brass-soft backdrop-blur-md">
+        <span className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-ink-950/60 px-3 py-1.5 font-text text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-soft backdrop-blur-md">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-brass opacity-75 motion-safe:animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-brass" />
+            <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
           </span>
           Featured launch
         </span>
@@ -191,7 +191,7 @@ function FeaturedCard() {
           <div>
             <h2 className="font-sans text-2xl font-semibold tracking-[-0.02em]">{featured.name}</h2>
             <p className="mt-1 flex items-center gap-1.5 font-text text-sm text-white/70">
-              <Icon name="pin" className="h-4 w-4 text-brass-soft" />
+              <Icon name="pin" className="h-4 w-4 text-accent-soft" />
               {featured.location}
             </p>
           </div>
@@ -212,7 +212,7 @@ function FeaturedCard() {
         <div className="mt-5 flex gap-3">
           <Link
             href={featured.href}
-            className="lux-focus group/btn inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-brass px-5 py-3 font-text text-sm font-semibold text-ink-950 transition-colors hover:bg-brass-soft"
+            className="lux-focus group/btn inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-ivory px-5 py-3 font-text text-sm font-semibold text-ink-950 transition-colors hover:bg-white"
           >
             Explore project
             <Icon name="arrow" className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />

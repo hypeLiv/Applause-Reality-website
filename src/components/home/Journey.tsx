@@ -129,7 +129,7 @@ function Rail() {
           {/* Intro panel */}
           <div className="flex w-[44vw] min-w-[440px] max-w-[640px] shrink-0 flex-col justify-center pl-[6vw] pr-12">
             <Reveal>
-              <p className="lux-label text-brass-soft">End-to-end stewardship</p>
+              <p className="lux-label text-accent-soft">End-to-end stewardship</p>
             </Reveal>
             <Words
               text="One partner, *every* milestone."
@@ -137,7 +137,7 @@ function Rail() {
             />
             <Reveal delay={0.15}>
               <p className="mt-6 max-w-[28rem] font-text text-lg leading-relaxed text-ivory/70">{intro}</p>
-              <Cta href={site.whatsapp} className={`${lux.gold} mt-9`}>
+              <Cta href={site.whatsapp} className={`${lux.primary} mt-9`}>
                 Plan my first visit <Arrow />
               </Cta>
               <p className="mt-10 flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.2em] text-ivory/45">
@@ -164,12 +164,12 @@ function Rail() {
             <motion.span
               aria-hidden
               style={{ scaleX: lineScale }}
-              className="absolute inset-x-0 top-1/2 h-px origin-left bg-gradient-to-r from-brass/70 to-brass"
+              className="absolute inset-x-0 top-1/2 h-px origin-left bg-gradient-to-r from-accent/70 to-accent"
             />
             <motion.span
               aria-hidden
               style={{ opacity: endDot }}
-              className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-brass"
+              className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-accent"
             />
 
             <ol>
@@ -189,7 +189,7 @@ function Rail() {
 
           {/* Closing panel */}
           <div className="flex w-[40vw] min-w-[420px] max-w-[600px] shrink-0 flex-col justify-center pl-10 pr-[6vw]">
-            <p className="lux-label text-brass-soft">And beyond</p>
+            <p className="lux-label text-accent-soft">And beyond</p>
             <p className="mt-6 font-sans text-[clamp(1.75rem,2.6vw,2.6rem)] font-semibold leading-tight tracking-[-0.03em]">
               We stay on — long after the keys are yours.
             </p>
@@ -220,6 +220,24 @@ function Milestone({
 }) {
   const above = index % 2 === 0;
   const ease = "ease-[cubic-bezier(0.22,1,0.36,1)]";
+  const tip = `absolute -left-[4px] h-[9px] w-[9px] rounded-full bg-accent shadow-[0_0_0_5px_rgba(142,166,232,0.15)] transition-transform duration-300 ${
+    on ? "scale-100 delay-500" : "scale-0"
+  }`;
+  const copy = `w-[300px] transition-all duration-700 ${ease} ${
+    on ? "translate-y-0 opacity-100 delay-300" : "translate-y-3 opacity-0"
+  }`;
+  const body = (
+    <>
+      <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-accent-soft tabular-nums">
+        <Icon name={icon} className="h-5 w-5 text-accent" />
+        Step {String(index + 1).padStart(2, "0")}
+      </p>
+      <h3 className="mt-3 font-sans text-[clamp(1.4rem,1.9vw,1.85rem)] font-semibold leading-tight tracking-[-0.02em]">
+        {title}
+      </h3>
+      <p className="mt-2 font-text text-[15px] leading-relaxed text-ivory/65">{text}</p>
+    </>
+  );
 
   return (
     <li>
@@ -232,41 +250,38 @@ function Milestone({
         <span
           aria-hidden
           className={`absolute -left-[5px] -top-[5px] h-[11px] w-[11px] rounded-full border transition-colors duration-500 ${
-            on ? "border-brass bg-brass" : "border-white/25 bg-ink-900"
+            on ? "border-accent bg-accent" : "border-white/25 bg-ink-900"
           }`}
         />
-        {/* Stem */}
-        <span
-          aria-hidden
-          className={`absolute left-0 w-px bg-brass transition-transform duration-700 ${ease} ${
-            above ? "bottom-0 origin-bottom" : "top-0 origin-top"
-          }`}
-          style={{ height: STEM, transform: `scaleY(${on ? 1 : 0})` }}
-        />
-        {/* Tip dot */}
-        <span
-          aria-hidden
-          className={`absolute -left-[4px] h-[9px] w-[9px] rounded-full bg-brass shadow-[0_0_0_5px_rgba(212,162,76,0.15)] transition-transform duration-300 ${
-            on ? "scale-100 delay-500" : "scale-0"
-          }`}
-          style={above ? { bottom: `calc(${STEM} - 4px)` } : { top: `calc(${STEM} - 4px)` }}
-        />
-        {/* Copy, aligned to the tip */}
-        <div
-          className={`absolute left-7 w-[300px] transition-all duration-700 ${ease} ${
-            on ? "translate-y-0 opacity-100 delay-300" : "translate-y-3 opacity-0"
-          }`}
-          style={{ top: above ? `calc(-1 * ${STEM} - 12px)` : `calc(${STEM} - 12px)` }}
-        >
-          <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-brass-soft tabular-nums">
-            <Icon name={icon} className="h-5 w-5 text-brass" />
-            Step {String(index + 1).padStart(2, "0")}
-          </p>
-          <h3 className="mt-3 font-sans text-[clamp(1.4rem,1.9vw,1.85rem)] font-semibold leading-tight tracking-[-0.02em]">
-            {title}
-          </h3>
-          <p className="mt-2 font-text text-[15px] leading-relaxed text-ivory/65">{text}</p>
-        </div>
+        {above ? (
+          // Above the rail the copy is anchored to the rail with a gap and the
+          // stem stretches to its top, so long copy grows upward instead of
+          // running down over the line.
+          <div
+            className="absolute bottom-0 left-0 flex flex-col pb-10"
+            style={{ minHeight: `calc(${STEM} + 12px)` }}
+          >
+            <span
+              aria-hidden
+              className={`absolute bottom-0 left-0 top-3 w-px origin-bottom bg-accent transition-transform duration-700 ${ease}`}
+              style={{ transform: `scaleY(${on ? 1 : 0})` }}
+            />
+            <span aria-hidden className={`${tip} top-2`} />
+            <div className={`${copy} ml-7`}>{body}</div>
+          </div>
+        ) : (
+          <>
+            <span
+              aria-hidden
+              className={`absolute left-0 top-0 w-px origin-top bg-accent transition-transform duration-700 ${ease}`}
+              style={{ height: STEM, transform: `scaleY(${on ? 1 : 0})` }}
+            />
+            <span aria-hidden className={tip} style={{ top: `calc(${STEM} - 4px)` }} />
+            <div className={`${copy} absolute left-7`} style={{ top: `calc(${STEM} - 12px)` }}>
+              {body}
+            </div>
+          </>
+        )}
       </div>
     </li>
   );
@@ -278,23 +293,23 @@ function Stacked() {
   return (
     <div className="px-6 py-24">
       <Reveal>
-        <p className="lux-label text-brass-soft">End-to-end stewardship</p>
+        <p className="lux-label text-accent-soft">End-to-end stewardship</p>
       </Reveal>
       <Words text="One partner, *every* milestone." className="lux-display mt-6 text-[2.6rem]" />
       <Reveal delay={0.1}>
         <p className="mt-6 font-text text-lg leading-relaxed text-ivory/70">{intro}</p>
       </Reveal>
 
-      <ol className="relative mt-14 space-y-10 border-l border-brass/40 pl-8">
+      <ol className="relative mt-14 space-y-10 border-l border-accent/40 pl-8">
         {steps.map((s, i) => (
           <li key={s.title} className="relative">
             <span
               aria-hidden
-              className="absolute -left-[37px] top-1 h-[9px] w-[9px] rounded-full bg-brass shadow-[0_0_0_5px_rgba(212,162,76,0.15)]"
+              className="absolute -left-[37px] top-1 h-[9px] w-[9px] rounded-full bg-accent shadow-[0_0_0_5px_rgba(142,166,232,0.15)]"
             />
             <Reveal>
-              <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-brass-soft">
-                <Icon name={s.icon} className="h-5 w-5 text-brass" />
+              <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-accent-soft">
+                <Icon name={s.icon} className="h-5 w-5 text-accent" />
                 Step {String(i + 1).padStart(2, "0")}
               </p>
               <h3 className="mt-2 font-sans text-2xl font-semibold tracking-[-0.02em]">{s.title}</h3>
@@ -305,7 +320,7 @@ function Stacked() {
       </ol>
 
       <Reveal className="mt-12">
-        <Cta href={site.whatsapp} className={lux.gold}>
+        <Cta href={site.whatsapp} className={lux.primary}>
           Plan my first visit <Arrow />
         </Cta>
       </Reveal>

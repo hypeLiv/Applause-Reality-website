@@ -13,15 +13,15 @@
   --color-aqua: #e1f3f4;
   --color-gold: #ffb800;
 
-  /* Landing page — "midnight & gold", sampled from the logo. */
+  /* Landing page — midnight ink with the logo's blue as the one accent. */
   --color-ink-950: #050c1f;
   --color-ink-900: #0b1733;
   --color-ink-800: #13224a;
   --color-ivory: #f7f4ee;
   --color-slate-ink: #46506a;
   --color-royal: #2445a0;
-  --color-brass: #d4a24c;
-  --color-brass-soft: #e8c98a;
+  --color-accent: #8ea6e8;
+  --color-accent-soft: #b9c8f2;
   --font-serif: var(--font-sans);
   --font-deva: var(--ff-hind), var(--font-sans);
   --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
@@ -70,13 +70,13 @@ body {
 }
 
 ::selection {
-  background: #d4a24c;
-  color: #050c1f;
+  background: #2445a0;
+  color: #fff;
 }
 
 /* ---------- Landing page primitives ---------- */
 
-/* Overline with the logo's gold hairline rule. */
+/* Overline led by a short hairline in its own colour. */
 .lux-label {
   display: inline-flex;
   align-items: center;
@@ -91,7 +91,8 @@ body {
   content: "";
   width: 2rem;
   height: 1px;
-  background: var(--color-brass);
+  background: currentColor;
+  opacity: 0.45;
 }
 
 .lux-display {
@@ -105,18 +106,35 @@ body {
   font-weight: 500;
   letter-spacing: -0.02em;
 }
+/* Two-tone headlines: the stressed phrase steps back in tone, not into
+   italics or a second colour. */
 .lux-display em {
-  font-style: italic;
-  color: var(--color-brass);
+  font-style: normal;
+  color: rgb(247 244 238 / 0.5);
 }
-/* Brass fails contrast on ivory; light sections use the deeper gold. */
 .lux-on-light .lux-display em {
-  color: #8f6420;
+  color: #8a93a8;
+}
+
+/* Primary action: solid, no glow. Ivory on dark sections, ink on light ones. */
+.lux-primary {
+  background: var(--color-ivory);
+  color: var(--color-ink-950);
+}
+.lux-primary:hover {
+  background: #fff;
+}
+.lux-on-light .lux-primary {
+  background: var(--color-ink-900);
+  color: #fff;
+}
+.lux-on-light .lux-primary:hover {
+  background: var(--color-royal);
 }
 
 .lux-focus:focus-visible,
 .lux-scope :focus-visible {
-  outline: 2px solid var(--color-brass);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
@@ -139,6 +157,40 @@ body {
   opacity: 0.06;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Showcase film wall: two stacked 16:9 films beside one 9:16 film, all sized
+   from one height. The wall is ~1.46x as wide as it is tall, so --h is capped
+   by the screen height and by the width left for the wall. */
+.film-wall {
+  --gap: 1.25rem;
+  --h: min(calc(100svh - 11rem), 40rem, calc((100vw - 5rem) / 1.46));
+}
+@media (min-width: 80rem) {
+  /* Header column (20rem) + gap (4rem) sit beside the wall. */
+  .film-wall {
+    --h: min(calc(100svh - 10rem), 40rem, calc((min(100vw - 5rem, 82.5rem) - 24rem) / 1.46));
+  }
+}
+
+/* Pillar gallery: the active tab's timer bar, and the caption rising in. */
+@keyframes pillar-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pillar-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes lux-marquee {

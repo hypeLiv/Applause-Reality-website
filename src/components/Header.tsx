@@ -11,17 +11,30 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [overDark, setOverDark] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      // A section marked data-header-over-dark keeps the bar transparent for
+      // as long as it sits behind it (e.g. a pinned full-bleed video hero).
+      const dark = document.querySelector("[data-header-over-dark]");
+      const r = dark?.getBoundingClientRect();
+      setOverDark(!!r && r.top <= 0 && r.bottom > 96);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
 
-  // On the homepage hero the bar dissolves into the framed photo; everywhere
-  // else (and once scrolled) it is the frosted pill.
-  const onHero = pathname === "/" && !scrolled && !open;
+  // Over a dark hero the bar dissolves into it: the homepage's framed photo
+  // until you scroll, or any marked section while it's behind the bar.
+  // Everywhere else it is the frosted pill.
+  const onHero = !open && ((pathname === "/" && !scrolled) || overDark);
 
   const shell = `mx-auto flex h-16 items-center justify-between gap-3 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
     onHero
@@ -98,7 +111,7 @@ export default function Header() {
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden
-              className={`h-4 w-4 ${onHero ? "text-brass-soft" : "text-royal"}`}
+              className={`h-4 w-4 ${onHero ? "text-accent-soft" : "text-royal"}`}
             >
               <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
             </svg>

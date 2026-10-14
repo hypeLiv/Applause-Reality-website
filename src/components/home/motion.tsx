@@ -43,7 +43,7 @@ const tags = { h1: motion.h1, h2: motion.h2, h3: motion.h3, p: motion.p } as con
 
 /**
  * Headline that rises word by word. Wrap words in *asterisks* to set them in
- * the gold italic accent, e.g. "One partner, *every* milestone."
+ * the muted two-tone accent, e.g. "One partner, *every* milestone."
  */
 export function Words({
   text,

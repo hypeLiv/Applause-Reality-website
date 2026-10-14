@@ -4,10 +4,13 @@ import ClosingCta from "@/components/home/ClosingCta";
 import { ParallaxImage, Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import { Arrow, Icon, lux } from "@/components/home/ui";
-import PageHero from "@/components/page/PageHero";
 import StoryGrid from "@/components/page/StoryGrid";
 import { Cta } from "@/components/sections";
+import TokyoSkylineHero from "@/components/ui/sunset-skyline-hero";
 import { site } from "@/lib/site";
+
+/** "Wave City, Ghaziabad" → "wave-city" for in-page anchors. */
+const slug = (name: string) => name.split(",")[0].toLowerCase().replace(/\s+/g, "-");
 
 export const metadata: Metadata = {
   title: "NCR High Return Trusted Properties",
@@ -108,36 +111,39 @@ export default function LocationsPage() {
   return (
     <>
       <SmoothScroll />
-      <PageHero
-        image="/images/locations-bg.jpg"
-        alt="Landscaped residential complex with a pool in Delhi NCR"
+      <TokyoSkylineHero
+        videoSrc="/videos/locations-scrub.mp4"
+        poster="/images/poster-locations.jpg"
         eyebrow="Where to invest in Delhi NCR"
-        title="Top property investment *locations* in NCR."
-        lead="We identify the most promising investment hubs in Delhi NCR — where proximity to infrastructure and corporate growth protects long-term value."
-        actions={
-          <>
+        title="Top property investment locations in NCR."
+        titleAs="h1"
+        scrollHint="SCROLL TO FLY OVER NCR"
+        brandMark="Where NCR grows next."
+        caption="We identify the most promising investment hubs in Delhi NCR — where proximity to infrastructure and corporate growth protects long-term value."
+        action={
+          <div className="flex flex-col items-center gap-6">
+            <ul className="flex flex-wrap justify-center gap-2">
+              {locations.map((l) => (
+                <li key={l.name}>
+                  <a
+                    href={`#${slug(l.name)}`}
+                    className="lux-focus inline-flex items-baseline gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 font-text text-sm font-semibold text-ivory backdrop-blur-md transition-colors hover:bg-white/20"
+                  >
+                    {l.name}
+                    <span className="font-medium tabular-nums text-ivory/60">{l.price.split(" – ")[0]}+</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
             <Cta href={site.whatsapp} className={lux.heroPrimary}>
               Get a free consultation <Arrow />
             </Cta>
-            <Cta href="/projects" className={lux.heroGlass}>
-              Explore projects
-            </Cta>
-          </>
+          </div>
         }
-      >
-        <dl className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
-          {[
-            { v: "3", l: "High-growth corridors" },
-            { v: "₹1.5 Cr+", l: "Entry price band" },
-            { v: "100%", l: "Bank-approved projects" },
-          ].map((s) => (
-            <div key={s.l} className="bg-ink-950/50 px-5 py-4 backdrop-blur-md">
-              <dd className="font-sans text-2xl font-semibold tabular-nums text-white">{s.v}</dd>
-              <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-white/60">{s.l}</dt>
-            </div>
-          ))}
-        </dl>
-      </PageHero>
+        openingVeil={0.45}
+        darkHeader
+        scrubDistance={1200}
+      />
 
       {/* Location comparison */}
       <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
@@ -163,9 +169,9 @@ export default function LocationsPage() {
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {locations.map((l, i) => (
               <Reveal key={l.name} delay={i * 0.08} className="h-full">
-                <article className="group flex h-full flex-col rounded-[28px] bg-white p-8 shadow-[0_1px_0_rgba(11,23,51,0.05),0_30px_60px_-36px_rgba(11,23,51,0.35)] transition-transform duration-300 hover:-translate-y-1">
+                <article id={slug(l.name)} className="group flex h-full scroll-mt-28 flex-col rounded-[28px] bg-white p-8 shadow-[0_1px_0_rgba(11,23,51,0.05),0_30px_60px_-36px_rgba(11,23,51,0.35)] transition-transform duration-300 hover:-translate-y-1">
                   <div className="flex items-baseline justify-between">
-                    <span className="font-text text-sm font-semibold tabular-nums text-brass">
+                    <span className="font-text text-sm font-semibold tabular-nums text-accent">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="rounded-full bg-royal/[0.08] px-3 py-1 font-text text-xs font-semibold text-royal">
@@ -186,7 +192,7 @@ export default function LocationsPage() {
                   <ul className="mt-3 space-y-2.5">
                     {l.advantages.map((a) => (
                       <li key={a} className="flex items-start gap-3 font-text text-[15px]">
-                        <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brass/15 text-[#8f6420]">
+                        <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/15 text-royal">
                           <Icon name="check" className="h-3.5 w-3.5" />
                         </span>
                         {a}
@@ -211,14 +217,14 @@ export default function LocationsPage() {
         <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
-              <p className="lux-label text-brass-soft">Not sure yet?</p>
+              <p className="lux-label text-accent-soft">Not sure yet?</p>
             </Reveal>
             <Words
               text="Questions we answer *every week.*"
               className="lux-display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]"
             />
             <Reveal delay={0.1}>
-              <Cta href={site.whatsapp} className={`${lux.gold} mt-9`}>
+              <Cta href={site.whatsapp} className={`${lux.primary} mt-9`}>
                 Schedule a free consultation <Arrow />
               </Cta>
             </Reveal>
@@ -227,7 +233,7 @@ export default function LocationsPage() {
             {questions.map((item, i) => (
               <li key={item.q}>
                 <Reveal delay={i * 0.06} className="grid gap-4 py-9 sm:grid-cols-[60px_1fr]">
-                  <span className="font-text text-sm font-semibold tabular-nums text-brass">
+                  <span className="font-text text-sm font-semibold tabular-nums text-accent">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
@@ -273,10 +279,10 @@ export default function LocationsPage() {
                 <li key={a.title}>
                   <Reveal
                     delay={i * 0.06}
-                    className="rounded-[24px] border border-ink-900/10 p-7 transition-colors duration-300 hover:border-brass/50 hover:bg-ivory"
+                    className="rounded-[24px] border border-ink-900/10 p-7 transition-colors duration-300 hover:border-accent/50 hover:bg-ivory"
                   >
                     <p className="flex items-center gap-2 font-text text-xs font-semibold uppercase tracking-[0.16em] text-royal">
-                      <Icon name="pin" className="h-4 w-4 text-brass" />
+                      <Icon name="pin" className="h-4 w-4 text-accent" />
                       {a.area}
                     </p>
                     <h3 className="mt-3 font-sans text-2xl font-semibold tracking-[-0.02em]">{a.title}</h3>

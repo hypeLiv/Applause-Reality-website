@@ -8,7 +8,7 @@ const sizes = {
 
 /**
  * The client's signature line, "रिश्ता बुकिंग के साथ भी, Possession के बाद भी",
- * led by the logo's gold hairline. Meant to appear on most pages, so every
+ * led by a short accent hairline. Meant to appear on most pages, so every
  * placement shares this one treatment.
  */
 export default function BrandTagline({
@@ -28,9 +28,9 @@ export default function BrandTagline({
       lang="hi"
       className={`flex items-center gap-4 font-deva font-medium leading-snug ${
         align === "center" ? "justify-center text-center" : ""
-      } ${onDark ? "text-brass-soft" : "text-royal"} ${sizes[size]} ${className}`}
+      } ${onDark ? "text-accent-soft" : "text-royal"} ${sizes[size]} ${className}`}
     >
-      <span aria-hidden className="h-px w-8 shrink-0 bg-brass" />
+      <span aria-hidden className="h-px w-8 shrink-0 bg-accent" />
       {site.tagline}
     </p>
   );
