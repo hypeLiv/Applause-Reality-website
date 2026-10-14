@@ -29,6 +29,7 @@
   /* Inter everywhere; Hind only fills in Devanagari glyphs Inter lacks. */
   --font-sans: var(--ff-inter), var(--ff-hind), system-ui, sans-serif;
   --font-display: var(--font-sans);
+  --font-heading: var(--ff-fraunces), var(--ff-hind), Georgia, serif;
   --font-text: var(--font-sans);
   --font-inter: var(--font-sans);
   --font-aether: var(--font-sans);
@@ -95,9 +96,10 @@ body {
   opacity: 0.45;
 }
 
+/* Section headings: extra-light Fraunces, optical size tracks font size. */
 .lux-display {
-  font-family: var(--font-sans);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-weight: 200;
   line-height: 1.04;
   letter-spacing: -0.03em;
 }
@@ -231,8 +233,9 @@ body {
 .lux-prose h2 {
   margin-top: 3.25rem;
   color: var(--color-ink-900);
-  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 300;
   line-height: 1.2;
   letter-spacing: -0.02em;
   scroll-margin-top: 7rem;

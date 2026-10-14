@@ -115,7 +115,7 @@ export default async function PostPage({ params }: Params) {
                 {post.readMinutes} min read
               </span>
             </p>
-            <h1 className="mt-6 font-sans text-[clamp(2.2rem,4.6vw,3.9rem)] font-semibold leading-[1.06] tracking-[-0.035em]">
+            <h1 className="lux-display mt-6 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.06]">
               {post.title}
             </h1>
             <p className="mt-6 max-w-[40rem] font-text text-lg leading-relaxed text-ivory/65">{post.excerpt}</p>

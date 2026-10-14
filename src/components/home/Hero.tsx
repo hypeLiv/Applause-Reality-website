@@ -89,7 +89,7 @@ export default function Hero() {
               immediate
               delay={0.2}
               text="Expert advocacy for your *lifetime* real estate goals."
-              className="lux-display mt-6 max-w-[15ch] text-[clamp(2.4rem,4.2vw,4.25rem)] leading-[1.02] tracking-[-0.04em]"
+              className="lux-display mt-6 max-w-[15ch] text-[clamp(2.4rem,4.2vw,4.25rem)] leading-[1.02]"
             />
             <motion.div {...rise(0.6)} className="mt-7">
               <BrandTagline onDark size="lg" />

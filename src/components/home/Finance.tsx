@@ -106,7 +106,7 @@ export default function Finance() {
             <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
               <div>
                 <p className="lux-label text-accent-soft">Bank-trusted partner</p>
-                <h3 className="mt-5 font-sans text-[clamp(1.9rem,3.2vw,2.75rem)] font-semibold leading-[1.08] tracking-[-0.025em]">
+                <h3 className="lux-display mt-5 text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.08]">
                   SBI and PNB, <span className="italic text-accent">on your side.</span>
                 </h3>
                 <div className="mt-8 grid max-w-[28rem] grid-cols-2 gap-3">

@@ -178,7 +178,7 @@ export default function LocationsPage() {
                       {l.potential}
                     </span>
                   </div>
-                  <h2 className="mt-6 font-sans text-3xl font-semibold tracking-[-0.03em]">{l.name}</h2>
+                  <h2 className="lux-display mt-6 text-3xl">{l.name}</h2>
                   <p className="mt-3 font-text text-base leading-relaxed text-slate-ink">{l.summary}</p>
 
                   <div className="mt-7 rounded-2xl bg-ivory px-5 py-4">
@@ -237,7 +237,7 @@ export default function LocationsPage() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h3 className="font-sans text-[clamp(1.4rem,2.2vw,1.9rem)] font-semibold leading-tight tracking-[-0.02em]">
+                    <h3 className="lux-display text-[clamp(1.4rem,2.2vw,1.9rem)] leading-tight">
                       {item.q}
                     </h3>
                     <p className="mt-3 max-w-[36rem] font-text text-base leading-relaxed text-ivory/70">{item.a}</p>

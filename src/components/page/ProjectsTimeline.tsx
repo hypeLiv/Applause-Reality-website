@@ -24,7 +24,7 @@ export default function ProjectsTimeline({ projects }: { projects: Project[] }) 
       <div className="mx-auto max-w-[1320px]">
         <header className="max-w-2xl">
           <p className="lux-label text-accent-soft">Current launches</p>
-          <h2 className="mt-6 font-sans text-[clamp(2.6rem,5vw,4.5rem)] font-semibold leading-none tracking-[-0.04em]">
+          <h2 className="lux-display mt-6 text-[clamp(2.6rem,5vw,4.5rem)] leading-none">
             Launches &rsquo;26
           </h2>
           <p className="mt-6 font-text text-lg leading-relaxed text-ivory/60">
@@ -111,7 +111,7 @@ function ProjectDetails({ project: p, index }: { project: Project; index: number
         </span>
       </div>
 
-      <h3 className="mt-6 font-sans text-[clamp(2.2rem,3.6vw,3.4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+      <h3 className="lux-display mt-6 text-[clamp(2.2rem,3.6vw,3.4rem)] leading-[1.02]">
         {p.name}
       </h3>
       <p className="mt-3 flex items-center gap-2 font-text text-sm text-ivory/60">

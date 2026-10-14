@@ -260,7 +260,7 @@ export default function TokyoSkylineHero({
             ref={brandRef}
             className="pointer-events-none absolute inset-0 z-[2] flex flex-col items-center justify-center px-6 text-center opacity-0"
           >
-            <p className="font-sans text-[clamp(3rem,10vw,9rem)] font-semibold leading-[0.95] tracking-[-0.045em] [text-shadow:0_8px_60px_rgba(0,0,0,0.45)]">
+            <p className="lux-display text-[clamp(3rem,10vw,9rem)] leading-[0.95] [text-shadow:0_8px_60px_rgba(0,0,0,0.45)]">
               {brandMark}
             </p>
             {caption && (
@@ -295,7 +295,7 @@ export default function TokyoSkylineHero({
                 {eyebrow}
               </p>
             )}
-            <TitleTag className="max-w-[16ch] font-sans text-[clamp(2.25rem,5.4vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.035em] [text-shadow:0_4px_30px_rgba(0,0,0,0.5)]">
+            <TitleTag className="lux-display max-w-[16ch] text-[clamp(2.25rem,5.4vw,4.75rem)] [text-shadow:0_4px_30px_rgba(0,0,0,0.5)]">
               {title}
             </TitleTag>
           </div>
