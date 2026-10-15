@@ -48,7 +48,7 @@ export default function Partners() {
                 alt={i < partners.length ? p.alt : ""}
                 width={p.w}
                 height={p.h}
-                className="h-14 w-auto max-w-full object-contain opacity-80 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                className="h-14 w-auto max-w-full object-contain"
               />
               <span className="font-text text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-ink">
                 {p.kind}
