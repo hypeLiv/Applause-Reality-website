@@ -30,6 +30,8 @@ export interface NavItem {
 
 export interface TokyoSkylineHeroProps {
   videoSrc: string;
+  /** Lighter encode of the same clip, used below the lg breakpoint. */
+  videoSrcSmall?: string;
   /** First frame, shown until the video can seek. */
   poster?: string;
   /** Optional transparent PNG cropped identically to the video's last frame; sits above the brand mark. */
@@ -72,6 +74,7 @@ function clamp(v: number, min: number, max: number) {
 
 export default function TokyoSkylineHero({
   videoSrc,
+  videoSrcSmall,
   poster,
   skylineSrc,
   eyebrow,
@@ -196,6 +199,7 @@ export default function TokyoSkylineHero({
     const loader = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          if (videoSrcSmall && window.matchMedia("(max-width: 1023px)").matches) video.src = videoSrcSmall;
           video.preload = "auto";
           video.load();
           loader.disconnect();
@@ -228,7 +232,7 @@ export default function TokyoSkylineHero({
       video.removeEventListener("loadeddata", onLoadedData);
       video.removeEventListener("seeked", onSeeked);
     };
-  }, [scrubDistance, openingVeil]);
+  }, [scrubDistance, openingVeil, videoSrcSmall]);
 
   return (
     <section

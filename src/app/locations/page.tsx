@@ -113,6 +113,7 @@ export default function LocationsPage() {
       <SmoothScroll />
       <TokyoSkylineHero
         videoSrc="/videos/locations-scrub.mp4"
+        videoSrcSmall="/videos/locations-scrub-mobile.mp4"
         poster="/images/poster-locations.jpg"
         eyebrow="Where to invest in Delhi NCR"
         title="Top property investment locations in NCR."
