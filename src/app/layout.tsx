@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatButton from "@/components/ChatButton";
+import IntroLoader from "@/components/IntroLoader";
+import { introGateScript } from "@/lib/intro";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -40,8 +42,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${hind.variable} ${fraunces.variable}`}>
+    // The head script may add the intro-done class before hydration.
+    <html lang="en" className={`${inter.variable} ${hind.variable} ${fraunces.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
+      </head>
       <body>
+        <IntroLoader />
         <Header />
         <main>{children}</main>
         <Footer />
