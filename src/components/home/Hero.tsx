@@ -28,14 +28,17 @@ const featured = {
 
 /**
  * Framed hero: brand promise on the left, the featured launch on the right,
- * trust signals along the bottom. The card eases back slightly on scroll.
+ * trust signals along the bottom. Full-bleed at rest; on scroll it eases back
+ * into a rounded card.
  */
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "14%"]);
+  // Opens edge to edge; on scroll the frame shrinks and rounds, letting the ivory page in from every side.
   const frameScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1, 0.94]);
+  const frameRadius = useTransform(scrollYProgress, [0, 0.25], reduce ? [0, 0] : [0, 32]);
   const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -50]);
   const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
@@ -46,10 +49,10 @@ export default function Hero() {
   });
 
   return (
-    <section ref={ref} className="lux-scope bg-ivory p-2 sm:p-3 md:p-4">
+    <section ref={ref} className="lux-scope bg-ivory">
       <motion.div
-        style={{ scale: frameScale }}
-        className="lux-grain relative isolate flex min-h-[calc(100svh-1rem)] flex-col overflow-hidden rounded-[24px] bg-ink-950 text-white md:rounded-[32px] lg:min-h-[max(720px,calc(100svh-2rem))]"
+        style={{ scale: frameScale, borderRadius: frameRadius }}
+        className="lux-grain relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ink-950 text-white lg:min-h-[max(720px,100svh)]"
       >
         {/* Photo with a slow settle-in zoom and scroll parallax */}
         <motion.div style={{ y: bgY }} className="absolute inset-0 -z-20">
