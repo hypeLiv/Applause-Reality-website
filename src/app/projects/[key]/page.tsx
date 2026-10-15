@@ -13,6 +13,8 @@ import { ExpandLanding, ExpandLink } from "@/components/page/ExpandTransition";
 import PageHero from "@/components/page/PageHero";
 import { Cta } from "@/components/sections";
 import { getProject, projects, type Project } from "@/content/projects";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ key: string }> };
@@ -26,11 +28,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const p = getProject((await params).key);
   if (!p) return {};
-  return {
+  return pageMeta({
     title: `${p.name}, ${p.location}`,
-    description: p.summary,
-    openGraph: { images: [p.photo] },
-  };
+    description: p.metaDescription,
+    path: `/projects/${p.key}`,
+    images: [p.photo],
+  });
 }
 
 /** Brochure size read from disk at build time, e.g. "11.3 MB". */
@@ -103,12 +106,13 @@ function Overview({ project: p }: { project: Project }) {
   return (
     <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
-        <Link
-          href="/projects#launches"
-          className="lux-focus inline-flex items-center gap-2 font-text text-sm font-semibold text-slate-ink transition-colors hover:text-ink-900"
-        >
-          <Icon name="arrow" className="h-4 w-4 rotate-180" /> All launches
-        </Link>
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Projects", href: "/projects" },
+            { name: p.name, href: `/projects/${p.key}` },
+          ]}
+        />
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <Reveal>

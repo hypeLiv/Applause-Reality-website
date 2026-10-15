@@ -10,13 +10,15 @@ import JourneyLine from "@/components/page/JourneyLine";
 import RollingJourney from "@/components/page/RollingJourney";
 import Tilt from "@/components/page/Tilt";
 import { Cta } from "@/components/sections";
+import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Trusted Real Estate Consultants for Delhi-NCR",
   description:
     "Meet Rajiv Kr. Pandey and Applause Reality: 23+ years guiding families, investors and SBI/PNB professionals through bank-approved Delhi NCR property.",
-};
+  path: "/about-applause-reality",
+});
 
 const bio = [
   "With a career spanning more than 23 years, Rajiv Kr. Pandey has become a pillar of trust for families and investors across Delhi NCR — a steady companion through the milestones of buying a home.",

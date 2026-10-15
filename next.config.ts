@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Locations and Projects merged into one page; keep old links and rankings.
+  // Moved URLs keep their old links and rankings.
   async redirects() {
-    return [{ source: "/locations", destination: "/projects", permanent: true }];
+    return [
+      { source: "/locations", destination: "/projects", permanent: true },
+      // Blog posts moved from Wix's generic /post/ prefix to /blog/.
+      { source: "/post/:slug", destination: "/blog/:slug", permanent: true },
+    ];
   },
 };
 

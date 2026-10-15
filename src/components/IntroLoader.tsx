@@ -108,7 +108,9 @@ export default function IntroLoader() {
         <p className="intro-word">
           Applause <em>Reality</em>
         </p>
-        <p className="intro-tag">{site.tagline}</p>
+        <p lang="hi" className="intro-tag">
+          {site.tagline}
+        </p>
       </div>
       <div ref={wallRef} className="intro-wall">
         <span className="intro-edge">

@@ -171,7 +171,7 @@ function FeaturedCard() {
       <Link href={featured.href} className="lux-focus relative block aspect-[2/1] overflow-hidden" tabIndex={-1} aria-hidden>
         <Image
           src={featured.image}
-          alt=""
+          alt={`${featured.name}, ${featured.location} — residential towers`}
           fill
           sizes="(min-width: 1024px) 460px, 100vw"
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
