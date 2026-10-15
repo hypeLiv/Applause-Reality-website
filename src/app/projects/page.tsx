@@ -250,23 +250,8 @@ export default function ProjectsPage() {
                 </Reveal>
               </div>
 
-              {c.launches.length > 0 ? (
+              {c.launches.length > 0 && (
                 <ProjectsTimeline projects={c.launches} className="mt-16 md:mt-24" />
-              ) : (
-                <Reveal className="mt-14 flex flex-col gap-6 rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-7 md:flex-row md:items-center md:justify-between md:p-10">
-                  <div>
-                    <p className="font-sans text-xl font-semibold md:text-2xl">
-                      No featured launch in {c.name.split(",")[0]} right now.
-                    </p>
-                    <p className="mt-2 max-w-[36rem] font-text text-[15px] leading-relaxed text-ivory/65">
-                      Tell us your budget and goals, and we&rsquo;ll shortlist bank-approved options in{" "}
-                      {c.name.split(",")[0]} for you.
-                    </p>
-                  </div>
-                  <Cta href={site.whatsapp} className={`${lux.primary} shrink-0`}>
-                    Ask for a shortlist <Arrow />
-                  </Cta>
-                </Reveal>
               )}
             </div>
           </section>
