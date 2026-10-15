@@ -11,42 +11,29 @@ import { ExpandLink } from "./ExpandTransition";
  * Projects as a scroll timeline: a spine runs down the middle and fills as you
  * scroll, with each project's details and photo alternating either side of it.
  * The project nearest the middle of the screen is lit; the rest wait dimmed.
- * Phones get the same timeline with the spine down the left edge.
+ * Phones get the same timeline with the spine down the left edge. Renders the
+ * list only, on a dark (ink-950) surface supplied by the caller.
  */
-export default function ProjectsTimeline({ projects }: { projects: Project[] }) {
+export default function ProjectsTimeline({ projects, className = "" }: { projects: Project[]; className?: string }) {
   const listRef = useRef<HTMLOListElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 60%", "end 60%"] });
   const fill = useTransform(scrollYProgress, (p) => (reduce ? 1 : p));
 
   return (
-    <section aria-label="Current launches" className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
-      <div className="mx-auto max-w-[1320px]">
-        <header className="max-w-2xl">
-          <p className="lux-label text-accent-soft">Current launches</p>
-          <h2 className="lux-display mt-6 text-[clamp(2.6rem,5vw,4.5rem)] leading-none">
-            Launches &rsquo;26
-          </h2>
-          <p className="mt-6 font-text text-lg leading-relaxed text-ivory/60">
-            {projects.length} bank-approved projects we are guiding families toward right now.
-          </p>
-        </header>
+    <ol ref={listRef} aria-label="Current launches" className={`relative ${className}`}>
+      {/* Spine: a faint track with the scroll-driven fill on top. */}
+      <span aria-hidden className="absolute bottom-0 left-[7px] top-0 w-px bg-white/10 lg:left-1/2" />
+      <motion.span
+        aria-hidden
+        style={{ scaleY: fill }}
+        className="absolute bottom-0 left-[7px] top-0 w-px origin-top bg-accent lg:left-1/2"
+      />
 
-        <ol ref={listRef} className="relative mt-16 md:mt-24">
-          {/* Spine: a faint track with the scroll-driven fill on top. */}
-          <span aria-hidden className="absolute bottom-0 left-[7px] top-0 w-px bg-white/10 lg:left-1/2" />
-          <motion.span
-            aria-hidden
-            style={{ scaleY: fill }}
-            className="absolute bottom-0 left-[7px] top-0 w-px origin-top bg-accent lg:left-1/2"
-          />
-
-          {projects.map((p, i) => (
-            <Row key={p.key} project={p} index={i} />
-          ))}
-        </ol>
-      </div>
-    </section>
+      {projects.map((p, i) => (
+        <Row key={p.key} project={p} index={i} />
+      ))}
+    </ol>
   );
 }
 

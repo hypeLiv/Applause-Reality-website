@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Locations and Projects merged into one page; keep old links and rankings.
+  async redirects() {
+    return [{ source: "/locations", destination: "/projects", permanent: true }];
+  },
 };
 
 export default nextConfig;

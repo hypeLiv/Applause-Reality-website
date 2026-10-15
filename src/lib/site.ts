@@ -16,8 +16,7 @@ export const site = {
 
 export const nav = [
   { href: "/", label: "Home" },
-  { href: "/locations", label: "Locations" },
-  { href: "/projects", label: "Projects" },
+  { href: "/projects", label: "Locations & Projects" },
   { href: "/blog", label: "Blog" },
   { href: "/about-applause-reality", label: "About Us" },
 ];
