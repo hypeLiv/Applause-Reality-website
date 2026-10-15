@@ -63,8 +63,8 @@ export default function Hero() {
             transition={{ duration: 2.6, ease: EASE }}
           >
             <Image
-              src="/images/hero-living.jpg"
-              alt="Sunlit living room in a premium Delhi NCR residence"
+              src="/images/hero-skyline.jpg"
+              alt="Living room with floor-to-ceiling windows overlooking a city skyline"
               fill
               priority
               sizes="100vw"
@@ -72,11 +72,12 @@ export default function Hero() {
             />
           </motion.div>
         </motion.div>
-        {/* Legibility: copy sits on the darker left; the card carries its own glass */}
-        <div className="absolute inset-0 -z-10 bg-ink-950/35" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950/85 via-ink-950/45 to-ink-950/10" />
-        <div className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-ink-950/60 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-ink-950/75 to-transparent" />
+        {/* Legibility: the photo's own dark wall carries the copy, so the veils stay light
+            and the skyline keeps its daylight; the card carries its own glass */}
+        <div className="absolute inset-0 -z-10 bg-ink-950/15" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950/75 via-ink-950/30 to-transparent" />
+        <div className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-ink-950/50 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-ink-950/65 to-transparent" />
 
         <motion.div
           style={{ y: contentY, opacity: fade }}
