@@ -4,6 +4,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   robots: { index: false },
+  alternates: { canonical: "/privacy-policy" },
 };
 
 // TODO: paste the client's approved privacy policy text here before launch.

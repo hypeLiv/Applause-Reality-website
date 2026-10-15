@@ -1,8 +1,8 @@
 import bodies from "./post-bodies.json";
 
 /**
- * Blog posts from the Wix blog. Slugs match the live /post/<slug> URLs so
- * existing links and search rankings carry over.
+ * Blog posts from the Wix blog. Slugs match the live Wix slugs; the old
+ * /post/<slug> URLs redirect to /blog/<slug> so links and rankings carry over.
  *
  * Article bodies, dates and read times live in post-bodies.json, transcribed
  * from the live articles into simple blocks.

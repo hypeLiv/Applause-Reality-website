@@ -31,7 +31,7 @@ export function ReadLink() {
 
 export function PostCard({ post }: { post: Post }) {
   return (
-    <Link href={`/post/${post.slug}`} className="lux-focus group flex h-full flex-col rounded-[22px]">
+    <Link href={`/blog/${post.slug}`} className="lux-focus group flex h-full flex-col rounded-[22px]">
       <CoverImage
         src={post.cover}
         alt={post.title}

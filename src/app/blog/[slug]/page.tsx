@@ -10,6 +10,9 @@ import CoverImage from "@/components/page/CoverImage";
 import { PostCard } from "@/components/page/PostCard";
 import { Cta } from "@/components/sections";
 import { formatDate, getPost, posts, type PostBlock } from "@/content/posts";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import JsonLd from "@/components/seo/JsonLd";
+import { absolute, pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -21,11 +24,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const post = getPost((await params).slug);
   if (!post) return {};
-  return {
+  return pageMeta({
     title: post.title,
     description: post.excerpt,
-    openGraph: { images: [post.cover] },
-  };
+    path: `/blog/${post.slug}`,
+    images: [post.cover],
+    type: "article",
+    publishedTime: post.date || undefined,
+  });
 }
 
 const slugify = (text: string) =>
@@ -87,21 +93,38 @@ export default async function PostPage({ params }: Params) {
     .map((b) => ({ id: slugify(b.text), text: b.text.replace(/^\d+\.\s*/, "") }));
   const more = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
+  // Credited to the business until the client confirms per-post authors.
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: [absolute(post.cover)],
+    ...(post.date ? { datePublished: post.date, dateModified: post.date } : {}),
+    author: { "@id": absolute("/#business") },
+    publisher: { "@id": absolute("/#business") },
+    mainEntityOfPage: absolute(`/blog/${post.slug}`),
+    inLanguage: "en-IN",
+  };
+
   return (
     <ReadingProgress>
       <SmoothScroll />
+      <JsonLd data={articleSchema} />
 
       {/* Masthead */}
       <header className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-56 pt-36 text-ivory md:px-10 md:pb-72 md:pt-44">
         <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[480px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
         <div className="mx-auto max-w-[920px]">
           <Reveal>
-            <Link
-              href="/blog"
-              className="lux-focus inline-flex items-center gap-2 font-text text-sm font-semibold text-ivory/60 transition-colors hover:text-ivory"
-            >
-              <Icon name="arrow" className="h-4 w-4 rotate-180" /> All articles
-            </Link>
+            <Breadcrumbs
+              tone="dark"
+              items={[
+                { name: "Home", href: "/" },
+                { name: "Blog", href: "/blog" },
+                { name: post.title, href: `/blog/${post.slug}` },
+              ]}
+            />
           </Reveal>
           <Reveal delay={0.08}>
             <p className="mt-10 flex flex-wrap items-center gap-3 font-text text-[13px] text-ivory/60">
@@ -154,7 +177,7 @@ export default async function PostPage({ params }: Params) {
             <div className="mt-16 flex max-w-[68ch] items-center gap-5 border-t border-ink-900/[0.08] pt-10">
               <Image
                 src="/images/founder.png"
-                alt=""
+                alt="Rajiv Kr. Pandey, founder of Applause Reality"
                 width={112}
                 height={140}
                 className="h-16 w-16 shrink-0 rounded-full object-cover object-top"

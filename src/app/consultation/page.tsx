@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import AdvisorForm from "@/components/AdvisorForm";
 import BrandTagline from "@/components/BrandTagline";
 import { Icon } from "@/components/home/ui";
+import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Book a Free Consultation",
   description:
     "Talk to a Delhi NCR relationship manager about bank-approved homes, commercial spaces, investments and home loans.",
-};
+  path: "/consultation",
+});
 
 const reasons = [
   "Shortlists of bank-approved projects that fit your budget",

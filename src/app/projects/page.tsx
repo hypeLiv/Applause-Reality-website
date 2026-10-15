@@ -11,13 +11,15 @@ import StoryGrid from "@/components/page/StoryGrid";
 import { Cta } from "@/components/sections";
 import TokyoSkylineHero from "@/components/ui/sunset-skyline-hero";
 import { type Project, projects } from "@/content/projects";
+import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "NCR Projects & Investment Locations",
   description:
-    "Compare Noida, Greater Noida and Wave City Ghaziabad, then explore the bank-approved launches in each: Hero Homes, Godrej Arden, Eternia Residences and Gulshan Empire.",
-};
+    "Compare Noida, Greater Noida and Wave City, then explore the bank-approved launches in each: Hero Homes, Godrej Arden, Eternia and Gulshan Empire.",
+  path: "/projects",
+});
 
 /** Each corridor owns the launches whose location names it. Ordered by how many launches it holds. */
 const corridors: {

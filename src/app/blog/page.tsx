@@ -6,11 +6,14 @@ import SmoothScroll from "@/components/home/SmoothScroll";
 import CoverImage from "@/components/page/CoverImage";
 import { PostCard, PostMeta, ReadLink } from "@/components/page/PostCard";
 import { formatDate, posts } from "@/content/posts";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Discover NCR Property Blogs | Real Estate Insights",
-  description: "Delhi NCR real estate guides and project insights from Applause Reality.",
-};
+  description:
+    "Guides on where to invest in Delhi NCR, new bank-approved launches and practical home-buying tips from the Applause Reality advisory desk.",
+  path: "/blog",
+});
 
 export default function BlogPage() {
   const [featured, ...rest] = posts;
@@ -52,7 +55,7 @@ export default function BlogPage() {
         <div className="mx-auto max-w-[1320px]">
           <Reveal className="relative z-10 -mt-28 md:-mt-36">
             <Link
-              href={`/post/${featured.slug}`}
+              href={`/blog/${featured.slug}`}
               className="lux-focus group grid overflow-hidden rounded-[28px] bg-white shadow-[0_40px_80px_-40px_rgba(11,23,51,0.45)] ring-1 ring-ink-900/[0.06] lg:grid-cols-[1.15fr_0.85fr]"
             >
               <CoverImage

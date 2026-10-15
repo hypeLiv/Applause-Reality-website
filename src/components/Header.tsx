@@ -8,7 +8,7 @@ import ConsultLink from "@/components/ConsultLink";
 import { nav, site } from "@/lib/site";
 
 /** Pages whose hero is dark, matched by path so the first paint is already right. */
-const DARK_HERO = /^\/($|projects|blog|post\/|about-applause-reality)/;
+const DARK_HERO = /^\/($|projects|blog|about-applause-reality)/;
 
 export default function Header() {
   const pathname = usePathname();

@@ -5,7 +5,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatButton from "@/components/ChatButton";
 import IntroLoader from "@/components/IntroLoader";
+import JsonLd from "@/components/seo/JsonLd";
 import { introGateScript } from "@/lib/intro";
+import { absolute, DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -30,12 +32,50 @@ const hind = Hind({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Trusted Real Estate Consultants | Applause Reality Local Experts",
+    default: DEFAULT_TITLE,
     template: "%s | Applause Reality",
   },
-  description:
-    "Bank-approved residential and corporate properties across Delhi NCR, with lifelong consulting from first site visit to post-possession.",
+  description: DEFAULT_DESCRIPTION,
   icons: { icon: "/images/logo-mark.png", apple: "/images/logo-mark.png" },
+  // Fallbacks for routes without their own pageMeta(); pages restate these.
+  openGraph: { type: "website", siteName: site.name, locale: "en_IN" },
+  twitter: { card: "summary_large_image" },
+};
+
+// Site-wide business identity. No street address yet: add it (matching the
+// Google Business Profile exactly) as soon as the client confirms it.
+const businessSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "RealEstateAgent",
+      "@id": absolute("/#business"),
+      name: site.name,
+      url: site.url,
+      logo: absolute("/images/logo.png"),
+      image: absolute("/images/award-sbi.png"),
+      description: DEFAULT_DESCRIPTION,
+      slogan: site.tagline,
+      email: site.email,
+      telephone: site.phones,
+      areaServed: [
+        { "@type": "City", name: "Noida" },
+        { "@type": "City", name: "Greater Noida" },
+        { "@type": "City", name: "Ghaziabad" },
+        { "@type": "AdministrativeArea", name: "Delhi NCR" },
+      ],
+      founder: { "@type": "Person", name: "Rajiv Kumar Pandey", sameAs: [site.linkedin] },
+      knowsAbout: ["Residential sales", "Commercial leasing", "Investment advisory", "Home-loan assistance"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": absolute("/#website"),
+      url: site.url,
+      name: site.name,
+      inLanguage: "en-IN",
+      publisher: { "@id": absolute("/#business") },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -48,6 +88,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
       </head>
       <body>
+        <JsonLd data={businessSchema} />
         <IntroLoader />
         <Header />
         <main>{children}</main>

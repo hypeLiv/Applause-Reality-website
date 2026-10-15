@@ -10,6 +10,8 @@ export type Project = {
   highlights: string;
   facts: { value: string; label: string }[];
   summary: string;
+  /** Search-snippet description, kept under ~155 characters. */
+  metaDescription: string;
   /** Long-form description for the project's own page (from the live site). */
   overview: string[];
   /** Optional walkthrough film shown on the project page. */
@@ -33,6 +35,8 @@ export const projects: Project[] = [
       { value: "~4.7 acres", label: "Three-tower community" },
       { value: "AQI-controlled", label: "Proposed environment" },
     ],
+    metaDescription:
+      "Premium 3 BHK homes in a limited three-tower community at Sector MU, Greater Noida, with a clubhouse, pool and a proposed AQI-controlled environment.",
     summary:
       "Premium 3 BHK residences in a limited three-tower community with landscaped greens, jogging tracks, a clubhouse, pool and fitness facilities — plus a proposed AQI-controlled environment for everyday wellness.",
     overview: [
@@ -55,6 +59,8 @@ export const projects: Project[] = [
       { value: "NH-24", label: "Direct connectivity" },
       { value: "Gulshan Group", label: "Developer" },
     ],
+    metaDescription:
+      "Gulshan Empire at Wave City, Ghaziabad: well-planned 3 and 4 BHK apartments on NH-24, amid planned greenery, wide roads and strong civic infrastructure.",
     summary:
       "A premium enclave by the Gulshan Group inside Wave City on NH-24 — well-laid-out 3 and 4 BHK apartments amid planned greenery, wide roads and strong civic infrastructure.",
     overview: [
@@ -78,6 +84,8 @@ export const projects: Project[] = [
       { value: "~90", label: "Residents per acre" },
       { value: "Pari Chowk", label: "Established neighbourhood" },
     ],
+    metaDescription:
+      "Godrej Arden, Sigma III, Greater Noida: nine towers of 3 and 4 BHK homes near Pari Chowk, at about 90 residents per acre, with a multi-level clubhouse.",
     summary:
       "Nine towers of spacious 3 and 4 BHK homes near Pari Chowk, kept quiet and private at around 90 residents per acre, with a multi-level clubhouse for every generation.",
     overview: [
@@ -101,6 +109,8 @@ export const projects: Project[] = [
       { value: "Jewar", label: "Airport corridor" },
       { value: "Metro", label: "Station nearby" },
     ],
+    metaDescription:
+      "Eternia Residences, Greater Noida West: 1–4 BHK luxury apartments near the Noida–Greater Noida Link Road, Yamuna Expressway and the Jewar Airport corridor.",
     summary:
       "An ultra-luxury community of 1–4 BHK apartments linked to the Noida–Greater Noida Link Road, Yamuna Expressway and the Jewar Airport corridor, with a metro station, schools and hospitals close by.",
     overview: [
