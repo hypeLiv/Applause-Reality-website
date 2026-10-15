@@ -46,6 +46,8 @@ export default function Footer() {
       palette={{ background: "#050c1f", ink: "#f7f4ee", warm: "#8ea6e8" }}
       fontFamily='"Inter", system-ui, sans-serif'
       monoFamily={INTER}
+      // Baseline on the bottom edge: the letters sit whole, only the descenders crop.
+      crop={0}
       // The word is fitted to the width, so its height scales with vw. The
       // floor leaves room for the link block plus the promise lines on phones.
       height="max(740px, calc(360px + 22vw), calc(1000px - 55vw))"
