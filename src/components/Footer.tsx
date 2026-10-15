@@ -37,9 +37,11 @@ export default function Footer() {
     <HalftoneWordmarkFooter
       wordmark="applause"
       label={site.name}
-      meta={site.tagline}
+      meta={<span lang="hi">{site.tagline}</span>}
       statement={promises.map((line) => (
-        <p key={line}>{line}</p>
+        <p key={line} lang="hi">
+          {line}
+        </p>
       ))}
       columns={columns}
       note={`© ${new Date().getFullYear()} ${site.name} · Delhi NCR`}

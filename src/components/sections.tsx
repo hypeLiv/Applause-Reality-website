@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 export function HindiTagline({ as: Tag = "p" }: { as?: "p" | "h2" }) {
   return (
     <section className="bg-mist px-6 py-12 text-center">
-      <Tag className="t-h2 font-display font-semibold text-navy">{site.tagline}</Tag>
+      <Tag lang="hi" className="t-h2 font-display font-semibold text-navy">{site.tagline}</Tag>
     </section>
   );
 }

@@ -45,7 +45,7 @@ export interface HalftoneWordmarkFooterProps {
   /** Top-left studio line. */
   label?: string
   /** The muted line under it. */
-  meta?: string
+  meta?: React.ReactNode
   /** Link columns along the top. */
   columns?: FooterColumn[]
   /** Small print on the left of the bottom rule. */
