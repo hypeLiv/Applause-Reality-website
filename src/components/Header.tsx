@@ -43,10 +43,10 @@ export default function Header() {
   const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
     onHero
       ? "max-w-[1320px] border-transparent bg-transparent px-3 md:px-6"
-      : `max-w-[1060px] px-1.5 pl-4 backdrop-blur-xl ${
+      : `max-w-[1060px] px-1.5 pl-4 ${
           scrolled
-            ? "border-white/70 bg-white/85 shadow-[0_10px_40px_-12px_rgba(8,21,45,0.25)]"
-            : "border-white/50 bg-white/70 shadow-[0_8px_30px_-14px_rgba(8,21,45,0.2)]"
+            ? "border-white/70 bg-white shadow-[0_10px_40px_-12px_rgba(8,21,45,0.25)]"
+            : "border-white/50 bg-white shadow-[0_8px_30px_-14px_rgba(8,21,45,0.2)]"
         }`
   }`;
 
