@@ -8,7 +8,7 @@ import ConsultLink from "@/components/ConsultLink";
 import { nav, site } from "@/lib/site";
 
 /** Pages whose hero is dark, matched by path so the first paint is already right. */
-const DARK_HERO = /^\/($|locations|projects|blog|post\/|about-applause-reality)/;
+const DARK_HERO = /^\/($|projects|blog|post\/|about-applause-reality)/;
 
 export default function Header() {
   const pathname = usePathname();
@@ -23,7 +23,7 @@ export default function Header() {
       // as long as it sits behind it (e.g. a pinned full-bleed video hero).
       const dark = document.querySelector("[data-header-over-dark]");
       const r = dark?.getBoundingClientRect();
-      setOverDark(!!r && r.top <= 0 && r.bottom > 96);
+      setOverDark(!!r && r.top <= 0 && r.bottom > 80);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -40,13 +40,13 @@ export default function Header() {
   const darkTop = DARK_HERO.test(pathname);
   const onHero = !open && ((darkTop && !scrolled) || overDark);
 
-  const shell = `mx-auto flex h-16 items-center justify-between gap-3 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+  const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
     onHero
-      ? "max-w-[1360px] border-transparent bg-transparent px-4 md:px-8"
-      : `max-w-[1120px] px-2.5 pl-5 backdrop-blur-xl ${
+      ? "max-w-[1320px] border-transparent bg-transparent px-3 md:px-6"
+      : `max-w-[1060px] px-1.5 pl-4 ${
           scrolled
-            ? "border-white/70 bg-white/85 shadow-[0_10px_40px_-12px_rgba(8,21,45,0.25)]"
-            : "border-white/50 bg-white/70 shadow-[0_8px_30px_-14px_rgba(8,21,45,0.2)]"
+            ? "border-white/70 bg-white shadow-[0_10px_40px_-12px_rgba(8,21,45,0.25)]"
+            : "border-white/50 bg-white shadow-[0_8px_30px_-14px_rgba(8,21,45,0.2)]"
         }`
   }`;
 
@@ -58,16 +58,16 @@ export default function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 px-4 sm:px-6 ${
-        onHero ? "pt-6 sm:pt-7 md:pt-8" : "pt-4 sm:pt-5"
+        onHero ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"
       } transition-[padding] duration-500`}
     >
       <div className={shell}>
-        <Link href="/" className="relative h-9 w-[126px] shrink-0" onClick={() => setOpen(false)}>
+        <Link href="/" className="relative h-8 w-[112px] shrink-0" onClick={() => setOpen(false)}>
           <Image
             src="/images/logo-light.png"
             alt=""
             fill
-            sizes="126px"
+            sizes="112px"
             priority
             className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : "opacity-0"}`}
           />
@@ -75,13 +75,13 @@ export default function Header() {
             src="/images/logo.png"
             alt="Applause Reality"
             fill
-            sizes="126px"
+            sizes="112px"
             priority
             className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-0" : "opacity-100"}`}
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-0.5 lg:flex">
           {nav.map((item) => {
             const active =
               item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -90,7 +90,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`rounded-full px-4 py-2 font-text text-[13px] font-medium uppercase tracking-[0.08em] transition-colors ${
+                className={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-text text-[12px] font-medium uppercase tracking-[0.1em] transition-colors ${
                   active ? linkActive : linkIdle
                 }`}
               >
@@ -100,10 +100,10 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <a
             href={site.phone.href}
-            className={`hidden items-center gap-2 rounded-full px-4 py-2 font-text text-[14px] font-semibold transition-colors md:flex ${
+            className={`hidden items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 font-text text-[13px] font-semibold transition-colors md:flex ${
               onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
             }`}
           >
@@ -115,14 +115,14 @@ export default function Header() {
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden
-              className={`h-4 w-4 ${onHero ? "text-accent-soft" : "text-royal"}`}
+              className={`h-3.5 w-3.5 ${onHero ? "text-accent-soft" : "text-royal"}`}
             >
               <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
             </svg>
             {site.phone.display}
           </a>
           <ConsultLink
-            className={`hidden rounded-full px-5 py-2.5 font-text text-[14px] font-semibold transition-colors md:block ${
+            className={`hidden whitespace-nowrap rounded-full px-4 py-2 font-text text-[13px] font-semibold transition-colors md:block ${
               onHero
                 ? "border border-white/35 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
                 : "bg-ink-900 text-ivory hover:bg-royal"
@@ -135,7 +135,7 @@ export default function Header() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className={`grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden ${
+            className={`grid h-9 w-9 place-items-center rounded-full transition-colors lg:hidden ${
               onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
             }`}
           >
@@ -152,7 +152,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav className="mx-auto mt-2 flex max-w-[1120px] flex-col gap-1 rounded-[28px] border border-white/70 bg-white/90 p-3 shadow-[0_20px_50px_-20px_rgba(8,21,45,0.35)] backdrop-blur-xl lg:hidden">
+        <nav className="mx-auto mt-2 flex max-w-[1060px] flex-col gap-1 rounded-[28px] border border-white/70 bg-white/90 p-3 shadow-[0_20px_50px_-20px_rgba(8,21,45,0.35)] backdrop-blur-xl lg:hidden">
           {nav.map((item) => (
             <Link
               key={item.href}

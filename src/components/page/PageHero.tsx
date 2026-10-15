@@ -69,7 +69,7 @@ export default function PageHero({
             immediate
             delay={0.2}
             text={title}
-            className="lux-display mt-6 max-w-[17ch] text-[clamp(2.4rem,5vw,4.6rem)] leading-[1.02] tracking-[-0.04em]"
+            className="lux-display mt-6 max-w-[17ch] text-[clamp(2.4rem,5vw,4.6rem)] leading-[1.02]"
           />
           <motion.div {...rise(0.6)} className="mt-7">
             <BrandTagline onDark size="md" />

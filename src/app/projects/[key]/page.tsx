@@ -159,7 +159,7 @@ function Inside({ project: p }: { project: Project }) {
       <div className="mx-auto max-w-[1320px]">
         <Reveal>
           <p className="lux-label text-accent-soft">Inside the project</p>
-          <h2 className="mt-6 max-w-[18ch] font-sans text-[clamp(2.2rem,4vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
+          <h2 className="lux-display mt-6 max-w-[18ch] text-[clamp(2.2rem,4vw,3.6rem)]">
             See it before you visit.
           </h2>
         </Reveal>
@@ -224,7 +224,7 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
           </span>
           <div>
             <p className="lux-label text-royal">Project brochure</p>
-            <h2 className="mt-4 font-sans text-[clamp(1.6rem,2.6vw,2.25rem)] font-semibold leading-tight tracking-[-0.025em]">
+            <h2 className="lux-display mt-4 text-[clamp(1.6rem,2.6vw,2.25rem)] leading-tight">
               {p.name} brochure
             </h2>
             <p className="mt-2 font-text text-[15px] text-slate-ink">

@@ -106,6 +106,7 @@ export function ParallaxImage({
   src,
   alt,
   className = "",
+  imageClassName = "",
   sizes = "100vw",
   range = 60,
   priority = false,
@@ -113,6 +114,7 @@ export function ParallaxImage({
   src: string;
   alt: string;
   className?: string;
+  imageClassName?: string;
   sizes?: string;
   range?: number;
   priority?: boolean;
@@ -125,7 +127,7 @@ export function ParallaxImage({
   return (
     <div ref={ref} className={`relative overflow-hidden ${className}`}>
       <motion.div style={{ y }} className="absolute -inset-y-[12%] inset-x-0">
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={`object-cover ${imageClassName}`} />
       </motion.div>
     </div>
   );

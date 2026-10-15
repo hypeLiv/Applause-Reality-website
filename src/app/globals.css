@@ -29,6 +29,7 @@
   /* Inter everywhere; Hind only fills in Devanagari glyphs Inter lacks. */
   --font-sans: var(--ff-inter), var(--ff-hind), system-ui, sans-serif;
   --font-display: var(--font-sans);
+  --font-heading: var(--ff-fraunces), var(--ff-hind), Georgia, serif;
   --font-text: var(--font-sans);
   --font-inter: var(--font-sans);
   --font-aether: var(--font-sans);
@@ -95,9 +96,10 @@ body {
   opacity: 0.45;
 }
 
+/* Section headings: extra-light Fraunces, optical size tracks font size. */
 .lux-display {
-  font-family: var(--font-sans);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-weight: 200;
   line-height: 1.04;
   letter-spacing: -0.03em;
 }
@@ -231,8 +233,9 @@ body {
 .lux-prose h2 {
   margin-top: 3.25rem;
   color: var(--color-ink-900);
-  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 300;
   line-height: 1.2;
   letter-spacing: -0.02em;
   scroll-margin-top: 7rem;
@@ -308,4 +311,81 @@ body {
   padding: 1.25rem 1.5rem;
   font-size: 0.9rem;
   line-height: 1.65;
+}
+
+/* ---------- First-visit intro ---------- */
+/* A midnight wall slides off an ivory stage, uncovering the wordmark; the
+   stage then lifts away. Hidden outright once html.intro-done is set. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+}
+.intro-done .intro {
+  display: none;
+}
+.intro-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  background: var(--color-ivory);
+  color: var(--color-ink-950);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.9s var(--ease-lux);
+}
+.intro[data-state="lift"] .intro-stage {
+  clip-path: inset(0 0 100% 0);
+}
+.intro-word {
+  font-family: var(--font-heading);
+  font-weight: 200;
+  font-size: clamp(3.25rem, 11vw, 10.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+.intro-word em {
+  font-style: normal;
+  color: #8a93a8;
+}
+/* Mostly Devanagari, so no wide tracking: it breaks the headline stroke. */
+.intro-tag {
+  font-family: var(--font-text);
+  font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-ink-900);
+}
+.intro-wall {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink-950);
+  box-shadow: -40px 0 80px -20px rgb(5 12 31 / 0.45);
+  will-change: transform;
+}
+/* Leading edge: an accent hairline carrying the load counter. */
+.intro-edge {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 1px;
+  background: var(--color-accent);
+}
+.intro-count {
+  position: absolute;
+  top: 50%;
+  left: 1.25rem;
+  transform: translateY(-50%);
+  font-family: var(--font-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  font-variant-numeric: tabular-nums;
+  color: rgb(247 244 238 / 0.6);
 }

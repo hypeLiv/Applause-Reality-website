@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
+import { Arrow } from "@/components/home/ui";
 import { site } from "@/lib/site";
 import { useIsMobileDevice } from "@/lib/useIsMobileDevice";
 
@@ -14,8 +15,13 @@ const fields = [
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-const inputClass =
-  "mt-1.5 h-12 w-full rounded-xl border border-ink-900/15 bg-white px-4 text-base text-ink-900 outline-none transition-colors focus:border-royal";
+/** Field shell: white on both the ivory and white cards, royal focus halo, red only after interaction. */
+const shell =
+  "peer w-full rounded-2xl border border-ink-900/[0.12] bg-white px-4 font-text text-[15px] text-ink-900 shadow-[inset_0_1px_2px_rgba(11,23,51,0.04)] outline-none focus-visible:outline-none transition-[border-color,box-shadow] duration-200 hover:border-ink-900/25 focus:border-royal focus:shadow-[0_0_0_4px_rgba(36,69,160,0.12)] user-invalid:border-[#c2410c] user-invalid:focus:shadow-[0_0_0_4px_rgba(194,65,12,0.12)]";
+
+/** Label that rests inside the field and floats up once it is focused or filled. */
+const floatLabel =
+  "pointer-events-none absolute top-[1.15rem] origin-left font-text text-[15px] text-slate-ink/80 transition-all duration-200 peer-focus:top-2.5 peer-focus:text-[11px] peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-[0.12em] peer-focus:text-royal peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.12em]";
 
 /**
  * Phones hand the details to WhatsApp (where the conversation continues);
@@ -23,6 +29,7 @@ const inputClass =
  */
 export default function AdvisorForm({ withMessage = false }: { withMessage?: boolean }) {
   const mobile = useIsMobileDevice();
+  const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [fallback, setFallback] = useState<string>(site.emailHref);
 
@@ -77,41 +84,68 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
-      {fields.map((f) => (
-        <label
-          key={f.name}
-          className={`block font-text text-[13px] font-medium text-slate-ink ${f.name === "email" || f.name === "company" ? "sm:col-span-2" : ""}`}
-        >
-          {f.label}*
-          {f.name === "phone" ? (
-            <span className="mt-1.5 flex items-center gap-2 rounded-xl border border-ink-900/15 bg-white px-4 transition-colors focus-within:border-royal">
-              <span aria-hidden>🇮🇳</span>
-              <input
-                required
-                name={f.name}
-                type={f.type}
-                autoComplete={f.autoComplete}
-                className="h-12 w-full bg-transparent text-base text-ink-900 outline-none"
-              />
-            </span>
-          ) : (
-            <input required name={f.name} type={f.type} autoComplete={f.autoComplete} className={inputClass} />
-          )}
-        </label>
-      ))}
+    <form onSubmit={onSubmit} className="grid gap-3.5 sm:grid-cols-2">
+      {fields.map((f) => {
+        const id = `${uid}-${f.name}`;
+        const wide = f.name === "email";
+        return (
+          <div key={f.name} className={`relative ${wide ? "sm:col-span-2" : ""}`}>
+            {f.name === "phone" ? (
+              <>
+                <input
+                  required
+                  id={id}
+                  name={f.name}
+                  type={f.type}
+                  autoComplete={f.autoComplete}
+                  inputMode="tel"
+                  placeholder=" "
+                  className={`${shell} h-[3.75rem] pb-2 pl-[4.25rem] pt-6`}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-y-0 left-4 flex items-center border-r border-ink-900/10 pr-3 font-text text-[15px] font-semibold text-ink-900"
+                >
+                  +91
+                </span>
+                <label htmlFor={id} className={`${floatLabel} left-[4.25rem]`}>
+                  {f.label}
+                </label>
+              </>
+            ) : (
+              <>
+                <input
+                  required
+                  id={id}
+                  name={f.name}
+                  type={f.type}
+                  autoComplete={f.autoComplete}
+                  placeholder=" "
+                  className={`${shell} h-[3.75rem] pb-2 pt-6`}
+                />
+                <label htmlFor={id} className={`${floatLabel} left-4`}>
+                  {f.label}
+                </label>
+              </>
+            )}
+          </div>
+        );
+      })}
 
       {withMessage && (
-        <label className="block font-text text-[13px] font-medium text-slate-ink sm:col-span-2">
-          What are you looking for? <span className="font-normal text-slate-ink/70">(optional)</span>
+        <div className="relative sm:col-span-2">
           <textarea
+            id={`${uid}-message`}
             name="message"
             rows={4}
             maxLength={1000}
             placeholder="e.g. 3 BHK in Greater Noida, budget ₹2–3 Cr, home-loan support"
-            className={`${inputClass} h-auto resize-y py-3`}
+            className={`${shell} min-h-[8.5rem] resize-y pb-3 pt-8 leading-relaxed placeholder:text-transparent focus:placeholder:text-slate-ink/45`}
           />
-        </label>
+          <label htmlFor={`${uid}-message`} className={`${floatLabel} left-4`}>
+            What are you looking for? <span className="normal-case tracking-normal opacity-70">(optional)</span>
+          </label>
+        </div>
       )}
 
       {/* Honeypot: hidden from people, filled in by bots. */}
@@ -123,10 +157,14 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
       <button
         type="submit"
         disabled={status === "sending"}
-        className="lux-focus mt-2 h-14 w-full rounded-full bg-ink-900 font-text text-[15px] font-semibold text-ivory transition-colors hover:bg-royal disabled:cursor-wait disabled:opacity-70 sm:col-span-2"
+        className="lux-focus group mt-3 inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-ink-900 font-text text-[15px] font-semibold text-ivory shadow-[0_18px_36px_-18px_rgba(11,23,51,0.6)] transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-royal active:translate-y-0 disabled:cursor-wait disabled:opacity-70 sm:col-span-2"
       >
         {status === "sending" ? "Sending…" : mobile ? "Continue on WhatsApp" : "Request a callback"}
+        {status !== "sending" && <Arrow />}
       </button>
+      <p className="text-center font-text text-[13px] text-slate-ink/80 sm:col-span-2">
+        {mobile ? "Opens WhatsApp with your details filled in." : "Sent straight to the Applause Reality advisory team."}
+      </p>
 
       {status === "sent" && mobile && (
         <p role="status" className="text-center text-sm text-slate-ink sm:col-span-2">

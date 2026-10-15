@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/home/SmoothScroll";
 import { Arrow, Icon, type IconName, lux } from "@/components/home/ui";
 import AwardWall, { type Award } from "@/components/page/AwardWall";
 import JourneyLine from "@/components/page/JourneyLine";
+import RollingJourney from "@/components/page/RollingJourney";
 import Tilt from "@/components/page/Tilt";
 import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
@@ -45,11 +46,18 @@ const proofs: { value: React.ReactNode; label: string; text: string }[] = [
   },
 ];
 
-const services: { icon: IconName; title: string; text: string }[] = [
-  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living." },
-  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts." },
-  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios." },
-  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships." },
+const services: { icon: IconName; title: string; text: string; photo: string; alt: string }[] = [
+  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living.", photo: "/images/pillars/homes.jpg", alt: "Warmly lit living room with night city views" },
+  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.", photo: "/images/pillars/commercial.jpg", alt: "Office tower lit up at dusk" },
+  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios.", photo: "/images/pillars/investment.jpg", alt: "Residential towers at blue hour" },
+  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships.", photo: "/images/pillars/loans.jpg", alt: "A house key on a dark surface" },
+];
+
+const journey: { icon: IconName; title: string; text: string }[] = [
+  { icon: "pin", title: "First visit", text: "Shortlisted, bank-approved options and site visits we attend with you." },
+  { icon: "document", title: "Booking", text: "Every form, check and signature handled with complete transparency." },
+  { icon: "bank", title: "Bank approval", text: "Loan processing through our SBI and PNB relationships." },
+  { icon: "key", title: "Possession & beyond", text: "Keys in hand — and still on call long after the handover." },
 ];
 
 const awards: Award[] = [
@@ -240,8 +248,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4 · The journey we walk with you */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+      {/* 4 · The journey we walk with you: a rolling scroll scene on desktop, the drawn timeline below lg */}
+      <RollingJourney
+        className="hidden lg:block"
+        label="Walking with you"
+        title="One family guide, *every* milestone."
+        intro="The road to a home can get bumpy. We stay beside you from the first visit and booking to bank approvals and possession, and on into the years after."
+        route={["First visit", "Keys in hand"]}
+        steps={journey}
+      />
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32 lg:hidden">
         <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[460px] w-[620px] rounded-full bg-royal/25 blur-[150px]" />
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -258,14 +274,7 @@ export default function AboutPage() {
               </p>
             </Reveal>
           </div>
-          <JourneyLine
-            steps={[
-              { icon: "pin", title: "First visit", text: "Shortlisted, bank-approved options and site visits we attend with you." },
-              { icon: "document", title: "Booking", text: "Every form, check and signature handled with complete transparency." },
-              { icon: "bank", title: "Bank approval", text: "Loan processing through our SBI and PNB relationships." },
-              { icon: "key", title: "Possession & beyond", text: "Keys in hand — and still on call long after the handover." },
-            ]}
-          />
+          <JourneyLine steps={journey} />
         </div>
       </section>
 
@@ -286,17 +295,36 @@ export default function AboutPage() {
               </p>
             </Reveal>
           </div>
-          <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Photo panels. On desktop they share one row and the hovered panel widens; the
+              first stays open while the row is idle. Copy is always visible, so touch loses nothing. */}
+          <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:flex lg:h-[34rem] lg:gap-3 [&:not(:hover)>li:first-child]:lg:flex-[2.1]">
             {services.map((s, i) => (
-              <li key={s.title}>
-                <Reveal delay={i * 0.06} className="h-full">
-                  <article className="group flex h-full flex-col rounded-[22px] bg-white p-7 shadow-[0_1px_0_rgba(11,23,51,0.05),0_30px_60px_-40px_rgba(11,23,51,0.35)] transition-transform duration-300 ease-[var(--ease-lux)] hover:-translate-y-1">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-ink-900 text-white transition-colors duration-300 group-hover:bg-royal">
-                      <Icon name={s.icon} className="h-6 w-6" />
+              <li
+                key={s.title}
+                className="group relative isolate min-h-[22rem] overflow-hidden rounded-[24px] bg-ink-950 text-ivory transition-[flex-grow] duration-700 ease-[var(--ease-lux)] sm:min-h-[26rem] lg:min-h-0 lg:flex-1 lg:hover:flex-[2.1]"
+              >
+                <Image
+                  src={s.photo}
+                  alt={s.alt}
+                  fill
+                  sizes="(min-width: 1024px) 40vw, (min-width: 640px) 50vw, 100vw"
+                  className="-z-10 object-cover opacity-80 transition-[transform,opacity] duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.04] group-hover:opacity-95"
+                />
+                <span aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950 via-ink-950/55 via-45% to-ink-950/10" />
+
+                <Reveal delay={i * 0.06} className="flex h-full flex-col justify-between p-7 md:p-8">
+                  <div className="flex items-center justify-between">
+                    <span className="font-text text-xs font-semibold tabular-nums tracking-[0.18em] text-accent-soft">
+                      {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="mt-8 font-sans text-xl font-semibold tracking-[-0.015em]">{s.title}</h3>
-                    <p className="mt-3 font-text text-[15px] leading-relaxed text-slate-ink">{s.text}</p>
-                  </article>
+                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md">
+                      <Icon name={s.icon} className="h-5 w-5" />
+                    </span>
+                  </div>
+                  <div className="max-w-[22rem]">
+                    <h3 className="font-sans text-2xl font-semibold leading-tight tracking-[-0.02em]">{s.title}</h3>
+                    <p className="mt-3 font-text text-[15px] leading-relaxed text-ivory/75">{s.text}</p>
+                  </div>
                 </Reveal>
               </li>
             ))}

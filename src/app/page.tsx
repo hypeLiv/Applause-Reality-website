@@ -4,7 +4,6 @@ import Hero from "@/components/home/Hero";
 import Journey from "@/components/home/Journey";
 import Partners from "@/components/home/Partners";
 import Promise from "@/components/home/Promise";
-import Showcase from "@/components/home/Showcase";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import Stats from "@/components/home/Stats";
 import Testimonials from "@/components/home/Testimonials";
@@ -18,7 +17,6 @@ export default function Home() {
       <Promise />
       <Walkthrough />
       <Journey />
-      <Showcase />
       <Stats />
       <Finance />
       <Testimonials />
