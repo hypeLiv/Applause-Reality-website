@@ -3,7 +3,7 @@ import { cache } from "react";
 import type { Award } from "@/components/page/AwardWall";
 import { type Post, posts } from "@/content/posts";
 import localHashes from "@/content/blurhashes.json";
-import { type Project, projects } from "@/content/projects";
+import { GALLERY_GROUPS, type GalleryImage, type Project, projects } from "@/content/projects";
 import { blurhashToDataURL } from "@/lib/blurhash";
 import { apiVersion, dataset, projectId, sanityEnabled } from "./env";
 import { MEDIA_QUERY } from "./queries";
@@ -180,12 +180,27 @@ export const getProjects = cache(async (): Promise<Project[]> => {
       photoAlt: photo.alt,
       logo: { src: logo.src, alt: logo.alt, w: logo.width, h: logo.height },
       highlights: doc.highlights?.src ?? p.highlights,
+      gallery: pickGallery(doc.gallery, p.gallery),
       film,
       brochure: doc.brochure ?? p.brochure,
       brochureBytes: doc.brochureBytes ?? undefined,
     };
   });
 });
+
+type SanityGallery = { src: string | null; alt: string | null; caption: string | null; group: string | null; width: number | null; height: number | null }[] | null | undefined;
+
+/** The Sanity gallery when it has any usable images, otherwise the bundled one. */
+function pickGallery(s: SanityGallery, fallback: GalleryImage[] | undefined): GalleryImage[] | undefined {
+  const items = (s ?? []).flatMap((g): GalleryImage[] =>
+    g.src && g.caption && GALLERY_GROUPS.includes(g.group as GalleryImage["group"])
+      ? [{ src: g.src, alt: g.alt || g.caption, caption: g.caption, group: g.group as GalleryImage["group"], width: g.width ?? 1600, height: g.height ?? 1000 }]
+      : [],
+  );
+  // Group order comes from GALLERY_GROUPS; order within a group is the editor's.
+  items.sort((a, b) => GALLERY_GROUPS.indexOf(a.group) - GALLERY_GROUPS.indexOf(b.group));
+  return items.length ? items : fallback;
+}
 
 export async function getProjectMedia(key: string) {
   return (await getProjects()).find((p) => p.key === key);
