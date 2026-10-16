@@ -291,7 +291,7 @@ function Milestone({
 
 function Stacked() {
   return (
-    <div className="px-6 py-24">
+    <div className="px-4 sm:px-6 py-24">
       <Reveal>
         <p className="lux-label text-accent-soft">End-to-end stewardship</p>
       </Reveal>

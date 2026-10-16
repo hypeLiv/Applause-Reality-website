@@ -59,7 +59,7 @@ export default function PageHero({
 
         <motion.div
           style={{ opacity: fade }}
-          className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-center px-6 pb-10 pt-32 md:px-12"
+          className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-center px-4 sm:px-6 pb-10 pt-32 md:px-12"
         >
           <motion.p {...rise(0.1)} className="lux-label text-accent-soft">
             {eyebrow}
@@ -88,7 +88,7 @@ export default function PageHero({
         </motion.div>
 
         {children && (
-          <motion.div {...rise(1)} className="mx-auto w-full max-w-[1320px] px-6 pb-6 md:px-12 md:pb-8">
+          <motion.div {...rise(1)} className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 pb-6 md:px-12 md:pb-8">
             {children}
           </motion.div>
         )}

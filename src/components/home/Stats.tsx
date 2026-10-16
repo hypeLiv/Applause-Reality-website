@@ -27,7 +27,7 @@ export default async function Stats() {
   ];
 
   return (
-    <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-28 text-ivory md:px-10 md:py-36">
+    <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 py-28 text-ivory md:px-10 md:py-36">
       <div className="absolute left-1/2 top-0 -z-10 h-[460px] w-[900px] -translate-x-1/2 rounded-full bg-royal/35 blur-[150px]" />
       {/* Starts in the Journey section's ink so the two dark sections meet without a seam. */}
       <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-ink-900 to-transparent" />

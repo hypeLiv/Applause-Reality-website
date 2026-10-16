@@ -16,7 +16,7 @@ export default function Promise() {
   const words = statement.split(" ");
 
   return (
-    <section className="lux-scope lux-on-light bg-ivory px-6 py-28 text-ink-900 md:px-10 md:py-40">
+    <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-28 text-ink-900 md:px-10 md:py-40">
       <div className="mx-auto max-w-[1100px]">
         <Reveal>
           <p className="lux-label text-royal">Our partnership promise</p>

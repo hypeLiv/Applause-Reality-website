@@ -47,7 +47,7 @@ function Row({ project: p, index }: { project: Project; index: number }) {
   const flip = index % 2 === 1;
 
   return (
-    <li ref={ref} id={p.key} data-expand-root className="relative scroll-mt-28 pb-20 pl-10 last:pb-0 md:pb-28 lg:pl-0">
+    <li ref={ref} id={p.key} data-expand-root className="relative scroll-mt-28 pb-20 pl-7 last:pb-0 sm:pl-10 md:pb-28 lg:pl-0">
       {/* Node on the spine */}
       <span
         aria-hidden
@@ -57,7 +57,7 @@ function Row({ project: p, index }: { project: Project; index: number }) {
       </span>
 
       <motion.div style={{ opacity }} className="grid items-start gap-6 lg:grid-cols-2 lg:gap-24">
-        <article className={`rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-7 md:p-10 ${flip ? "lg:order-2" : ""}`}>
+        <article className={`rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-5 sm:p-7 md:p-10 ${flip ? "lg:order-2" : ""}`}>
           <ProjectDetails project={p} index={index} />
         </article>
 

@@ -150,7 +150,7 @@ export default async function ProjectsPage() {
 
       {/* Corridors, each carrying its own launches */}
       <div id="launches" className="lux-scope relative bg-ink-950 pb-24 text-ivory md:pb-32">
-        <header className="mx-auto max-w-[1320px] px-6 pb-14 pt-24 md:px-10 md:pt-32">
+        <header className="mx-auto max-w-[1320px] px-4 sm:px-6 pb-14 pt-24 md:px-10 md:pt-32">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <Reveal>
@@ -193,7 +193,7 @@ export default async function ProjectsPage() {
             key={c.id}
             id={c.id}
             aria-labelledby={`${c.id}-title`}
-            className="scroll-mt-36 px-6 pt-16 md:px-10 md:pt-24"
+            className="scroll-mt-36 px-4 pt-16 sm:px-6 md:px-10 md:pt-24"
           >
             <div className="mx-auto max-w-[1320px]">
               <div className="grid gap-10 border-t border-white/10 pt-12 lg:grid-cols-12 lg:gap-10">
@@ -241,7 +241,7 @@ export default async function ProjectsPage() {
       </div>
 
       {/* Strategic advantages: one wide photo, the four hubs on a panel that overlaps its foot. */}
-      <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -271,9 +271,9 @@ export default async function ProjectsPage() {
             />
           </Reveal>
 
-          <ol className="relative mx-3 -mt-20 grid gap-px overflow-hidden rounded-[24px] bg-ink-900/[0.08] shadow-[0_40px_80px_-40px_rgba(11,23,51,0.4)] ring-1 ring-ink-900/[0.06] sm:grid-cols-2 md:mx-8 md:-mt-28 lg:mx-12 lg:grid-cols-4">
+          <ol className="relative mx-1.5 -mt-20 grid gap-px overflow-hidden rounded-[24px] bg-ink-900/[0.08] shadow-[0_40px_80px_-40px_rgba(11,23,51,0.4)] ring-1 ring-ink-900/[0.06] sm:mx-3 sm:grid-cols-2 md:mx-8 md:-mt-28 lg:mx-12 lg:grid-cols-4">
             {advantages.map((a, i) => (
-              <li key={a.title} className="group bg-white p-7 transition-colors duration-300 hover:bg-ivory md:p-8">
+              <li key={a.title} className="group bg-white p-5 transition-colors duration-300 hover:bg-ivory sm:p-7 md:p-8">
                 <Reveal delay={i * 0.06}>
                   <div className="flex items-center justify-between">
                     <p className="flex items-center gap-2 font-text text-xs font-semibold uppercase tracking-[0.16em] text-royal">
@@ -284,7 +284,7 @@ export default async function ProjectsPage() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
-                  <h3 className="mt-8 font-sans text-xl font-semibold leading-snug tracking-[-0.015em] md:text-[1.35rem]">
+                  <h3 className="mt-6 font-sans text-xl font-semibold leading-snug tracking-[-0.015em] sm:mt-8 md:text-[1.35rem]">
                     {a.title}
                   </h3>
                   <p className="mt-3 font-text text-[15px] leading-relaxed text-slate-ink">{a.text}</p>
@@ -296,7 +296,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Banking perks */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-20 text-ink-900 md:px-10 md:py-24">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-20 text-ink-900 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-[1320px] items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
           <div>
             <Reveal>
@@ -327,7 +327,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Questions we answer */}
-      <section className="lux-scope bg-ink-900 px-6 py-24 text-ivory md:px-10 md:py-32">
+      <section className="lux-scope bg-ink-900 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
         <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
@@ -362,7 +362,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Promise */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-center text-ink-900 md:py-28">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-center text-ink-900 md:py-28">
         <Reveal>
           <p className="lux-label justify-center text-royal">Our partnership promise</p>
           <BrandTagline size="lg" align="center" className="mt-8" />

@@ -17,7 +17,7 @@ export default async function Partners() {
 
   return (
     <section className="lux-scope lux-on-light bg-ivory py-28 text-ink-900 md:py-36">
-      <div className="mx-auto max-w-[1100px] px-6 text-center md:px-10">
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-6 text-center md:px-10">
         <Reveal>
           <p className="lux-label text-royal">Aligned with global quality standards</p>
         </Reveal>

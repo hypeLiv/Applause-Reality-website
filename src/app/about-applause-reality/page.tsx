@@ -82,7 +82,7 @@ export default async function AboutPage() {
       <SmoothScroll />
 
       {/* 1 · Founder hero */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-24 pt-36 text-ivory md:px-10 md:pb-32 md:pt-44">
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-24 pt-36 text-ivory md:px-10 md:pb-32 md:pt-44">
         <div aria-hidden className="absolute -left-48 top-10 -z-10 h-[520px] w-[640px] rounded-full bg-royal/30 blur-[150px]" />
         <div className="mx-auto grid max-w-[1320px] items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           <div>
@@ -173,7 +173,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 2 · The founder's story */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
           <div>
             <div className="lg:sticky lg:top-32">
@@ -205,7 +205,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 3 · Mission & proof */}
-      <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <Reveal>
             <p className="lux-label text-royal">Our mission</p>
@@ -257,7 +257,7 @@ export default async function AboutPage() {
         route={["First visit", "Keys in hand"]}
         steps={journey}
       />
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32 lg:hidden">
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32 lg:hidden">
         <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[460px] w-[620px] rounded-full bg-royal/25 blur-[150px]" />
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -279,7 +279,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 5 · Services */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -333,7 +333,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 6 · Recognition */}
-      <section className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+      <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -356,7 +356,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 7 · Client stories */}
-      <section id="stories" className="lux-scope lux-on-light scroll-mt-24 bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section id="stories" className="lux-scope lux-on-light scroll-mt-24 bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>

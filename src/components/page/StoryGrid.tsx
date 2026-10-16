@@ -23,7 +23,7 @@ export default function StoryGrid({
   stories: PageStory[];
 }) {
   return (
-    <section className="lux-scope bg-ink-900 px-6 py-24 text-ivory md:px-10 md:py-32">
+    <section className="lux-scope bg-ink-900 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>

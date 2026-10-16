@@ -111,7 +111,7 @@ export default async function ProjectPage({ params }: Params) {
 
 function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; pnb: Img } }) {
   return (
-    <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <Breadcrumbs
           items={[
@@ -167,7 +167,7 @@ function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; 
 function Inside({ project: p }: { project: Project }) {
   const film = p.film;
   return (
-    <section className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+    <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <Reveal>
           <p className="lux-label text-accent-soft">Inside the project</p>
@@ -227,7 +227,7 @@ function Inside({ project: p }: { project: Project }) {
 
 function Brochure({ project: p, size }: { project: Project; size: string | null }) {
   return (
-    <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-6 py-20 text-ink-900 md:px-10 md:py-28">
+    <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-4 sm:px-6 py-20 text-ink-900 md:px-10 md:py-28">
       <Reveal className="mx-auto max-w-[1320px]">
         <div className="grid items-center gap-8 rounded-[28px] bg-white p-7 ring-1 ring-ink-900/[0.06] md:grid-cols-[auto_1fr_auto] md:gap-10 md:p-10">
           <span className="relative grid h-24 w-20 place-items-center rounded-xl bg-ink-900 text-white">
@@ -259,7 +259,7 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
 
 function OtherLaunches({ projects: list }: { projects: Project[] }) {
   return (
-    <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

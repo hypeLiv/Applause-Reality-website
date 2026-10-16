@@ -27,14 +27,14 @@ export default async function ClosingCta({
   const bg = image ?? (await getSiteMedia()).ctaImage.src;
 
   return (
-    <section className="lux-scope relative isolate flex min-h-[92svh] items-center overflow-hidden bg-ink-950 px-6 py-28 text-ivory md:px-10">
+    <section className="lux-scope relative isolate flex min-h-[92svh] items-center overflow-hidden bg-ink-950 px-3 py-28 text-ivory sm:px-6 md:px-10">
       <ParallaxImage src={bg} alt="" range={90} className="!absolute inset-0 -z-20" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-950/70 via-ink-950/45 to-ink-950/85" />
 
       <Bezel
         tone="glass"
         className="mx-auto w-full max-w-[820px]"
-        coreClassName="bg-gradient-to-b from-ink-900/80 to-ink-950/85 px-8 py-14 text-center md:px-16 md:py-20"
+        coreClassName="bg-gradient-to-b from-ink-900/80 to-ink-950/85 px-5 py-12 text-center sm:px-8 sm:py-14 md:px-16 md:py-20"
       >
         <Reveal>
           <p className="lux-label justify-center text-accent-soft">{label}</p>

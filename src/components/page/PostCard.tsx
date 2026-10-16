@@ -5,7 +5,7 @@ import CoverImage from "./CoverImage";
 
 export function PostMeta({ post, onDark = false }: { post: Post; onDark?: boolean }) {
   return (
-    <span className={`flex items-center gap-3 font-text text-[13px] ${onDark ? "text-ivory/60" : "text-slate-ink"}`}>
+    <span className={`flex flex-wrap items-center gap-x-3 gap-y-1 whitespace-nowrap font-text text-[13px] ${onDark ? "text-ivory/60" : "text-slate-ink"}`}>
       <span className="font-semibold">{post.topic}</span>
       <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-40" />
       <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -52,7 +52,7 @@ export function PostCard({ post, wide = false }: { post: Post; wide?: boolean })
           zoom
           className={wide ? "aspect-[16/10] md:aspect-auto md:min-h-[260px]" : "aspect-[16/10]"}
         />
-        <span className="flex flex-1 flex-col p-6 md:p-7">
+        <span className="flex flex-1 flex-col p-5 sm:p-6 md:p-7">
           <PostMeta post={post} />
           <span className="mt-3 block font-sans text-[1.35rem] font-semibold leading-snug tracking-[-0.02em] transition-colors duration-500 ease-[var(--ease-spring)] group-hover:text-royal">
             {post.title}

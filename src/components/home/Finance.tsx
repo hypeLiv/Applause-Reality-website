@@ -58,7 +58,7 @@ export default async function Finance() {
         </Reveal>
       </div>
 
-      <div className="relative -mt-[clamp(4.5rem,14vw,12rem)] px-6 pb-28 md:px-10 md:pb-36">
+      <div className="relative -mt-[clamp(4.5rem,14vw,12rem)] px-4 sm:px-6 pb-28 md:px-10 md:pb-36">
         <div className="mx-auto max-w-[1320px]">
           <Reveal>
             <p className="lux-label text-accent-soft">Financial consulting</p>

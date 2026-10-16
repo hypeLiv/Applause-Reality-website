@@ -20,7 +20,7 @@ const reasons = [
 
 export default function ConsultationPage() {
   return (
-    <section className="lux-scope lux-on-light bg-ivory px-6 pb-24 pt-32 text-ink-900 md:px-10 md:pt-40">
+    <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 pb-24 pt-32 text-ink-900 md:px-10 md:pt-40">
       <div className="mx-auto grid max-w-[1200px] gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div>
           <p className="lux-label text-royal">Free consultation</p>

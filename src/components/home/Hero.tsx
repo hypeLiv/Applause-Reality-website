@@ -77,7 +77,7 @@ export default function Hero({
 
         <motion.div
           style={{ y: contentY, opacity: fade }}
-          className="mx-auto grid w-full max-w-[1320px] flex-1 items-center gap-12 px-6 pb-8 pt-28 md:px-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16"
+          className="mx-auto grid w-full max-w-[1320px] flex-1 items-center gap-12 px-4 sm:px-6 pb-8 pt-28 md:px-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16"
         >
           {/* Brand promise */}
           <div>
@@ -125,7 +125,7 @@ export default function Hero({
         {/* Bottom bar: direct line + trust signals */}
         <motion.div
           {...rise(1.1)}
-          className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center gap-x-8 gap-y-4 px-6 pb-6 md:px-12 md:pb-8"
+          className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center gap-x-8 gap-y-4 px-4 sm:px-6 pb-6 md:px-12 md:pb-8"
         >
           <a
             href={site.phone.href}

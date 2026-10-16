@@ -26,7 +26,7 @@ export default async function BlogPage() {
       <SmoothScroll />
 
       {/* Masthead */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-40 pt-40 text-ivory md:px-10 md:pb-52 md:pt-48">
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-40 pt-40 text-ivory md:px-10 md:pb-52 md:pt-48">
         <div aria-hidden className="absolute -right-40 -top-40 -z-10 h-[520px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
         <div className="mx-auto grid max-w-[1320px] items-end gap-10 lg:grid-cols-[1.4fr_0.6fr]">
           <div>
@@ -54,7 +54,7 @@ export default async function BlogPage() {
       </section>
 
       {/* Featured, lifted over the masthead's edge */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 pb-28 text-ink-900 md:px-10 md:pb-40">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 pb-28 text-ink-900 md:px-10 md:pb-40">
         <div className="mx-auto max-w-[1320px]">
           <Reveal className="relative z-10 -mt-28 md:-mt-36">
             <Link
@@ -70,7 +70,7 @@ export default async function BlogPage() {
                   zoom
                   className="aspect-[16/10] lg:aspect-auto lg:min-h-[460px]"
                 />
-                <span className="flex flex-col justify-between gap-10 p-7 md:p-10">
+                <span className="flex flex-col justify-between gap-10 p-5 sm:p-7 md:p-10">
                   <span>
                     <span className="flex flex-wrap items-center gap-3">
                       <span className="rounded-full bg-royal px-3 py-1 font-text text-[11px] font-semibold uppercase tracking-[0.14em] text-white">

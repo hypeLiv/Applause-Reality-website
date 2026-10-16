@@ -33,7 +33,7 @@ const portrait: Film = {
  */
 export default function Showcase() {
   return (
-    <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 xl:py-20">
+    <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-ink-900 md:px-10 xl:py-20">
       <div className="film-wall mx-auto grid max-w-[1320px] gap-12 xl:grid-cols-[20rem_1fr] xl:items-center xl:gap-16">
         <div className="md:grid md:grid-cols-[1.2fr_0.8fr] md:items-end md:gap-10 xl:block">
           <div>

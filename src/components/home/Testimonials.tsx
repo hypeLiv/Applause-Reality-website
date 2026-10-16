@@ -27,7 +27,7 @@ export default function Testimonials() {
   return (
     <section
       id="advisor"
-      className="lux-scope relative overflow-hidden bg-ink-900 px-6 py-28 text-ivory md:px-10 md:py-36"
+      className="lux-scope relative overflow-hidden bg-ink-900 px-4 sm:px-6 py-28 text-ivory md:px-10 md:py-36"
     >
       <div className="mx-auto grid max-w-[1320px] gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
         <div

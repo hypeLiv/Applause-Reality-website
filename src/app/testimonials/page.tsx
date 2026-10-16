@@ -45,7 +45,7 @@ export default async function TestimonialsPage() {
       <JsonLd data={reviewSchema} />
 
       {/* Masthead */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-40 pt-36 text-ivory md:px-10 md:pb-52 md:pt-44">
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-40 pt-36 text-ivory md:px-10 md:pb-52 md:pt-44">
         <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[520px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
         <div className="mx-auto max-w-[1320px]">
           <Breadcrumbs
@@ -82,7 +82,7 @@ export default async function TestimonialsPage() {
       </section>
 
       {/* Lead review, lifted over the masthead's edge */}
-      <section className="lux-scope lux-on-light bg-white px-6 pb-24 text-ink-900 md:px-10 md:pb-32">
+      <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 pb-24 text-ink-900 md:px-10 md:pb-32">
         <div className="mx-auto max-w-[1320px]">
           {/* Asymmetric bento, lifted over the masthead: the lead review spans the left, the figures stack right. */}
           <div className="relative z-10 -mt-28 grid gap-4 md:-mt-36 lg:grid-cols-12 lg:grid-rows-3 lg:gap-5">

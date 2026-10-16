@@ -118,7 +118,7 @@ export default async function PostPage({ params }: Params) {
       <JsonLd data={articleSchema} />
 
       {/* Masthead */}
-      <header className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-56 pt-36 text-ivory md:px-10 md:pb-72 md:pt-44">
+      <header className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-56 pt-36 text-ivory md:px-10 md:pb-72 md:pt-44">
         <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[480px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
         <div className="mx-auto max-w-[920px]">
           <Reveal>
@@ -151,7 +151,7 @@ export default async function PostPage({ params }: Params) {
         </div>
       </header>
 
-      <div className="lux-scope lux-on-light bg-white px-6 pb-24 text-ink-900 md:px-10 md:pb-32">
+      <div className="lux-scope lux-on-light bg-white px-4 sm:px-6 pb-24 text-ink-900 md:px-10 md:pb-32">
         <Reveal className="relative z-10 mx-auto -mt-44 max-w-[1100px] md:-mt-60">
           <CoverImage
             src={post.cover}
@@ -218,7 +218,7 @@ export default async function PostPage({ params }: Params) {
       </div>
 
       {/* Keep reading */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-28">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-28">
         <div className="mx-auto max-w-[1320px]">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h2 className="lux-display text-[clamp(2rem,3.4vw,3rem)]">Keep reading</h2>
