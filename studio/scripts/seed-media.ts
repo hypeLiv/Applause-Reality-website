@@ -57,7 +57,7 @@ const settings = {
   locationsTour: {
     video: "/videos/locations-scrub.mp4",
     mobileVideo: "/videos/locations-scrub-mobile.mp4",
-    poster: { src: "/images/poster-locations.jpg", alt: "Aerial view over Delhi NCR towers" },
+    poster: { src: "/images/poster-locations.jpg", alt: "City lights under a dusk sky, seen from a drone" },
   },
   onSitePhoto: { src: "/images/construction-site.jpg", alt: "Residential towers under construction in Delhi NCR" },
   ctaImage: { src: "/images/residential-complex.jpg", alt: "Residential complex at dusk" },

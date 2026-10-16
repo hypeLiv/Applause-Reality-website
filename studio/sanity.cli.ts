@@ -7,6 +7,8 @@ export default defineCliConfig({
   },
   // Hosted at https://<studioHost>.sanity.studio after `npm run deploy`.
   studioHost: "applause-reality",
+  // Lets `npm run deploy` update the hosted Studio without prompting for which app.
+  deployment: { appId: "p3yu1atotesq0vq6zw2r4gji" },
   typegen: {
     path: "../src/sanity/**/*.ts",
     schema: "./schema.json",
