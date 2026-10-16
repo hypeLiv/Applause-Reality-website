@@ -12,6 +12,14 @@ export const site = {
   whatsapp: "https://api.whatsapp.com/send?phone=918796857733",
   // "Click to Know More" on project cards uses the second line.
   whatsappProjects: "https://api.whatsapp.com/send?phone=919971314877",
+  // The Google Business Profile: rating copied by hand (update as reviews come in).
+  // Links use the listing's feature ID: #lrd=…,1 opens its reviews, …,3 the write-a-review box.
+  google: {
+    rating: 4.9,
+    reviews: 35,
+    reviewsUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,1",
+    writeReviewUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,3",
+  },
 };
 
 export const nav = [

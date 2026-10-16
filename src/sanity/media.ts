@@ -69,7 +69,7 @@ const DEFAULTS = {
     investment: local("/images/pillars/investment.jpg", "Residential towers at blue hour"),
     homeLoans: local("/images/pillars/loans.jpg", "A house key on a dark surface"),
   },
-  homeHeroImage: local("/images/hero-skyline.jpg", "Living room with floor-to-ceiling windows overlooking a city skyline"),
+  homeHeroImage: local("/images/hero-towers-dusk.jpg", "Three residential towers reflected in still water at dusk"),
   homeWalkthrough: {
     src: "/videos/walkthrough-scrub.mp4",
     srcSmall: "/videos/walkthrough-scrub-mobile.mp4",

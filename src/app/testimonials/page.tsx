@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/home/SmoothScroll";
 import { Bezel } from "@/components/home/ui";
 import StoryGrid from "@/components/page/StoryGrid";
 import TestimonialCard from "@/components/page/TestimonialCard";
+import GoogleRating from "@/components/reviews/GoogleRating";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import { byline, outcomes, type Testimonial } from "@/content/testimonials";
@@ -144,7 +145,11 @@ export default async function TestimonialsPage() {
             </Reveal>
           </div>
 
-          <ul className="mt-14 columns-1 gap-6 md:columns-2 lg:columns-3">
+          <Reveal delay={0.1}>
+            <GoogleRating className="mt-12" />
+          </Reveal>
+
+          <ul className="mt-8 columns-1 gap-6 md:columns-2 lg:columns-3">
             {rest.map((t, i) => (
               <li key={t.name} className="mb-6 break-inside-avoid">
                 <Reveal delay={(i % 3) * 0.08}>
