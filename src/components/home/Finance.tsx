@@ -123,7 +123,7 @@ export default async function Finance() {
               <p className="lux-label text-accent-soft">Bank-trusted partner</p>
               <div className="mt-5 flex gap-3">
                 {banks.map((b) => (
-                  <span key={b.src} className="grid h-16 w-36 place-items-center rounded-xl bg-white px-4 md:h-20 md:w-44">
+                  <span key={b.src} className="grid h-16 w-32 place-items-center rounded-xl bg-white px-4 sm:w-36 md:h-20 md:w-44">
                     <Image src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-9 w-auto md:h-11" />
                   </span>
                 ))}

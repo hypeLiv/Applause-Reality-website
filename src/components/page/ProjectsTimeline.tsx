@@ -138,7 +138,7 @@ function HighlightsButton({ project: p }: { project: Project }) {
       <button
         type="button"
         onClick={() => ref.current?.showModal()}
-        className="lux-focus inline-flex items-center gap-2 font-text text-sm font-semibold text-ivory/80 underline-offset-4 hover:text-ivory hover:underline"
+        className="lux-focus -my-2 inline-flex items-center gap-2 py-2 font-text text-sm font-semibold text-ivory/80 underline-offset-4 hover:text-ivory hover:underline"
       >
         <Icon name="document" className="h-4 w-4" /> View highlights
       </button>

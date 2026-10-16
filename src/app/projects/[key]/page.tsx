@@ -213,7 +213,7 @@ function Inside({ project: p }: { project: Project }) {
               </a>
               <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
                 <span>Project highlights</span>
-                <a href={p.highlights} target="_blank" rel="noopener noreferrer" className="lux-focus font-semibold text-ivory/80 hover:text-ivory">
+                <a href={p.highlights} target="_blank" rel="noopener noreferrer" className="lux-focus -my-2 py-2 font-semibold text-ivory/80 hover:text-ivory">
                   Open full size ↗
                 </a>
               </figcaption>
