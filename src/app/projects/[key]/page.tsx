@@ -8,7 +8,7 @@ import VideoCard from "@/components/VideoCard";
 import ClosingCta from "@/components/home/ClosingCta";
 import { Reveal } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
-import { Arrow, Icon, lux } from "@/components/home/ui";
+import { Arrow, Bezel, Icon, lux } from "@/components/home/ui";
 import { ExpandLanding, ExpandLink } from "@/components/page/ExpandTransition";
 import PageHero from "@/components/page/PageHero";
 import { Cta } from "@/components/sections";
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const p = await findProject((await params).key);
   if (!p) return {};
   return pageMeta({
-    title: `${p.name}, ${p.location}`,
+    title: p.seoTitle ?? `${p.name}, ${p.location}`,
     description: p.metaDescription,
     path: `/projects/${p.key}`,
     images: [p.photo],
@@ -54,6 +54,10 @@ function fileSize(p: Project) {
 
 const promises = ["Safe NCR growth", "Bank approved", "Corporate & HR schemes"];
 
+const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+/** "Four" for 4, so small counts read as words in display headings. */
+const count = (n: number) => WORDS[n] ?? String(n);
+
 export default async function ProjectPage({ params }: Params) {
   const { key } = await params;
   const [all, media] = await Promise.all([getProjects(), getSiteMedia()]);
@@ -69,7 +73,7 @@ export default async function ProjectPage({ params }: Params) {
       <PageHero
         image={p.photo}
         alt={p.photoAlt}
-        eyebrow={p.location}
+        eyebrow={p.developer ? `${p.location} · By ${p.developer}` : p.location}
         title={p.name}
         lead={p.summary}
         actions={
@@ -94,6 +98,7 @@ export default async function ProjectPage({ params }: Params) {
       </PageHero>
 
       <Overview project={p} banks={{ sbi: media.partners.sbi.logo, pnb: media.partners.pnb.logo }} />
+      <Homes project={p} />
       <Inside project={p} />
       <Brochure project={p} size={size} />
       <OtherLaunches projects={others} />
@@ -159,6 +164,103 @@ function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; 
             </div>
           </Reveal>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/** Unit plans, included specifications and amenity chips, for projects that list them. */
+function Homes({ project: p }: { project: Project }) {
+  const { unitPlans, specs, amenities } = p;
+  if (!unitPlans?.length && !specs?.length && !amenities?.length) return null;
+  return (
+    <section className="lux-scope lux-on-light bg-ivory px-4 py-24 text-ink-900 sm:px-6 md:px-10 md:py-32">
+      <div className="mx-auto max-w-[1320px]">
+        <Reveal>
+          <p className="lux-label text-royal">Homes &amp; specifications</p>
+          <h2 className="lux-display mt-6 max-w-[18ch] text-[clamp(2.2rem,4vw,3.6rem)]">
+            {unitPlans?.length ? `${count(unitPlans.length)} plans, ` : ""}
+            <em>{specs?.length ? `${count(specs.length).toLowerCase()} inclusions.` : "every detail considered."}</em>
+          </h2>
+        </Reveal>
+
+        <div className="mt-14 grid items-start gap-5 lg:grid-cols-12">
+          {unitPlans?.length ? (
+            <Reveal className="lg:col-span-7">
+              <Bezel tone="light" coreClassName="bg-white p-5 sm:p-8">
+                <table className="w-full border-collapse text-left font-text">
+                  <caption className="sr-only">Unit plans</caption>
+                  <thead>
+                    <tr className="text-xs uppercase tracking-[0.14em] text-slate-ink">
+                      <th scope="col" className="pb-4 pr-3 font-semibold">Plan</th>
+                      <th scope="col" className="pb-4 pr-3 font-semibold">Saleable area</th>
+                      <th scope="col" className="hidden pb-4 font-semibold sm:table-cell">Towers</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {unitPlans.map((u) => (
+                      <tr key={u.plan} className="border-t border-ink-900/[0.08] align-top">
+                        <th scope="row" className="py-4 pr-3 font-sans text-[15px] font-semibold sm:text-base">
+                          {u.plan}
+                          {/* Phones fold the towers column in under the plan name. */}
+                          <span className="mt-1 block font-text text-sm font-normal text-slate-ink sm:hidden">
+                            Towers {u.towers}
+                          </span>
+                        </th>
+                        <td className="whitespace-nowrap py-4 pr-3 text-[15px] tabular-nums sm:text-base">{u.area}</td>
+                        <td className="hidden py-4 text-[15px] text-slate-ink sm:table-cell sm:text-base">{u.towers}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {p.planNote && (
+                  <p className="mt-6 border-t border-ink-900/[0.08] pt-5 font-text text-[15px] leading-relaxed text-slate-ink">
+                    {p.planNote}
+                  </p>
+                )}
+              </Bezel>
+            </Reveal>
+          ) : null}
+
+          {specs?.length ? (
+            <Reveal delay={0.08} className={unitPlans?.length ? "lg:col-span-5" : "lg:col-span-12"}>
+              <Bezel tone="ink" coreClassName="p-6 text-ivory sm:p-8">
+                <p className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-accent-soft">
+                  Included in the price
+                </p>
+                <ol className="mt-5 space-y-4">
+                  {specs.map((sp, i) => (
+                    <li key={sp.title} className="grid grid-cols-[2rem_1fr] gap-3 border-t border-white/10 pt-4 first:border-0 first:pt-0">
+                      <span className="font-text text-xs font-semibold tabular-nums tracking-[0.16em] text-accent">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span>
+                        <span className="block font-sans text-[15px] font-semibold sm:text-base">{sp.title}</span>
+                        {sp.detail && <span className="mt-0.5 block font-text text-sm text-ivory/60">{sp.detail}</span>}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </Bezel>
+            </Reveal>
+          ) : null}
+        </div>
+
+        {amenities?.length ? (
+          <Reveal delay={0.1}>
+            <ul className="mt-10 flex flex-wrap gap-2" aria-label="Amenity highlights">
+              {amenities.map((a) => (
+                <li
+                  key={a}
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-text text-sm font-medium text-ink-900 ring-1 ring-ink-900/[0.08]"
+                >
+                  <Icon name="check" className="h-4 w-4 text-royal" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );
