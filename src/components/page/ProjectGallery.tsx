@@ -4,6 +4,7 @@ import Image from "@/components/Image";
 import { useId, useState } from "react";
 import { Bezel } from "@/components/home/ui";
 import MorphGallery from "@/components/ui/morph-gallery";
+import { textureSrc } from "@/lib/texture";
 import type { GalleryImage } from "@/content/projects";
 
 /**
@@ -59,7 +60,7 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
           <MorphGallery
             // A new group remounts the gallery with only that group's textures.
             key={group}
-            items={items.map((im) => ({ src: optimized(im.src), alt: im.alt }))}
+            items={items.map((im) => ({ src: textureSrc(im.src), alt: im.alt }))}
             index={index}
             onIndexChange={setIndex}
             // Landscape renders: on narrow screens the width caps the height.
@@ -107,12 +108,4 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
       </div>
     </div>
   );
-}
-
-/**
- * The gallery's textures go through Next's image optimizer: a 1920px WebP is
- * a fraction of the original's bytes and stays same-origin, which WebGL needs.
- */
-function optimized(src: string) {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=1920&q=75`;
 }

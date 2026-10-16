@@ -3,6 +3,7 @@
 import Image from "@/components/Image";
 import { useEffect, useRef, useState } from "react";
 import MorphGallery from "@/components/ui/morph-gallery";
+import { textureSrc } from "@/lib/texture";
 import { Bezel } from "./ui";
 
 type Pillar = { label: string; src: string; alt: string };
@@ -53,7 +54,7 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
     >
       <Bezel coreClassName="relative">
         <MorphGallery
-          items={pillars.map((p) => ({ src: p.src, alt: p.alt }))}
+          items={pillars.map((p) => ({ src: textureSrc(p.src), alt: p.alt }))}
           index={index}
           onIndexChange={setIndex}
           height="clamp(22rem, 62svh, 38rem)"
