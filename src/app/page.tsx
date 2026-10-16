@@ -10,14 +10,17 @@ import Stats from "@/components/home/Stats";
 import Testimonials from "@/components/home/Testimonials";
 import Walkthrough from "@/components/home/Walkthrough";
 import { DEFAULT_DESCRIPTION, pageMeta } from "@/lib/seo";
-import { getProjects, getSiteMedia } from "@/sanity/media";
+import { getProjects, getSiteMedia, getTestimonials } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({ description: DEFAULT_DESCRIPTION, path: "/" });
 
 export default async function Home() {
-  // Both reads share one cached Sanity fetch. (`Promise` here is the section component.)
+  // These reads share one cached Sanity fetch. (`Promise` here is the section component.)
   const media = await getSiteMedia();
   const projects = await getProjects();
+  const testimonials = await getTestimonials();
+  // Featured reviews rotate on the homepage; with none featured, the first three stand in.
+  const featuredReviews = testimonials.filter((t) => t.featured);
   const featured = projects.find((p) => p.featured) ?? projects[0];
 
   return (
@@ -33,7 +36,7 @@ export default async function Home() {
       <Journey />
       <Stats />
       <Finance />
-      <Testimonials />
+      <Testimonials quotes={featuredReviews.length ? featuredReviews : testimonials.slice(0, 3)} />
       <Partners />
       <ClosingCta />
     </>

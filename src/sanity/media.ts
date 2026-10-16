@@ -1,11 +1,13 @@
 import { createClient } from "@sanity/client";
 import { cache } from "react";
 import type { Award } from "@/components/page/AwardWall";
-import { type Post, posts } from "@/content/posts";
+import { type Post, posts, readMinutesFor } from "@/content/posts";
 import localHashes from "@/content/blurhashes.json";
 import { GALLERY_GROUPS, type GalleryImage, type Project, projects } from "@/content/projects";
+import { type Testimonial, testimonials } from "@/content/testimonials";
 import { blurhashToDataURL } from "@/lib/blurhash";
 import { apiVersion, dataset, projectId, sanityEnabled } from "./env";
+import { toPostBlocks } from "./portable-text";
 import { MEDIA_QUERY } from "./queries";
 import type { MEDIA_QUERY_RESULT } from "./types";
 
@@ -206,13 +208,63 @@ export async function getProjectMedia(key: string) {
   return (await getProjects()).find((p) => p.key === key);
 }
 
-/** The posts from content/posts.ts with their cover swapped in from Sanity. */
+/**
+ * Blog posts, newest first. A post written in Sanity (title, date and body all
+ * filled in) is used as is, including posts that exist only there; otherwise
+ * the bundled post from content/posts.ts is used, with any Sanity cover.
+ */
 export const getPosts = cache(async (): Promise<Post[]> => {
   const m = await fetchMedia();
-  return posts.map((p) => {
-    const cover = m?.posts.find((d) => d.slug === p.slug)?.cover;
-    return cover?.src ? { ...p, cover: cover.src, coverAlt: cover.alt || undefined } : p;
+  const docs = m?.posts ?? [];
+  const bundled = new Map(posts.map((p) => [p.slug, p]));
+  const fromSanity: Post[] = docs.flatMap((d): Post[] => {
+    const body = toPostBlocks(d.body);
+    if (!d.slug || !d.title || !d.date || !body.length) return [];
+    const fallback = bundled.get(d.slug);
+    const cover = d.cover?.src ?? fallback?.cover;
+    if (!cover) return [];
+    return [
+      {
+        slug: d.slug,
+        title: d.title,
+        excerpt: d.excerpt || fallback?.excerpt || "",
+        topic: d.topic || fallback?.topic || "Insights",
+        date: d.date,
+        readMinutes: readMinutesFor(body),
+        body,
+        cover,
+        coverAlt: d.cover?.alt || undefined,
+      },
+    ];
   });
+  const written = new Set(fromSanity.map((p) => p.slug));
+  const rest = posts
+    .filter((p) => !written.has(p.slug))
+    .map((p) => {
+      const cover = docs.find((d) => d.slug === p.slug)?.cover;
+      return cover?.src ? { ...p, cover: cover.src, coverAlt: cover.alt || undefined } : p;
+    });
+  return [...fromSanity, ...rest].sort((a, b) => b.date.localeCompare(a.date));
+});
+
+/** Client testimonials in display order: Sanity's when it has any, otherwise the bundled set. */
+export const getTestimonials = cache(async (): Promise<Testimonial[]> => {
+  const docs = (await fetchMedia())?.testimonials ?? [];
+  const fromSanity = docs.flatMap((d): Testimonial[] =>
+    d.quote && d.name && d.role
+      ? [
+          {
+            quote: d.quote,
+            name: d.name,
+            role: d.role,
+            ...(d.org ? { org: d.org } : {}),
+            ...(d.language === "hi" ? { lang: "hi" as const } : {}),
+            ...(d.featured ? { featured: true } : {}),
+          },
+        ]
+      : [],
+  );
+  return fromSanity.length ? fromSanity : testimonials;
 });
 
 type Hashed = { src: string; hash: string; width: number; height: number };

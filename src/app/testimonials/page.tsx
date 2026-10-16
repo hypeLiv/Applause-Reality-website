@@ -7,9 +7,9 @@ import StoryGrid from "@/components/page/StoryGrid";
 import TestimonialCard from "@/components/page/TestimonialCard";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
-import { byline, outcomes, testimonials } from "@/content/testimonials";
+import { byline, outcomes, type Testimonial } from "@/content/testimonials";
 import { absolute, pageMeta } from "@/lib/seo";
-import { getSiteMedia } from "@/sanity/media";
+import { getSiteMedia, getTestimonials } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Client Reviews from NCR Home Buyers",
@@ -24,7 +24,7 @@ const stats = [
   { to: 100, suffix: "%", label: "Satisfied investors" },
 ];
 
-const reviewSchema = {
+const reviewSchema = (testimonials: Testimonial[]) => ({
   "@context": "https://schema.org",
   "@graph": testimonials.map((t) => ({
     "@type": "Review",
@@ -33,16 +33,16 @@ const reviewSchema = {
     reviewBody: t.quote,
     inLanguage: t.lang ?? "en-IN",
   })),
-};
+});
 
 export default async function TestimonialsPage() {
+  const [testimonials, { testimonialsCtaImage }] = await Promise.all([getTestimonials(), getSiteMedia()]);
   const [lead, ...rest] = testimonials;
-  const { testimonialsCtaImage } = await getSiteMedia();
 
   return (
     <>
       <SmoothScroll />
-      <JsonLd data={reviewSchema} />
+      <JsonLd data={reviewSchema(testimonials)} />
 
       {/* Masthead */}
       <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-40 pt-36 text-ivory md:px-10 md:pb-52 md:pt-44">

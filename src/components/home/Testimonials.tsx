@@ -3,15 +3,14 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import AdvisorForm from "@/components/AdvisorForm";
-import { testimonials } from "@/content/testimonials";
+import type { Testimonial } from "@/content/testimonials";
 import { EASE, Reveal, Words } from "./motion";
 import { Bezel } from "./ui";
 
 const HOLD_MS = 7000;
 
-const quotes = testimonials.filter((t) => t.featured);
-
-export default function Testimonials() {
+/** `quotes` are the featured testimonials, picked on the server. */
+export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
@@ -20,7 +19,7 @@ export default function Testimonials() {
     if (paused) return;
     const t = setTimeout(() => setActive((i) => (i + 1) % quotes.length), HOLD_MS);
     return () => clearTimeout(t);
-  }, [active, paused]);
+  }, [active, paused, quotes.length]);
 
   const q = quotes[active];
 
