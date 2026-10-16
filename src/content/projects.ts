@@ -1,3 +1,10 @@
+/** Sections of a project gallery, in display order. */
+export const GALLERY_GROUPS = ["Exteriors", "Landscape", "Clubhouse", "Pool & podium", "Residences"] as const;
+export type GalleryGroup = (typeof GALLERY_GROUPS)[number];
+
+/** One gallery image; `caption` names the space, `alt` describes the picture. */
+export type GalleryImage = { src: string; alt: string; caption: string; group: GalleryGroup; width: number; height: number };
+
 /** Current launches shown on /projects (order = display order). */
 export type Project = {
   key: string;
@@ -27,12 +34,26 @@ export type Project = {
   specs?: { title: string; detail?: string }[];
   /** Short amenity highlights, shown as chips. */
   amenities?: string[];
+  /** Renders shown in the project page's gallery, grouped by GALLERY_GROUPS. */
+  gallery?: GalleryImage[];
   /** Optional walkthrough film shown on the project page. */
   film?: { src: string; poster: string; title: string; portrait?: boolean };
   brochure: string;
   /** Brochure size when it comes from Sanity; local brochures are measured on disk. */
   brochureBytes?: number;
 };
+
+/** Hero Homes gallery rows: [group, file name in /images/hero-homes, width, height, caption, alt]. */
+function heroGallery(rows: [GalleryGroup, string, number, number, string, string][]): GalleryImage[] {
+  return rows.map(([group, file, width, height, caption, alt]) => ({
+    src: `/images/hero-homes/${file}.jpg`,
+    alt,
+    caption,
+    group,
+    width,
+    height,
+  }));
+}
 
 export const projects: Project[] = [
   {
@@ -43,8 +64,8 @@ export const projects: Project[] = [
     seoTitle: "Hero Homes Leafsong Retreat, Greater Noida",
     featured: true,
     logo: { src: "/images/hero-homes-logo.png", alt: "Hero Homes logo", w: 490, h: 193 },
-    photo: "/images/hero-homes-render.png",
-    photoAlt: "Leafsong Retreat by Hero Realty: three G+31 towers at Sector MU, Greater Noida",
+    photo: "/images/hero-homes/towers-dusk.jpg",
+    photoAlt: "Leafsong Retreat by Hero Realty: three G+31 towers at dusk, Sector MU, Greater Noida",
     // Highlights sheet hidden until the client sends one matching the Leafsong Retreat specs.
     facts: [
       { value: "1,656–2,289", label: "Sq. ft. 3 BHK homes" },
@@ -89,6 +110,39 @@ export const projects: Project[] = [
       "Open business area with Wi-Fi",
       "Vastu compliant",
     ],
+    // Renders from the developer's Leafsong Retreat presentation (16 Oct 2026).
+    gallery: heroGallery([
+      ["Exteriors", "towers-dusk", 2000, 1126, "The three towers", "Leafsong Retreat's three G+31 towers at dusk, seen from the approach road"],
+      ["Exteriors", "towers-sky", 2000, 1126, "G+31 towers", "Looking up at the three Leafsong Retreat towers against a clear sky"],
+      ["Exteriors", "arrival", 1686, 933, "The arrival", "Leafsong Retreat entrance gate with Hero Homes signage and a car arriving"],
+      ["Exteriors", "tower-entrance", 1586, 896, "Tower entrance", "A Leafsong Retreat tower rising behind its landscaped entrance garden"],
+      ["Exteriors", "tower-crown", 2000, 1126, "The crown", "The sculpted crown of a Leafsong Retreat tower at twilight"],
+      ["Exteriors", "basement-lobby", 1536, 1024, "Basement arrival", "Basement arrival lobby with a lit water feature and glass entrance"],
+      ["Exteriors", "night-aerial", 2000, 1125, "By night", "Aerial view of the three lit towers above the trees at night"],
+      ["Landscape", "celebration-court", 1536, 1024, "Celebration court", "Residents on the open lawns of the celebration court, framed by trees"],
+      ["Landscape", "central-lawn", 1536, 1024, "Central lawn", "Families walking across the central lawn between the towers"],
+      ["Landscape", "sports-oasis", 2000, 1126, "Sports oasis", "Aerial view of the basketball and pickleball courts among gardens"],
+      ["Landscape", "cricket-pitch", 2000, 1177, "Cricket pitch", "Netted cricket practice pitch lined with palms and a green wall"],
+      ["Landscape", "kids-play-area", 1536, 1024, "Kids' play area", "Children's play area with a treehouse, bridge and splash jets"],
+      ["Landscape", "butterfly-garden", 1505, 847, "Butterfly garden", "Winding garden path through planting beds, with a tower behind"],
+      ["Landscape", "pergola-seating", 2000, 1126, "Pergola seating", "Timber pergola seating beside a jogging track under the trees"],
+      ["Clubhouse", "clubhouse", 2000, 1125, "The clubhouse", "Glass-fronted clubhouse beside a reflecting pool at dusk"],
+      ["Clubhouse", "banquet-hall", 1467, 869, "Banquet hall", "Banquet hall set with round tables and floor-to-ceiling windows"],
+      ["Clubhouse", "restaurant", 1505, 847, "Restaurant", "Warm, wood-panelled clubhouse restaurant with garden views"],
+      ["Clubhouse", "gym", 2000, 1125, "Gym", "Gym with treadmills facing full-height windows"],
+      ["Clubhouse", "indoor-arena", 1584, 993, "Indoor arena", "Indoor games arena with pool and table-tennis tables"],
+      ["Clubhouse", "yoga-meditation", 1505, 847, "Yoga & meditation", "Residents practising yoga in a calm, timber-ceilinged studio"],
+      ["Clubhouse", "kids-arena", 1476, 864, "Kids' arena", "Kids' arena with a climbing wall, swings and reading corner"],
+      ["Pool & podium", "pool-deck", 1536, 1024, "Pool deck café", "Aerial view of the lap pool and pool-deck café seating"],
+      ["Pool & podium", "lap-pool", 2000, 1126, "Lap pool", "Lap pool lined with palms at blue hour"],
+      ["Pool & podium", "podium-play-area", 2000, 1177, "Podium play area", "Children playing in the podium play area between the towers"],
+      ["Pool & podium", "pause-garden", 1586, 992, "Pause garden", "Shaded walking paths and benches in the podium pause garden"],
+      ["Pool & podium", "stepped-seating", 1536, 1024, "Stepped seating", "Stepped seating and café tables under frangipani trees"],
+      ["Residences", "living-room", 1586, 992, "Living room", "Sunlit living room opening onto a balcony with city views"],
+      ["Residences", "bedroom", 2000, 1125, "Master bedroom", "Master bedroom with wood panelling and a balcony door"],
+      ["Residences", "kitchen", 2000, 1124, "Modular kitchen", "Modular kitchen with marble backsplash and built-in appliances"],
+      ["Residences", "balcony", 1672, 941, "Balcony", "Resident relaxing on a planted balcony overlooking the city"],
+    ]),
     brochure: "/brochures/hero-homes.pdf",
   },
   {

@@ -51,9 +51,12 @@ export function Words({
   className,
   immediate = false,
   delay = 0,
+  ariaLevel,
 }: {
   text: string;
   as?: keyof typeof tags;
+  /** Heading level for a non-heading tag, so a duplicate layout stays out of the h1–h6 outline. */
+  ariaLevel?: number;
   className?: string;
   immediate?: boolean;
   delay?: number;
@@ -78,6 +81,7 @@ export function Words({
   return (
     <Tag
       className={className}
+      {...(ariaLevel ? { role: "heading", "aria-level": ariaLevel } : {})}
       initial="hidden"
       {...trigger}
       transition={{ staggerChildren: 0.06, delayChildren: delay }}

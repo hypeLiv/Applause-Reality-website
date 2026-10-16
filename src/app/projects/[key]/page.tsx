@@ -11,6 +11,7 @@ import SmoothScroll from "@/components/home/SmoothScroll";
 import { Arrow, Bezel, Icon, lux } from "@/components/home/ui";
 import { ExpandLanding, ExpandLink } from "@/components/page/ExpandTransition";
 import PageHero from "@/components/page/PageHero";
+import ProjectGallery from "@/components/page/ProjectGallery";
 import { Cta } from "@/components/sections";
 import { projects, type Project } from "@/content/projects";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
@@ -267,8 +268,8 @@ function Homes({ project: p }: { project: Project }) {
 }
 
 function Inside({ project: p }: { project: Project }) {
-  const { film, highlights } = p;
-  if (!film && !highlights) return null;
+  const { film, highlights, gallery } = p;
+  if (!film && !highlights && !gallery?.length) return null;
   return (
     <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
@@ -279,8 +280,14 @@ function Inside({ project: p }: { project: Project }) {
           </h2>
         </Reveal>
 
+        {gallery?.length ? (
+          <Reveal delay={0.1} className="mt-12 md:mt-14">
+            <ProjectGallery images={gallery} />
+          </Reveal>
+        ) : null}
+
         <div
-          className={`mt-14 grid items-start gap-6 md:gap-8 ${
+          className={`${film || highlights ? "mt-14" : "hidden"} grid items-start gap-6 md:gap-8 ${
             film ? (film.portrait ? "lg:grid-cols-[minmax(0,22rem)_1fr]" : "lg:grid-cols-2") : ""
           }`}
         >

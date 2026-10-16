@@ -41,6 +41,15 @@ export const MEDIA_QUERY = defineQuery(/* groq */ `{
     photo${image},
     logo${image},
     highlights${image},
+    "gallery": gallery[defined(asset)]{
+      "src": asset->url,
+      alt,
+      caption,
+      group,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height,
+      "blurHash": asset->metadata.blurHash
+    },
     film{
       "src": video.asset->url,
       "poster": poster.asset->url,

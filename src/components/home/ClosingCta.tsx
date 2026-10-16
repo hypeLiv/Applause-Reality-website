@@ -24,11 +24,12 @@ export default async function ClosingCta({
   actionLabel?: string;
   footnote?: string;
 }) {
-  const bg = image ?? (await getSiteMedia()).ctaImage.src;
+  const fallback = image ? null : (await getSiteMedia()).ctaImage;
+  const bg = image ?? fallback!.src;
 
   return (
     <section className="lux-scope relative isolate flex min-h-[92svh] items-center overflow-hidden bg-ink-950 px-3 py-28 text-ivory sm:px-6 md:px-10">
-      <ParallaxImage src={bg} alt="" range={90} className="!absolute inset-0 -z-20" />
+      <ParallaxImage src={bg} alt={fallback?.alt ?? ""} range={90} className="!absolute inset-0 -z-20" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-950/70 via-ink-950/45 to-ink-950/85" />
 
       <Bezel

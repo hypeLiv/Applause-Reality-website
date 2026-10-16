@@ -157,7 +157,7 @@ export default async function AboutPage() {
             >
               <Image
                 src={media.partners.sbi.logo.src}
-                alt=""
+                alt={media.partners.sbi.logo.alt}
                 width={media.partners.sbi.logo.width}
                 height={media.partners.sbi.logo.height}
                 className="h-6 w-auto"
