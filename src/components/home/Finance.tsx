@@ -21,7 +21,7 @@ function Credit({ sbi, className = "" }: { sbi: Img; className?: string }) {
   return (
     <div className={`lux-glass flex items-center gap-4 rounded-2xl py-3 pl-3 pr-5 ${className}`}>
       <span className="grid h-12 shrink-0 place-items-center rounded-xl bg-white px-3">
-        <Image src={sbi.src} alt="" width={sbi.width} height={sbi.height} className="h-6 w-auto" />
+        <Image src={sbi.src} alt={sbi.alt} width={sbi.width} height={sbi.height} className="h-6 w-auto" />
       </span>
       <span>
         <span className="block font-text text-[15px] font-semibold leading-tight text-ivory">

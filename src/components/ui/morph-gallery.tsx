@@ -667,7 +667,7 @@ export default function MorphGallery({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.thumb ?? item.src}
-                  alt=""
+                  alt={item.alt ?? ""}
                   width={80}
                   height={50}
                   loading="lazy"

@@ -53,7 +53,8 @@ export default async function Partners() {
               >
                 <Image
                   src={p.src}
-                  alt={i < partners.length ? p.alt : ""}
+                  // The loop copy is aria-hidden via its <li>; keep alt so crawlers see no blank images.
+                  alt={p.alt}
                   width={p.width}
                   height={p.height}
                   className="h-14 w-auto max-w-full object-contain"

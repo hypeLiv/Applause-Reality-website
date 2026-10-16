@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "./site";
 
-export const DEFAULT_TITLE = "Trusted Real Estate Consultants | Applause Reality Local Experts";
+export const DEFAULT_TITLE = "Real Estate Consultants in Delhi NCR | Applause Reality";
 export const DEFAULT_DESCRIPTION =
   "Bank-approved residential and corporate properties across Delhi NCR, with lifelong consulting from first site visit to post-possession.";
 

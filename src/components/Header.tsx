@@ -84,7 +84,8 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
         <Link href="/" className="relative h-8 w-[112px] shrink-0" onClick={() => setOpen(false)}>
           <Image
             src={logoOnDark.src}
-            alt=""
+            alt={logoOnDark.alt}
+            aria-hidden
             fill
             sizes="112px"
             priority

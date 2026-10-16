@@ -295,7 +295,8 @@ function Stacked() {
       <Reveal>
         <p className="lux-label text-accent-soft">End-to-end stewardship</p>
       </Reveal>
-      <Words text="One partner, *every* milestone." className="lux-display mt-6 text-[2.6rem]" />
+      {/* The desktop rail owns the real h2/h3s; these repeat them for phones. */}
+      <Words text="One partner, *every* milestone." as="p" ariaLevel={2} className="lux-display mt-6 text-[2.6rem]" />
       <Reveal delay={0.1}>
         <p className="mt-6 font-text text-lg leading-relaxed text-ivory/70">{intro}</p>
       </Reveal>
@@ -312,7 +313,9 @@ function Stacked() {
                 <Icon name={s.icon} className="h-5 w-5 text-accent" />
                 Step {String(i + 1).padStart(2, "0")}
               </p>
-              <h3 className="mt-2 font-sans text-2xl font-semibold tracking-[-0.02em]">{s.title}</h3>
+              <p role="heading" aria-level={3} className="mt-2 font-sans text-2xl font-semibold tracking-[-0.02em]">
+                {s.title}
+              </p>
               <p className="mt-2 font-text text-base leading-relaxed text-ivory/65">{s.text}</p>
             </Reveal>
           </li>

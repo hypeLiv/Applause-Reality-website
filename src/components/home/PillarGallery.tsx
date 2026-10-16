@@ -89,7 +89,7 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
               >
                 <Image
                   src={p.src}
-                  alt=""
+                  alt={p.alt}
                   fill
                   sizes="(min-width: 768px) 25vw, 25vw"
                   className="object-cover transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.05]"

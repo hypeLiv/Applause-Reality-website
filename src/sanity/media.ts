@@ -86,7 +86,7 @@ const DEFAULTS = {
     poster: "/images/poster-locations.jpg",
   },
   onSitePhoto: local("/images/construction-site.jpg", "Residential towers under construction in Delhi NCR"),
-  ctaImage: local("/images/residential-complex.jpg", ""),
+  ctaImage: local("/images/residential-complex.jpg", "Residential towers in Delhi NCR"),
   testimonialsCtaImage: local("/images/key-in-door.jpg", ""),
 };
 
