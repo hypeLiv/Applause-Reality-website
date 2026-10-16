@@ -15,7 +15,7 @@ const tour = /* groq */ `{
   "poster": poster.asset->url
 }`;
 
-/** Every photo, video and file the site shows, in one round trip. */
+/** Every photo, video and file the site shows, plus blog posts and testimonials, in one round trip. */
 export const MEDIA_QUERY = defineQuery(/* groq */ `{
   "settings": *[_id == "siteSettings"][0]{
     logo${image},
@@ -61,7 +61,21 @@ export const MEDIA_QUERY = defineQuery(/* groq */ `{
   },
   "posts": *[_type == "post" && defined(slug.current)]{
     "slug": slug.current,
+    title,
+    excerpt,
+    topic,
+    date,
+    body,
     cover${image}
+  },
+  "testimonials": *[_type == "testimonial" && defined(quote) && defined(name)] | order(rank asc){
+    _id,
+    quote,
+    name,
+    role,
+    org,
+    language,
+    featured
   },
   "partners": *[_type == "partner" && defined(slug.current)]{
     "key": slug.current,

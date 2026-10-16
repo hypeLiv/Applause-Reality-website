@@ -1,4 +1,12 @@
-import type { PageStory } from "@/components/page/StoryGrid";
+/** A client story card (StoryGrid). */
+export type PageStory = {
+  /** Small accent line above the card title, e.g. a location or an outcome. */
+  eyebrow: string;
+  title?: string;
+  meta?: string;
+  quote: string;
+  by?: string;
+};
 
 export type Testimonial = {
   quote: string;

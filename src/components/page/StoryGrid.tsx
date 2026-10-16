@@ -1,14 +1,6 @@
 import { Reveal, Words } from "@/components/home/motion";
 import { Bezel } from "@/components/home/ui";
-
-export type PageStory = {
-  /** Small accent line above the card title, e.g. a location or an outcome. */
-  eyebrow: string;
-  title?: string;
-  meta?: string;
-  quote: string;
-  by?: string;
-};
+import type { PageStory } from "@/content/testimonials";
 
 /** Client stories on navy: bezel cards in an asymmetric bento that lift on hover. */
 export default function StoryGrid({

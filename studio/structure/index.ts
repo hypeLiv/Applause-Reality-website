@@ -3,7 +3,7 @@ import type { StructureResolver } from "sanity/structure";
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title("Website media")
+    .title("Website content")
     .items([
       S.listItem()
         .title("Site settings")
@@ -12,6 +12,10 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       S.documentTypeListItem("project").title("Projects"),
       S.documentTypeListItem("post").title("Blog posts"),
+      S.listItem()
+        .title("Testimonials")
+        .schemaType("testimonial")
+        .child(S.documentTypeList("testimonial").title("Testimonials").defaultOrdering([{ field: "rank", direction: "asc" }])),
       S.divider(),
       S.documentTypeListItem("partner").title("Partners"),
       S.listItem()

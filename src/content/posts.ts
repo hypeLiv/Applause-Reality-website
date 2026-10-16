@@ -1,15 +1,21 @@
 import bodies from "./post-bodies.json";
 
 /**
- * Blog posts from the Wix blog. Slugs match the live Wix slugs; the old
- * /post/<slug> URLs redirect to /blog/<slug> so links and rankings carry over.
+ * Blog posts. Sanity is the source (see getPosts in src/sanity/media.ts); the
+ * entries here are the bundled fallback, transcribed from the old Wix blog.
+ * Slugs match the live Wix slugs; the old /post/<slug> URLs redirect to
+ * /blog/<slug> so links and rankings carry over.
  *
- * Article bodies, dates and read times live in post-bodies.json, transcribed
- * from the live articles into simple blocks.
+ * Article bodies, dates and read times live in post-bodies.json, as simple blocks.
  */
+
+/** A run of formatted text from Sanity's rich-text editor. */
+export type Span = { text: string; bold?: boolean; italic?: boolean; href?: string };
+
+/** `text`/`items` are always plain text (for headings, anchors and read time); `spans` carry formatting when there is any. */
 export type PostBlock =
-  | { type: "h2" | "h3" | "p" | "quote" | "note"; text: string }
-  | { type: "ul" | "ol"; items: string[] };
+  | { type: "h2" | "h3" | "p" | "quote" | "note"; text: string; spans?: Span[] }
+  | { type: "ul" | "ol"; items: string[]; itemSpans?: Span[][] };
 
 export type Post = {
   slug: string;
@@ -73,6 +79,16 @@ export const posts: Post[] = entries
     return { ...e, date: b.date, readMinutes: b.readMinutes, body: b.blocks };
   })
   .sort((a, b) => b.date.localeCompare(a.date));
+
+/** Minutes to read at ~230 words a minute, which matches the Wix originals. */
+export function readMinutesFor(blocks: PostBlock[]) {
+  const words = blocks
+    .flatMap((b) => ("items" in b ? b.items : [b.text]))
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+  return Math.max(1, Math.round(words / 230));
+}
 
 export const formatDate = (iso: string) =>
   iso

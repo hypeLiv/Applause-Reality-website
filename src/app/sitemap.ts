@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
-import { posts } from "@/content/posts";
 import { projects } from "@/content/projects";
 import { absolute } from "@/lib/seo";
+import { getPosts } from "@/sanity/media";
 
 // Privacy policy is noindex, so it stays out.
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getPosts();
   const pages: MetadataRoute.Sitemap = [
     { url: absolute("/"), changeFrequency: "weekly", priority: 1 },
     { url: absolute("/projects"), changeFrequency: "weekly", priority: 0.9 },

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Image from "@/components/Image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,7 +10,7 @@ import { ArticleToc, ReadingProgress } from "@/components/page/ArticleChrome";
 import CoverImage from "@/components/page/CoverImage";
 import { PostCard } from "@/components/page/PostCard";
 import { Cta } from "@/components/sections";
-import { formatDate, posts, type PostBlock } from "@/content/posts";
+import { formatDate, type PostBlock, type Span } from "@/content/posts";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import { absolute, pageMeta } from "@/lib/seo";
@@ -18,8 +19,9 @@ import { getPosts, getSiteMedia } from "@/sanity/media";
 
 type Params = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+// Posts published in Sanity after a build render on first visit.
+export async function generateStaticParams() {
+  return (await getPosts()).map((p) => ({ slug: p.slug }));
 }
 
 const findPost = async (slug: string) => (await getPosts()).find((p) => p.slug === slug);
@@ -44,8 +46,29 @@ const slugify = (text: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-/** "Label: rest" → a bold lead-in, which most of these guides use for scannable points. */
-function Rich({ text }: { text: string }) {
+/** Formatted text from Sanity: bold, italic and links. */
+function Spans({ spans }: { spans: Span[] }) {
+  return spans.map((s, i) => {
+    let node: React.ReactNode = s.text;
+    if (s.italic) node = <em>{node}</em>;
+    if (s.bold) node = <b>{node}</b>;
+    if (s.href) {
+      const external = /^https?:/.test(s.href);
+      node = external ? (
+        <a href={s.href} target="_blank" rel="noopener noreferrer">
+          {node}
+        </a>
+      ) : (
+        <Link href={s.href}>{node}</Link>
+      );
+    }
+    return <Fragment key={i}>{node}</Fragment>;
+  });
+}
+
+/** "Label: rest" → a bold lead-in, which most of these guides use for scannable points. Formatted text is shown as written. */
+function Rich({ text, spans }: { text: string; spans?: Span[] }) {
+  if (spans) return <Spans spans={spans} />;
   const m = text.match(/^([^:]{2,42}):\s+(.+)$/);
   if (!m) return <>{text}</>;
   return (
@@ -62,17 +85,21 @@ function Block({ block }: { block: PostBlock }) {
     case "h3":
       return <h3>{block.text}</h3>;
     case "quote":
-      return <blockquote>&ldquo;{block.text}&rdquo;</blockquote>;
+      return (
+        <blockquote>
+          &ldquo;{block.spans ? <Spans spans={block.spans} /> : block.text}&rdquo;
+        </blockquote>
+      );
     case "note":
-      return <aside>{block.text}</aside>;
+      return <aside>{block.spans ? <Spans spans={block.spans} /> : block.text}</aside>;
     case "ul":
     case "ol": {
       const List = block.type;
       return (
         <List>
-          {block.items.map((item) => (
-            <li key={item.slice(0, 32)}>
-              <Rich text={item} />
+          {block.items.map((item, i) => (
+            <li key={i}>
+              <Rich text={item} spans={block.itemSpans?.[i]} />
             </li>
           ))}
         </List>
@@ -81,7 +108,7 @@ function Block({ block }: { block: PostBlock }) {
     default:
       return (
         <p>
-          <Rich text={block.text} />
+          <Rich text={block.text} spans={block.spans} />
         </p>
       );
   }

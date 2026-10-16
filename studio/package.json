@@ -11,7 +11,8 @@
     "schema:deploy": "sanity schema deploy",
     "typegen": "sanity schema extract --path=./schema.json --force && sanity typegen generate",
     "seed:media": "sanity exec scripts/seed-media.ts --with-user-token",
-    "seed:gallery": "sanity exec scripts/seed-project-gallery.ts --with-user-token"
+    "seed:gallery": "sanity exec scripts/seed-project-gallery.ts --with-user-token",
+    "seed:content": "sanity exec scripts/seed-content.ts --with-user-token"
   },
   "dependencies": {
     "@sanity/icons": "5.2.3",

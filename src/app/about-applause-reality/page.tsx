@@ -11,10 +11,9 @@ import RollingJourney from "@/components/page/RollingJourney";
 import TestimonialCard from "@/components/page/TestimonialCard";
 import Tilt from "@/components/page/Tilt";
 import { Cta } from "@/components/sections";
-import { testimonials } from "@/content/testimonials";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
-import { getSiteMedia, type SiteMedia } from "@/sanity/media";
+import { getSiteMedia, getTestimonials, type SiteMedia } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Trusted Real Estate Consultants for Delhi-NCR",
@@ -73,10 +72,11 @@ const journey: { icon: IconName; title: string; text: string }[] = [
 ];
 
 
-const stories = testimonials.filter((t) => !t.featured);
 
 export default async function AboutPage() {
   const media = await getSiteMedia();
+  // The homepage shows the featured reviews, so this page tells the others.
+  const stories = (await getTestimonials()).filter((t) => !t.featured);
   return (
     <>
       <SmoothScroll />
