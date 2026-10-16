@@ -5,8 +5,9 @@ import { Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import CoverImage from "@/components/page/CoverImage";
 import { PostCard, PostMeta, ReadLink } from "@/components/page/PostCard";
-import { formatDate, posts } from "@/content/posts";
+import { formatDate } from "@/content/posts";
 import { pageMeta } from "@/lib/seo";
+import { getPosts } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Discover NCR Property Blogs | Real Estate Insights",
@@ -15,7 +16,8 @@ export const metadata: Metadata = pageMeta({
   path: "/blog",
 });
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getPosts();
   const [featured, ...rest] = posts;
 
   return (
@@ -60,7 +62,7 @@ export default function BlogPage() {
             >
               <CoverImage
                 src={featured.cover}
-                alt={featured.title}
+                alt={featured.coverAlt ?? featured.title}
                 sizes="(min-width: 1024px) 58vw, 100vw"
                 priority
                 zoom
@@ -106,7 +108,6 @@ export default function BlogPage() {
       </section>
 
       <ClosingCta
-        image="/images/residential-complex.jpg"
         label="Still deciding?"
         title="Get answers for *your* family's move."
         text="Every situation is different. Tell us your budget, timeline and priorities, and an advisor will walk you through the options that genuinely fit."

@@ -1,15 +1,16 @@
 import Image from "next/image";
+import { getSiteMedia } from "@/sanity/media";
 import { Reveal, Words } from "./motion";
 
-const partners = [
-  { src: "/images/godrej.png", alt: "Godrej Properties", w: 203, h: 83, kind: "Developer" },
-  { src: "/images/sbi.png", alt: "State Bank of India", w: 157, h: 68, kind: "Banking" },
-  { src: "/images/gulshan.png", alt: "Gulshan Group", w: 184, h: 100, kind: "Developer" },
-  { src: "/images/pnb-full.png", alt: "Punjab National Bank", w: 327, h: 103, kind: "Banking" },
-  { src: "/images/eternia.png", alt: "Eternia Residences", w: 178, h: 96, kind: "Developer" },
-];
-
-export default function Partners() {
+export default async function Partners() {
+  const { partners: logos } = await getSiteMedia();
+  const partners = [
+    { ...logos.godrej.logo, kind: "Developer" },
+    { ...logos.sbi.logo, kind: "Banking" },
+    { ...logos.gulshan.logo, kind: "Developer" },
+    { ...logos.pnb.logoWide, kind: "Banking" },
+    { ...logos.eternia.logo, kind: "Developer" },
+  ];
   // Two copies side by side; the track slides by exactly one copy for a seamless loop.
   const track = [...partners, ...partners];
 
@@ -46,8 +47,8 @@ export default function Partners() {
               <Image
                 src={p.src}
                 alt={i < partners.length ? p.alt : ""}
-                width={p.w}
-                height={p.h}
+                width={p.width}
+                height={p.height}
                 className="h-14 w-auto max-w-full object-contain"
               />
               <span className="font-text text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-ink">

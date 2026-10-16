@@ -34,7 +34,7 @@ export function PostCard({ post }: { post: Post }) {
     <Link href={`/blog/${post.slug}`} className="lux-focus group flex h-full flex-col rounded-[22px]">
       <CoverImage
         src={post.cover}
-        alt={post.title}
+        alt={post.coverAlt ?? post.title}
         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
         zoom
         className="aspect-[16/10] rounded-[22px] ring-1 ring-ink-900/[0.06]"

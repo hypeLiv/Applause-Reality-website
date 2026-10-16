@@ -1,3 +1,4 @@
+import { getSiteMedia } from "@/sanity/media";
 import { CountUp, Reveal, Words } from "./motion";
 import PillarGallery from "./PillarGallery";
 
@@ -7,15 +8,15 @@ const stats = [
   { to: 23, suffix: "+", label: "Years of industry legacy" },
 ];
 
-// Unsplash licence (free for commercial use): Christian, Aalo Lens, Bibhash Banerjee, rc.xyz.
-const pillars = [
-  { label: "Bank-approved homes", src: "/images/pillars/homes.jpg", alt: "Warmly lit living room with night city views" },
-  { label: "Commercial spaces", src: "/images/pillars/commercial.jpg", alt: "Office tower lit up at dusk" },
-  { label: "Investment advisory", src: "/images/pillars/investment.jpg", alt: "Residential towers at blue hour" },
-  { label: "Home-loan support", src: "/images/pillars/loans.jpg", alt: "A house key on a dark surface" },
-];
+export default async function Stats() {
+  const { services } = await getSiteMedia();
+  const pillars = [
+    { label: "Bank-approved homes", ...services.residential },
+    { label: "Commercial spaces", ...services.commercial },
+    { label: "Investment advisory", ...services.investment },
+    { label: "Home-loan support", ...services.homeLoans },
+  ];
 
-export default function Stats() {
   return (
     <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-28 text-ivory md:px-10 md:py-36">
       <div className="absolute left-1/2 top-0 -z-10 h-[460px] w-[900px] -translate-x-1/2 rounded-full bg-royal/35 blur-[150px]" />

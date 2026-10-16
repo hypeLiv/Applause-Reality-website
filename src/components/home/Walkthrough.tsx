@@ -1,15 +1,17 @@
 import { Cta } from "@/components/sections";
 import TokyoSkylineHero from "@/components/ui/sunset-skyline-hero";
+import { getSiteMedia } from "@/sanity/media";
 import { Arrow, lux } from "./ui";
 
 /** Scroll-scrubbed walk through a bright modern home (Pexels stock clip 7578546). */
-export default function Walkthrough() {
+export default async function Walkthrough() {
+  const { homeWalkthrough: tour } = await getSiteMedia();
   return (
     <TokyoSkylineHero
       id="walkthrough"
-      videoSrc="/videos/walkthrough-scrub.mp4"
-      videoSrcSmall="/videos/walkthrough-scrub-mobile.mp4"
-      poster="/images/poster-walkthrough.jpg"
+      videoSrc={tour.src}
+      videoSrcSmall={tour.srcSmall}
+      poster={tour.poster}
       eyebrow="Virtual walkthrough"
       title="Step inside before you ever visit."
       scrollHint="SCROLL TO WALK THROUGH"

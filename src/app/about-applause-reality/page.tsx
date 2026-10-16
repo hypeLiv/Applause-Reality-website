@@ -5,7 +5,7 @@ import ClosingCta from "@/components/home/ClosingCta";
 import { CountUp, Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import { Arrow, Icon, type IconName, lux } from "@/components/home/ui";
-import AwardWall, { type Award } from "@/components/page/AwardWall";
+import AwardWall from "@/components/page/AwardWall";
 import JourneyLine from "@/components/page/JourneyLine";
 import RollingJourney from "@/components/page/RollingJourney";
 import TestimonialCard from "@/components/page/TestimonialCard";
@@ -14,6 +14,7 @@ import { Cta } from "@/components/sections";
 import { testimonials } from "@/content/testimonials";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { getSiteMedia, type SiteMedia } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Trusted Real Estate Consultants for Delhi-NCR",
@@ -50,11 +51,11 @@ const proofs: { value: React.ReactNode; label: string; text: string }[] = [
   },
 ];
 
-const services: { icon: IconName; title: string; text: string; photo: string; alt: string }[] = [
-  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living.", photo: "/images/pillars/homes.jpg", alt: "Warmly lit living room with night city views" },
-  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.", photo: "/images/pillars/commercial.jpg", alt: "Office tower lit up at dusk" },
-  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios.", photo: "/images/pillars/investment.jpg", alt: "Residential towers at blue hour" },
-  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships.", photo: "/images/pillars/loans.jpg", alt: "A house key on a dark surface" },
+const services: { icon: IconName; title: string; text: string; photo: keyof SiteMedia["services"] }[] = [
+  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living.", photo: "residential" },
+  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.", photo: "commercial" },
+  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios.", photo: "investment" },
+  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships.", photo: "homeLoans" },
 ];
 
 const journey: { icon: IconName; title: string; text: string }[] = [
@@ -64,18 +65,11 @@ const journey: { icon: IconName; title: string; text: string }[] = [
   { icon: "key", title: "Possession & beyond", text: "Keys in hand — and still on call long after the handover." },
 ];
 
-const awards: Award[] = [
-  { src: "/images/award-sbi.png", w: 1475, h: 1066, title: "Certificate of Excellence", meta: "State Bank of India" },
-  { src: "/images/award-2000cr.png", w: 1050, h: 1498, title: "₹2,000 Crore super launch", meta: "Godrej Properties · Outstanding performance, FY 23–24" },
-  { src: "/images/award-builder.png", w: 1121, h: 1403, title: "Growth Partners Meet 2026", meta: "Gulshan Homes · Gulshan Empire, Wave City" },
-  { src: "/images/award-partnership.png", w: 1507, h: 1044, title: "Partnership & performance", meta: "Recognised by Fusion Group" },
-  { src: "/images/award-corporate.png", w: 1143, h: 1376, title: "Legends of Excellence — Outstanding", meta: "Godrej Majesty" },
-  { src: "/images/award-5.png", w: 1296, h: 1214, title: "Channel partner recognition", meta: "The Prestige City" },
-];
 
 const stories = testimonials.filter((t) => !t.featured);
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const media = await getSiteMedia();
   return (
     <>
       <SmoothScroll />
@@ -130,10 +124,10 @@ export default function AboutPage() {
             <Tilt max={5} className="rounded-[28px]">
               <figure className="relative overflow-hidden rounded-[28px] ring-1 ring-white/10">
                 <Image
-                  src="/images/founder.png"
-                  alt="Rajiv Kr. Pandey, founder of Applause Reality"
-                  width={1120}
-                  height={1404}
+                  src={media.founderPortrait.src}
+                  alt={media.founderPortrait.alt}
+                  width={media.founderPortrait.width}
+                  height={media.founderPortrait.height}
                   priority
                   sizes="(min-width: 1024px) 460px, 90vw"
                   className="h-auto w-full"
@@ -147,7 +141,13 @@ export default function AboutPage() {
             </Tilt>
             {/* Proof chip, offset off the frame */}
             <div className="absolute -left-6 top-10 hidden items-center gap-3 rounded-2xl bg-white px-4 py-3 text-ink-900 shadow-[0_24px_50px_-20px_rgba(0,0,0,0.6)] md:flex">
-              <Image src="/images/sbi.png" alt="" width={157} height={68} className="h-6 w-auto" />
+              <Image
+                src={media.partners.sbi.logo.src}
+                alt=""
+                width={media.partners.sbi.logo.width}
+                height={media.partners.sbi.logo.height}
+                className="h-6 w-auto"
+              />
               <span className="font-text text-[13px] font-semibold leading-tight">
                 Certificate of
                 <br />
@@ -282,8 +282,8 @@ export default function AboutPage() {
                 className="group relative isolate min-h-[22rem] overflow-hidden rounded-[24px] bg-ink-950 text-ivory transition-[flex-grow] duration-700 ease-[var(--ease-lux)] sm:min-h-[26rem] lg:min-h-0 lg:flex-1 lg:hover:flex-[2.1]"
               >
                 <Image
-                  src={s.photo}
-                  alt={s.alt}
+                  src={media.services[s.photo].src}
+                  alt={media.services[s.photo].alt}
                   fill
                   sizes="(min-width: 1024px) 40vw, (min-width: 640px) 50vw, 100vw"
                   className="-z-10 object-cover opacity-80 transition-[transform,opacity] duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.04] group-hover:opacity-95"
@@ -328,7 +328,7 @@ export default function AboutPage() {
             </Reveal>
           </div>
           <div className="mt-14">
-            <AwardWall awards={awards} />
+            <AwardWall awards={media.awards} />
           </div>
         </div>
       </section>
@@ -371,7 +371,6 @@ export default function AboutPage() {
 
       {/* 8 · Close */}
       <ClosingCta
-        image="/images/residential-complex.jpg"
         label="Book a free consultation"
         title="Let's plan your next *property move.*"
         text="Discuss residential, commercial, leasing, investment or loan needs with our experts — and get a clear, bank-approved shortlist."

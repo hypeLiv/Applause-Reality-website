@@ -6,32 +6,28 @@ import Link from "next/link";
 import { useRef } from "react";
 import BrandTagline from "@/components/BrandTagline";
 import { Cta } from "@/components/sections";
+import type { Project } from "@/content/projects";
 import { site } from "@/lib/site";
+import type { Img } from "@/sanity/media";
 import { EASE, Words } from "./motion";
 import { Arrow, Icon, lux } from "./ui";
 
-/** The launch currently featured on the homepage (first project on /projects). */
-const featured = {
-  name: "Hero Homes",
-  location: "Sector MU, Greater Noida",
-  image: "/images/hero-homes-render.png",
-  logo: "/images/hero-homes-logo.png",
-  href: "/projects/hero-homes",
-  brochure: "/brochures/hero-homes.pdf",
-  facts: [
-    { value: "3 BHK", label: "Premium residences" },
-    { value: "1,650–2,200", label: "Sq. ft. homes" },
-    { value: "~4.7 acres", label: "Three-tower community" },
-    { value: "AQI-controlled", label: "Proposed environment" },
-  ],
-};
 
 /**
  * Framed hero: brand promise on the left, the featured launch on the right,
  * trust signals along the bottom. Full-bleed at rest; on scroll it eases back
  * into a rounded card.
  */
-export default function Hero() {
+export default function Hero({
+  background,
+  featured,
+  banks,
+}: {
+  background: Img;
+  /** The launch featured beside the headline. */
+  featured: Project;
+  banks: { sbi: Img; pnb: Img };
+}) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -63,8 +59,8 @@ export default function Hero() {
             transition={{ duration: 2.6, ease: EASE }}
           >
             <Image
-              src="/images/hero-skyline.jpg"
-              alt="Living room with floor-to-ceiling windows overlooking a city skyline"
+              src={background.src}
+              alt={background.alt}
               fill
               priority
               sizes="100vw"
@@ -122,7 +118,7 @@ export default function Hero() {
             transition={{ duration: 1.1, ease: EASE, delay: 0.55 }}
             className="w-full max-w-[460px] justify-self-center lg:justify-self-end"
           >
-            <FeaturedCard />
+            <FeaturedCard featured={featured} />
           </motion.div>
         </motion.div>
 
@@ -146,10 +142,10 @@ export default function Hero() {
               Verified by
               <span className="flex items-center gap-1.5">
                 <span className="grid h-7 place-items-center rounded-full bg-white px-2.5">
-                  <Image src="/images/sbi.png" alt="SBI" width={108} height={56} className="h-4 w-auto" />
+                  <Image src={banks.sbi.src} alt="SBI" width={banks.sbi.width} height={banks.sbi.height} className="h-4 w-auto" />
                 </span>
                 <span className="grid h-7 place-items-center rounded-full bg-white px-2.5">
-                  <Image src="/images/pnb.png" alt="PNB" width={124} height={53} className="h-4 w-auto" />
+                  <Image src={banks.pnb.src} alt="PNB" width={banks.pnb.width} height={banks.pnb.height} className="h-4 w-auto" />
                 </span>
               </span>
             </li>
@@ -166,13 +162,14 @@ export default function Hero() {
   );
 }
 
-function FeaturedCard() {
+function FeaturedCard({ featured }: { featured: Project }) {
+  const href = `/projects/${featured.key}`;
   return (
     <article className="lux-glass group overflow-hidden rounded-[24px] text-white">
-      <Link href={featured.href} className="lux-focus relative block aspect-[2/1] overflow-hidden" tabIndex={-1} aria-hidden>
+      <Link href={href} className="lux-focus relative block aspect-[2/1] overflow-hidden" tabIndex={-1} aria-hidden>
         <Image
-          src={featured.image}
-          alt={`${featured.name}, ${featured.location} — residential towers`}
+          src={featured.photo}
+          alt={featured.photoAlt}
           fill
           sizes="(min-width: 1024px) 460px, 100vw"
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
@@ -200,7 +197,7 @@ function FeaturedCard() {
             </p>
           </div>
           <span className="grid h-11 shrink-0 place-items-center rounded-xl bg-white px-3">
-            <Image src={featured.logo} alt={`${featured.name} logo`} width={490} height={193} className="h-7 w-auto" />
+            <Image src={featured.logo.src} alt={featured.logo.alt} width={featured.logo.w} height={featured.logo.h} className="h-7 w-auto" />
           </span>
         </div>
 
@@ -215,7 +212,7 @@ function FeaturedCard() {
 
         <div className="mt-5 flex gap-3">
           <Link
-            href={featured.href}
+            href={href}
             className="lux-focus group/btn inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-ivory px-5 py-3 font-text text-sm font-semibold text-ink-950 transition-colors hover:bg-white"
           >
             Explore project

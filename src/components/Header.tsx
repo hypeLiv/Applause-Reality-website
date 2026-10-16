@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 import ConsultLink from "@/components/ConsultLink";
 import { nav, site } from "@/lib/site";
 
+import type { Img } from "@/sanity/media";
 /** Pages whose hero is dark, matched by path so the first paint is already right. */
 const DARK_HERO = /^\/($|projects|blog|about-applause-reality|testimonials)/;
 
-export default function Header() {
+export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Img }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -64,7 +65,7 @@ export default function Header() {
       <div className={shell}>
         <Link href="/" className="relative h-8 w-[112px] shrink-0" onClick={() => setOpen(false)}>
           <Image
-            src="/images/logo-light.png"
+            src={logoOnDark.src}
             alt=""
             fill
             sizes="112px"
@@ -72,8 +73,8 @@ export default function Header() {
             className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : "opacity-0"}`}
           />
           <Image
-            src="/images/logo.png"
-            alt="Applause Reality"
+            src={logo.src}
+            alt={logo.alt}
             fill
             sizes="112px"
             priority

@@ -12,10 +12,12 @@ import { Arrow, Icon, lux } from "@/components/home/ui";
 import { ExpandLanding, ExpandLink } from "@/components/page/ExpandTransition";
 import PageHero from "@/components/page/PageHero";
 import { Cta } from "@/components/sections";
-import { getProject, projects, type Project } from "@/content/projects";
+import { projects, type Project } from "@/content/projects";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import { pageMeta } from "@/lib/seo";
+import { downloadHref } from "@/lib/download";
 import { site } from "@/lib/site";
+import { getProjects, getSiteMedia, type Img } from "@/sanity/media";
 
 type Params = { params: Promise<{ key: string }> };
 
@@ -25,8 +27,10 @@ export function generateStaticParams() {
   return projects.map((p) => ({ key: p.key }));
 }
 
+const findProject = async (key: string) => (await getProjects()).find((p) => p.key === key);
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const p = getProject((await params).key);
+  const p = await findProject((await params).key);
   if (!p) return {};
   return pageMeta({
     title: `${p.name}, ${p.location}`,
@@ -36,8 +40,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   });
 }
 
-/** Brochure size read from disk at build time, e.g. "11.3 MB". */
-function fileSize(href: string) {
+/** Brochure size, e.g. "11.3 MB": from Sanity, or read from disk at build time. */
+function fileSize(p: Project) {
+  if (p.brochureBytes) return `${(p.brochureBytes / 1e6).toFixed(1)} MB`;
+  const href = p.brochure;
   try {
     const bytes = fs.statSync(path.join(process.cwd(), "public", href)).size;
     return `${(bytes / 1e6).toFixed(1)} MB`;
@@ -49,10 +55,12 @@ function fileSize(href: string) {
 const promises = ["Safe NCR growth", "Bank approved", "Corporate & HR schemes"];
 
 export default async function ProjectPage({ params }: Params) {
-  const p = getProject((await params).key);
+  const { key } = await params;
+  const [all, media] = await Promise.all([getProjects(), getSiteMedia()]);
+  const p = all.find((o) => o.key === key);
   if (!p) notFound();
-  const others = projects.filter((o) => o.key !== p.key);
-  const size = fileSize(p.brochure);
+  const others = all.filter((o) => o.key !== p.key);
+  const size = fileSize(p);
 
   return (
     <>
@@ -66,7 +74,7 @@ export default async function ProjectPage({ params }: Params) {
         lead={p.summary}
         actions={
           <>
-            <a href={p.brochure} download className={lux.heroPrimary}>
+            <a href={downloadHref(p.brochure)} download className={lux.heroPrimary}>
               <Icon name="download" className="h-5 w-5" /> Download brochure
             </a>
             <Cta href={site.whatsappProjects} className={lux.heroGlass}>
@@ -85,13 +93,12 @@ export default async function ProjectPage({ params }: Params) {
         </dl>
       </PageHero>
 
-      <Overview project={p} />
+      <Overview project={p} banks={{ sbi: media.partners.sbi.logo, pnb: media.partners.pnb.logo }} />
       <Inside project={p} />
       <Brochure project={p} size={size} />
       <OtherLaunches projects={others} />
 
       <ClosingCta
-        image="/images/residential-complex.jpg"
         label="Plan a visit"
         title={`See *${p.name}* in person.`}
         text="We arrange the site visit, walk you through the bank-approved paperwork and stay with you through possession and beyond."
@@ -102,7 +109,7 @@ export default async function ProjectPage({ params }: Params) {
   );
 }
 
-function Overview({ project: p }: { project: Project }) {
+function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; pnb: Img } }) {
   return (
     <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
@@ -145,8 +152,9 @@ function Overview({ project: p }: { project: Project }) {
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-ink-900/[0.08] pt-8">
               <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">100% verified by</p>
               <div className="flex items-center gap-5">
-                <Image src="/images/sbi.png" alt="State Bank of India" width={157} height={68} className="h-9 w-auto" />
-                <Image src="/images/pnb.png" alt="Punjab National Bank" width={124} height={53} className="h-9 w-auto" />
+                {[banks.sbi, banks.pnb].map((b) => (
+                  <Image key={b.alt} src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-9 w-auto" />
+                ))}
               </div>
             </div>
           </Reveal>
@@ -236,7 +244,7 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href={p.brochure} download className={lux.primary}>
+            <a href={downloadHref(p.brochure)} download className={lux.primary}>
               <Icon name="download" className="h-4 w-4" /> Download
             </a>
             <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>

@@ -9,6 +9,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import { byline, outcomes, testimonials } from "@/content/testimonials";
 import { absolute, pageMeta } from "@/lib/seo";
 
+import { getSiteMedia } from "@/sanity/media";
 export const metadata: Metadata = pageMeta({
   title: "Client Reviews from NCR Home Buyers",
   description:
@@ -33,9 +34,10 @@ const reviewSchema = {
   })),
 };
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
   const [lead, ...rest] = testimonials;
 
+  const { testimonialsCtaImage } = await getSiteMedia();
   return (
     <>
       <SmoothScroll />
@@ -148,7 +150,7 @@ export default function TestimonialsPage() {
       />
 
       <ClosingCta
-        image="/images/key-in-door.jpg"
+        image={testimonialsCtaImage.src}
         label="Your story next"
         title="Ready to start *your* success story?"
         text="Tell us your budget, timeline and priorities. An advisor will shortlist bank-approved projects that fit, and stay with you from the first visit to possession."

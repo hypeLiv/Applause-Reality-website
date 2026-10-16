@@ -9,11 +9,12 @@ import { ArticleToc, ReadingProgress } from "@/components/page/ArticleChrome";
 import CoverImage from "@/components/page/CoverImage";
 import { PostCard } from "@/components/page/PostCard";
 import { Cta } from "@/components/sections";
-import { formatDate, getPost, posts, type PostBlock } from "@/content/posts";
+import { formatDate, posts, type PostBlock } from "@/content/posts";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import { absolute, pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { getPosts, getSiteMedia } from "@/sanity/media";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -21,8 +22,10 @@ export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
 
+const findPost = async (slug: string) => (await getPosts()).find((p) => p.slug === slug);
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const post = getPost((await params).slug);
+  const post = await findPost((await params).slug);
   if (!post) return {};
   return pageMeta({
     title: post.title,
@@ -85,13 +88,15 @@ function Block({ block }: { block: PostBlock }) {
 }
 
 export default async function PostPage({ params }: Params) {
-  const post = getPost((await params).slug);
+  const { slug } = await params;
+  const [all, media] = await Promise.all([getPosts(), getSiteMedia()]);
+  const post = all.find((p) => p.slug === slug);
   if (!post) notFound();
 
   const headings = post.body
     .filter((b): b is { type: "h2"; text: string } => b.type === "h2")
     .map((b) => ({ id: slugify(b.text), text: b.text.replace(/^\d+\.\s*/, "") }));
-  const more = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const more = all.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   // Credited to the business until the client confirms per-post authors.
   const articleSchema = {
@@ -150,7 +155,7 @@ export default async function PostPage({ params }: Params) {
         <Reveal className="relative z-10 mx-auto -mt-44 max-w-[1100px] md:-mt-60">
           <CoverImage
             src={post.cover}
-            alt={post.title}
+            alt={post.coverAlt ?? post.title}
             sizes="(min-width: 1100px) 1100px, 100vw"
             priority
             className="aspect-[16/9] rounded-[28px] shadow-[0_40px_80px_-40px_rgba(11,23,51,0.55)]"
@@ -176,8 +181,8 @@ export default async function PostPage({ params }: Params) {
             {/* Who's behind the desk */}
             <div className="mt-16 flex max-w-[68ch] items-center gap-5 border-t border-ink-900/[0.08] pt-10">
               <Image
-                src="/images/founder.png"
-                alt="Rajiv Kr. Pandey, founder of Applause Reality"
+                src={media.founderPortrait.src}
+                alt={media.founderPortrait.alt}
                 width={112}
                 height={140}
                 className="h-16 w-16 shrink-0 rounded-full object-cover object-top"

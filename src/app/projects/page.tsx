@@ -10,10 +10,11 @@ import ProjectsTimeline from "@/components/page/ProjectsTimeline";
 import StoryGrid from "@/components/page/StoryGrid";
 import { Cta } from "@/components/sections";
 import TokyoSkylineHero from "@/components/ui/sunset-skyline-hero";
-import { type Project, projects } from "@/content/projects";
+import type { Project } from "@/content/projects";
 import { outcomes } from "@/content/testimonials";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { getProjects, getSiteMedia } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "NCR Projects & Investment Locations",
@@ -64,8 +65,6 @@ const corridors: {
   },
 ];
 
-const chapters = corridors.map((c) => ({ ...c, launches: projects.filter(c.match) }));
-
 const launchCount = (n: number) => (n === 0 ? "On request" : `${n} launch${n === 1 ? "" : "es"}`);
 
 const questions = [
@@ -107,14 +106,17 @@ const advantages = [
 ];
 
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const [media, projects] = await Promise.all([getSiteMedia(), getProjects()]);
+  const chapters = corridors.map((c) => ({ ...c, launches: projects.filter(c.match) }));
+
   return (
     <>
       <SmoothScroll />
       <TokyoSkylineHero
-        videoSrc="/videos/locations-scrub.mp4"
-        videoSrcSmall="/videos/locations-scrub-mobile.mp4"
-        poster="/images/poster-locations.jpg"
+        videoSrc={media.locationsTour.src}
+        videoSrcSmall={media.locationsTour.srcSmall}
+        poster={media.locationsTour.poster}
         eyebrow="Locations & new launches · Bank-approved"
         title="NCR's best corridors, and the launches inside them."
         titleAs="h1"
@@ -261,8 +263,8 @@ export default function ProjectsPage() {
 
           <Reveal className="mt-14">
             <ParallaxImage
-              src="/images/construction-site.jpg"
-              alt="Residential towers under construction in Delhi NCR"
+              src={media.onSitePhoto.src}
+              alt={media.onSitePhoto.alt}
               sizes="(min-width: 1320px) 1320px, 100vw"
               className="aspect-[4/3] rounded-[28px] sm:aspect-[16/9] lg:aspect-[21/9]"
               range={50}
@@ -312,15 +314,12 @@ export default function ProjectsPage() {
             </Reveal>
           </div>
           <Reveal delay={0.15} className="flex flex-wrap gap-4 lg:justify-end">
-            {[
-              { src: "/images/sbi.png", alt: "State Bank of India", w: 157, h: 68 },
-              { src: "/images/pnb-full.png", alt: "Punjab National Bank", w: 327, h: 103 },
-            ].map((b) => (
+            {[media.partners.sbi.logo, media.partners.pnb.logoWide].map((b) => (
               <span
                 key={b.src}
                 className="grid h-24 place-items-center rounded-[20px] bg-white px-7 shadow-[0_20px_40px_-28px_rgba(11,23,51,0.35)]"
               >
-                <Image src={b.src} alt={b.alt} width={b.w} height={b.h} className="h-12 w-auto" />
+                <Image src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-12 w-auto" />
               </span>
             ))}
           </Reveal>
@@ -381,7 +380,6 @@ export default function ProjectsPage() {
       />
 
       <ClosingCta
-        image="/images/residential-complex.jpg"
         label="Your next step"
         title="Ready to discuss your own *property plans?*"
         text="Tell us what you're looking for and we'll shortlist the right bank-approved project — then walk with you from the first visit to possession and beyond."

@@ -17,6 +17,8 @@ export type Project = {
   /** Optional walkthrough film shown on the project page. */
   film?: { src: string; poster: string; title: string; portrait?: boolean };
   brochure: string;
+  /** Brochure size when it comes from Sanity; local brochures are measured on disk. */
+  brochureBytes?: number;
 };
 
 export const projects: Project[] = [
@@ -122,4 +124,3 @@ export const projects: Project[] = [
   },
 ];
 
-export const getProject = (key: string) => projects.find((p) => p.key === key);

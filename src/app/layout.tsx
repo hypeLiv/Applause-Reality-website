@@ -9,6 +9,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import { introGateScript } from "@/lib/intro";
 import { absolute, DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { getSiteMedia, type SiteMedia } from "@/sanity/media";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,22 +30,25 @@ const hind = Hind({
   variable: "--ff-hind",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: {
-    default: DEFAULT_TITLE,
-    template: "%s | Applause Reality",
-  },
-  description: DEFAULT_DESCRIPTION,
-  icons: { icon: "/images/logo-mark.png", apple: "/images/logo-mark.png" },
-  // Fallbacks for routes without their own pageMeta(); pages restate these.
-  openGraph: { type: "website", siteName: site.name, locale: "en_IN" },
-  twitter: { card: "summary_large_image" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { icon } = await getSiteMedia();
+  return {
+    metadataBase: new URL(site.url),
+    title: {
+      default: DEFAULT_TITLE,
+      template: "%s | Applause Reality",
+    },
+    description: DEFAULT_DESCRIPTION,
+    icons: { icon: icon.src, apple: icon.src },
+    // Fallbacks for routes without their own pageMeta(); pages restate these.
+    openGraph: { type: "website", siteName: site.name, locale: "en_IN" },
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 // Site-wide business identity. No street address yet: add it (matching the
 // Google Business Profile exactly) as soon as the client confirms it.
-const businessSchema = {
+const businessSchema = (media: SiteMedia) => ({
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -52,8 +56,8 @@ const businessSchema = {
       "@id": absolute("/#business"),
       name: site.name,
       url: site.url,
-      logo: absolute("/images/logo.png"),
-      image: absolute("/images/award-sbi.png"),
+      logo: absolute(media.logo.src),
+      image: absolute(media.featuredAward.src),
       description: DEFAULT_DESCRIPTION,
       slogan: site.tagline,
       email: site.email,
@@ -76,11 +80,12 @@ const businessSchema = {
       publisher: { "@id": absolute("/#business") },
     },
   ],
-};
+});
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const media = await getSiteMedia();
   return (
     // The head script may add the intro-done class before hydration.
     <html lang="en" className={`${inter.variable} ${hind.variable} ${fraunces.variable}`} suppressHydrationWarning>
@@ -88,9 +93,9 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
       </head>
       <body>
-        <JsonLd data={businessSchema} />
+        <JsonLd data={businessSchema(media)} />
         <IntroLoader />
-        <Header />
+        <Header logo={media.logo} logoOnDark={media.logoOnDark} />
         <main>{children}</main>
         <Footer />
         <ChatButton />
