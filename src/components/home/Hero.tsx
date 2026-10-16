@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import Image from "next/image";
+import Image from "@/components/Image";
 import Link from "next/link";
 import { useRef } from "react";
 import BrandTagline from "@/components/BrandTagline";

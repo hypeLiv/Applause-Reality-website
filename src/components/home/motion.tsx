@@ -8,7 +8,7 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import Image from "next/image";
+import Image from "@/components/Image";
 import { useEffect, useRef } from "react";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;

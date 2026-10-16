@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
+import Image from "@/components/Image";
 import { useId, useState } from "react";
 import { EASE } from "@/components/home/motion";
 

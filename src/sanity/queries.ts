@@ -1,11 +1,12 @@
 import { defineQuery } from "groq";
 
-/** An image's URL, alt text and intrinsic size. */
+/** An image's URL, alt text, intrinsic size and the BlurHash Sanity computes on upload. */
 const image = /* groq */ `{
   "src": asset->url,
   alt,
   "width": asset->metadata.dimensions.width,
-  "height": asset->metadata.dimensions.height
+  "height": asset->metadata.dimensions.height,
+  "blurHash": asset->metadata.blurHash
 }`;
 
 const tour = /* groq */ `{

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/Image";
 import BrandTagline from "@/components/BrandTagline";
 import ClosingCta from "@/components/home/ClosingCta";
 import { CountUp, Reveal, Words } from "@/components/home/motion";

@@ -2,7 +2,9 @@ import { createClient } from "@sanity/client";
 import { cache } from "react";
 import type { Award } from "@/components/page/AwardWall";
 import { type Post, posts } from "@/content/posts";
+import localHashes from "@/content/blurhashes.json";
 import { type Project, projects } from "@/content/projects";
+import { blurhashToDataURL } from "@/lib/blurhash";
 import { apiVersion, dataset, projectId, sanityEnabled } from "./env";
 import { MEDIA_QUERY } from "./queries";
 import type { MEDIA_QUERY_RESULT } from "./types";
@@ -198,3 +200,37 @@ export const getPosts = cache(async (): Promise<Post[]> => {
   });
 });
 
+type Hashed = { src: string; hash: string; width: number; height: number };
+
+/** Every image in a Sanity result that carries a BlurHash, except logos (keys like logo, logoWide, icon). */
+function sanityHashes(node: unknown, key = "", out: Hashed[] = []): Hashed[] {
+  if (Array.isArray(node)) {
+    for (const item of node) sanityHashes(item, key, out);
+  } else if (node && typeof node === "object") {
+    const o = node as Record<string, unknown>;
+    if (typeof o.src === "string" && typeof o.blurHash === "string" && !/logo|icon/i.test(key)) {
+      out.push({ src: o.src, hash: o.blurHash, width: Number(o.width) || 1, height: Number(o.height) || 1 });
+    }
+    for (const [k, v] of Object.entries(o)) sanityHashes(v, k, out);
+  }
+  return out;
+}
+
+/**
+ * Blur placeholders (image src → tiny PNG data URL) for every photo the site
+ * currently shows: Sanity's own hashes for uploaded images, and the hashes from
+ * `npm run blurhash` for bundled /public files. Limited to images actually in
+ * use, so the map stays a few kilobytes.
+ */
+export const getBlurMap = cache(async (): Promise<Record<string, string>> => {
+  const [m, media, projectList, postList] = await Promise.all([fetchMedia(), getSiteMedia(), getProjects(), getPosts()]);
+  const used = JSON.stringify([media, projectList, postList]);
+  const local: Hashed[] = Object.entries(localHashes as Record<string, { hash: string; width: number; height: number }>).map(
+    ([src, h]) => ({ src, ...h }),
+  );
+  const map: Record<string, string> = {};
+  for (const h of [...local, ...sanityHashes(m)]) {
+    if (!map[h.src] && used.includes(`"${h.src}"`)) map[h.src] = blurhashToDataURL(h.hash, h.width, h.height);
+  }
+  return map;
+});

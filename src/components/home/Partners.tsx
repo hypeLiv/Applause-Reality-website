@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Image";
 import { getSiteMedia } from "@/sanity/media";
 import { Reveal, Words } from "./motion";
 import { Bezel } from "./ui";

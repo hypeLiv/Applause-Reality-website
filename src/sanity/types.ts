@@ -432,9 +432,9 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: ../applause-reality/src/sanity/queries.ts
+// Source: ../src/sanity/queries.ts
 // Variable: MEDIA_QUERY
-// Query: {  "settings": *[_id == "siteSettings"][0]{    logo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    logoOnDark{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    icon{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    founderPortrait{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    servicePhotos{      residential{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},      commercial{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},      investment{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},      homeLoans{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height}    },    homeHeroImage{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    homeWalkthrough{  "src": video.asset->url,  "srcSmall": mobileVideo.asset->url,  "poster": poster.asset->url},    "featuredAward": featuredAward->image{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    locationsTour{  "src": video.asset->url,  "srcSmall": mobileVideo.asset->url,  "poster": poster.asset->url},    onSitePhoto{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    ctaImage{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    testimonialsCtaImage{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height}  },  "projects": *[_type == "project" && defined(slug.current)]{    "key": slug.current,    photo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    logo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    highlights{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    film{      "src": video.asset->url,      "poster": poster.asset->url,      title,      orientation    },    "brochure": brochure.asset->url,    "brochureBytes": brochure.asset->size  },  "posts": *[_type == "post" && defined(slug.current)]{    "slug": slug.current,    cover{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height}  },  "partners": *[_type == "partner" && defined(slug.current)]{    "key": slug.current,    logo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height},    logoWide{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height}  },  "awards": *[_type == "award" && defined(image.asset)] | order(rank asc){    _id,    title,    issuer,    image{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height}  }}
+// Query: {  "settings": *[_id == "siteSettings"][0]{    logo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    logoOnDark{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    icon{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    founderPortrait{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    servicePhotos{      residential{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},      commercial{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},      investment{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},      homeLoans{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash}    },    homeHeroImage{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    homeWalkthrough{  "src": video.asset->url,  "srcSmall": mobileVideo.asset->url,  "poster": poster.asset->url},    "featuredAward": featuredAward->image{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    locationsTour{  "src": video.asset->url,  "srcSmall": mobileVideo.asset->url,  "poster": poster.asset->url},    onSitePhoto{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    ctaImage{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    testimonialsCtaImage{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash}  },  "projects": *[_type == "project" && defined(slug.current)]{    "key": slug.current,    photo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    logo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    highlights{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    film{      "src": video.asset->url,      "poster": poster.asset->url,      title,      orientation    },    "brochure": brochure.asset->url,    "brochureBytes": brochure.asset->size  },  "posts": *[_type == "post" && defined(slug.current)]{    "slug": slug.current,    cover{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash}  },  "partners": *[_type == "partner" && defined(slug.current)]{    "key": slug.current,    logo{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash},    logoWide{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash}  },  "awards": *[_type == "award" && defined(image.asset)] | order(rank asc){    _id,    title,    issuer,    image{  "src": asset->url,  alt,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "blurHash": asset->metadata.blurHash}  }}
 export type MEDIA_QUERY_RESULT = {
   settings:
     | {
@@ -457,6 +457,7 @@ export type MEDIA_QUERY_RESULT = {
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         logoOnDark: null;
         icon: null;
@@ -476,24 +477,28 @@ export type MEDIA_QUERY_RESULT = {
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         logoOnDark: {
           src: string | null;
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         icon: {
           src: string | null;
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         founderPortrait: {
           src: string | null;
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         servicePhotos: {
           residential: {
@@ -501,24 +506,28 @@ export type MEDIA_QUERY_RESULT = {
             alt: string | null;
             width: number | null;
             height: number | null;
+            blurHash: string | null;
           } | null;
           commercial: {
             src: string | null;
             alt: string | null;
             width: number | null;
             height: number | null;
+            blurHash: string | null;
           } | null;
           investment: {
             src: string | null;
             alt: string | null;
             width: number | null;
             height: number | null;
+            blurHash: string | null;
           } | null;
           homeLoans: {
             src: string | null;
             alt: string | null;
             width: number | null;
             height: number | null;
+            blurHash: string | null;
           } | null;
         } | null;
         homeHeroImage: {
@@ -526,6 +535,7 @@ export type MEDIA_QUERY_RESULT = {
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         homeWalkthrough: {
           src: string | null;
@@ -537,6 +547,7 @@ export type MEDIA_QUERY_RESULT = {
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         locationsTour: {
           src: string | null;
@@ -548,18 +559,21 @@ export type MEDIA_QUERY_RESULT = {
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         ctaImage: {
           src: string | null;
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
         testimonialsCtaImage: {
           src: string | null;
           alt: string | null;
           width: number | null;
           height: number | null;
+          blurHash: string | null;
         } | null;
       }
     | null;
@@ -570,18 +584,21 @@ export type MEDIA_QUERY_RESULT = {
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     } | null;
     logo: {
       src: string | null;
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     } | null;
     highlights: {
       src: string | null;
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     } | null;
     film: {
       src: string | null;
@@ -599,6 +616,7 @@ export type MEDIA_QUERY_RESULT = {
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     } | null;
   }>;
   partners: Array<{
@@ -608,12 +626,14 @@ export type MEDIA_QUERY_RESULT = {
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     } | null;
     logoWide: {
       src: string | null;
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     } | null;
   }>;
   awards: Array<{
@@ -625,6 +645,7 @@ export type MEDIA_QUERY_RESULT = {
       alt: string | null;
       width: number | null;
       height: number | null;
+      blurHash: string | null;
     };
   }>;
 };
@@ -632,7 +653,7 @@ export type MEDIA_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '{\n  "settings": *[_id == "siteSettings"][0]{\n    logo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    logoOnDark{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    icon{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    founderPortrait{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    servicePhotos{\n      residential{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n      commercial{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n      investment{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n      homeLoans{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n}\n    },\n    homeHeroImage{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    homeWalkthrough{\n  "src": video.asset->url,\n  "srcSmall": mobileVideo.asset->url,\n  "poster": poster.asset->url\n},\n    "featuredAward": featuredAward->image{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    locationsTour{\n  "src": video.asset->url,\n  "srcSmall": mobileVideo.asset->url,\n  "poster": poster.asset->url\n},\n    onSitePhoto{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    ctaImage{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    testimonialsCtaImage{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n}\n  },\n  "projects": *[_type == "project" && defined(slug.current)]{\n    "key": slug.current,\n    photo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    logo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    highlights{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    film{\n      "src": video.asset->url,\n      "poster": poster.asset->url,\n      title,\n      orientation\n    },\n    "brochure": brochure.asset->url,\n    "brochureBytes": brochure.asset->size\n  },\n  "posts": *[_type == "post" && defined(slug.current)]{\n    "slug": slug.current,\n    cover{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n}\n  },\n  "partners": *[_type == "partner" && defined(slug.current)]{\n    "key": slug.current,\n    logo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n},\n    logoWide{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n}\n  },\n  "awards": *[_type == "award" && defined(image.asset)] | order(rank asc){\n    _id,\n    title,\n    issuer,\n    image{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height\n}\n  }\n}': MEDIA_QUERY_RESULT;
+    '{\n  "settings": *[_id == "siteSettings"][0]{\n    logo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    logoOnDark{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    icon{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    founderPortrait{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    servicePhotos{\n      residential{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n      commercial{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n      investment{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n      homeLoans{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n}\n    },\n    homeHeroImage{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    homeWalkthrough{\n  "src": video.asset->url,\n  "srcSmall": mobileVideo.asset->url,\n  "poster": poster.asset->url\n},\n    "featuredAward": featuredAward->image{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    locationsTour{\n  "src": video.asset->url,\n  "srcSmall": mobileVideo.asset->url,\n  "poster": poster.asset->url\n},\n    onSitePhoto{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    ctaImage{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    testimonialsCtaImage{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n}\n  },\n  "projects": *[_type == "project" && defined(slug.current)]{\n    "key": slug.current,\n    photo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    logo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    highlights{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    film{\n      "src": video.asset->url,\n      "poster": poster.asset->url,\n      title,\n      orientation\n    },\n    "brochure": brochure.asset->url,\n    "brochureBytes": brochure.asset->size\n  },\n  "posts": *[_type == "post" && defined(slug.current)]{\n    "slug": slug.current,\n    cover{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n}\n  },\n  "partners": *[_type == "partner" && defined(slug.current)]{\n    "key": slug.current,\n    logo{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n},\n    logoWide{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n}\n  },\n  "awards": *[_type == "award" && defined(image.asset)] | order(rank asc){\n    _id,\n    title,\n    issuer,\n    image{\n  "src": asset->url,\n  alt,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "blurHash": asset->metadata.blurHash\n}\n  }\n}': MEDIA_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

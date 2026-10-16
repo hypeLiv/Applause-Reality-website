@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Image";
 import { useRef, useState } from "react";
 import { Bezel } from "@/components/home/ui";
 import Tilt from "./Tilt";

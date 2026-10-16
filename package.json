@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "blurhash": "node scripts/blurhash.mjs"
   },
   "dependencies": {
     "@sanity/client": "8.9.0",
     "@sanity/webhook": "4.0.4",
+    "blurhash": "^2.0.5",
     "groq": "6.19.0",
     "lenis": "1.3.26",
     "motion": "12.43.0",

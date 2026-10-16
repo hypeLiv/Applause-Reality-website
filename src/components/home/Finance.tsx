@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Image";
 import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
 import { getSiteMedia, type Img } from "@/sanity/media";

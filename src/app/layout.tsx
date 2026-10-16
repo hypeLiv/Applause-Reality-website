@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Hind, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { BlurProvider } from "@/components/Image";
 import Footer from "@/components/Footer";
 import ChatButton from "@/components/ChatButton";
 import IntroLoader from "@/components/IntroLoader";
@@ -9,7 +10,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import { introGateScript } from "@/lib/intro";
 import { absolute, DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo";
 import { site } from "@/lib/site";
-import { getSiteMedia, type SiteMedia } from "@/sanity/media";
+import { getBlurMap, getSiteMedia, type SiteMedia } from "@/sanity/media";
 
 // Warm geometric sans for body, labels and UI.
 const jakarta = Plus_Jakarta_Sans({
@@ -86,7 +87,7 @@ const businessSchema = (media: SiteMedia) => ({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const media = await getSiteMedia();
+  const [media, blurMap] = await Promise.all([getSiteMedia(), getBlurMap()]);
   return (
     // The head script may add the intro-done class before hydration.
     <html lang="en" className={`${jakarta.variable} ${hind.variable} ${fraunces.variable}`} suppressHydrationWarning>
@@ -96,10 +97,12 @@ export default async function RootLayout({
       <body>
         <JsonLd data={businessSchema(media)} />
         <IntroLoader />
-        <Header logo={media.logo} logoOnDark={media.logoOnDark} />
-        <main>{children}</main>
-        <Footer />
-        <ChatButton />
+        <BlurProvider map={blurMap}>
+          <Header logo={media.logo} logoOnDark={media.logoOnDark} />
+          <main>{children}</main>
+          <Footer />
+          <ChatButton />
+        </BlurProvider>
       </body>
     </html>
   );
