@@ -11,6 +11,7 @@ import StoryGrid from "@/components/page/StoryGrid";
 import { Cta } from "@/components/sections";
 import TokyoSkylineHero from "@/components/ui/sunset-skyline-hero";
 import { type Project, projects } from "@/content/projects";
+import { outcomes } from "@/content/testimonials";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -105,27 +106,6 @@ const advantages = [
   },
 ];
 
-const stories = [
-  {
-    eyebrow: "Noida, Sector 150",
-    title: "SBI employee family",
-    meta: "3 BHK luxury apartment · Handpicked for secure appreciation",
-    quote: "“The 25% capital appreciation within just 18 months has given us true financial peace of mind.”",
-  },
-  {
-    eyebrow: "Outcome · Stress-free loan",
-    quote:
-      "My experience with Applause Reality while booking my flat was truly wonderful. From site visits to final handover, everything was handled seamlessly and it was made sure I had zero hassle with paperwork. Grateful to Applause Reality for making this journey so smooth",
-    by: "Ashwani Baunthiyal — Homebuyer, SBI Dwarka",
-  },
-  {
-    eyebrow: "Wave City, Ghaziabad",
-    title: "Retired corporate executive",
-    meta: "Independent floor · Smart-city infrastructure gateway",
-    quote:
-      "“Transparent documentation and zero hidden costs made this my best property investment for stable long-term growth.”",
-  },
-];
 
 export default function ProjectsPage() {
   return (
@@ -397,7 +377,7 @@ export default function ProjectsPage() {
       <StoryGrid
         title="Investments that *paid off.*"
         intro="Real goals met through bank-approved projects and transparent dealings — the reason families and professionals keep trusting Applause Reality."
-        stories={stories}
+        stories={outcomes}
       />
 
       <ClosingCta

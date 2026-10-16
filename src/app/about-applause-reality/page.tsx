@@ -8,8 +8,10 @@ import { Arrow, Icon, type IconName, lux } from "@/components/home/ui";
 import AwardWall, { type Award } from "@/components/page/AwardWall";
 import JourneyLine from "@/components/page/JourneyLine";
 import RollingJourney from "@/components/page/RollingJourney";
+import TestimonialCard from "@/components/page/TestimonialCard";
 import Tilt from "@/components/page/Tilt";
 import { Cta } from "@/components/sections";
+import { testimonials } from "@/content/testimonials";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -71,33 +73,7 @@ const awards: Award[] = [
   { src: "/images/award-5.png", w: 1296, h: 1214, title: "Channel partner recognition", meta: "The Prestige City" },
 ];
 
-const stories: { quote: string; name: string; role: string; lang?: "hi" }[] = [
-  {
-    quote:
-      "I purchased my builder flat through Mr. Rajeev Kumar Pandey, and my experience was very positive. He guided me throughout the entire process, from property selection to documentation. His professional approach, prompt communication, and transparency helped make the purchase smooth and hassle-free. He was always available to address my queries and provided valuable assistance at every stage. I appreciate his dedication and would recommend him to anyone looking for reliable real estate guidance.",
-    name: "Alok Kumar Mandal",
-    role: "Deputy Manager, State Bank of India",
-  },
-  {
-    quote:
-      "Rajiv made the entire home-buying and loan process much easier for clients. He was always available to guide the interested parties. I have also experienced the same and he patiently answered my queries, and helped me secure the right home. His knowledge, honesty, and commitment to helping clients truly stand out. I would happily recommend him to anyone looking for support with property purchase and home financing.",
-    name: "Netrapal Singh",
-    role: "AGM, State Bank of India",
-  },
-  {
-    quote:
-      "I wanted to take a moment to sincerely thank you Rajeev Pandey ji of Applause group for all your help in securing my new dream flat Revulet of fusion group at Greater Noida. Your expertise, patience and dedication made what could have been stressful process feel incredibly smooth. I truly appreciate your going extra mile to bridge the gap between me and the builder. I could not have been done it without your honest efforts and guidance. Your candid approach towards the home buyers is testimonials for your credibility that one could trust you blindly for buying a flat at Noida/Greater Noida. All the best in your endeavours and for prospective home buyers in pursuit for a reliable builder amid lots of fake brokers around locality.",
-    name: "Praveen Mansinghka",
-    role: "Investor",
-  },
-  {
-    quote:
-      "प्रिय राजीव पांडेय जी, जैसा कि हम सभी जानते हैं, दिल्ली एवं दिल्ली-एनसीआर में अपना एक सुंदर घर होना हर व्यक्ति का सपना होता है। रियल एस्टेट क्षेत्र में आपके 15 वर्षों से अधिक के अनुभव ने न जाने कितने लोगों के इस सपने को साकार करने में महत्वपूर्ण भूमिका निभाई है। लेकिन आपकी सबसे बड़ी विशेषता केवल आपका अनुभव नहीं, बल्कि आपका मानवीय दृष्टिकोण और लोगों के साथ लंबे समय तक भरोसेमंद संबंध बनाने की भावना है। आप सदैव अपने ग्राहकों की आवश्यकताओं को समझकर उन्हें ईमानदारी, पारदर्शिता और समर्पण के साथ सही मार्गदर्शन प्रदान करते हैं। आपकी कार्यशैली, व्यवहार-कुशलता और लोगों के प्रति आत्मीयता आपको इस क्षेत्र में एक विशिष्ट पहचान दिलाती है। मैं आपके उज्ज्वल भविष्य और निरंतर सफलता की कामना करता हूँ।",
-    name: "हनिश शर्मा",
-    role: "Investor",
-    lang: "hi",
-  },
-];
+const stories = testimonials.filter((t) => !t.featured);
 
 export default function AboutPage() {
   return (
@@ -379,32 +355,7 @@ export default function AboutPage() {
             {stories.map((s, i) => (
               <li key={s.name} className="mb-6 break-inside-avoid">
                 <Reveal delay={(i % 2) * 0.08}>
-                  <figure className="rounded-[22px] bg-ivory p-7 md:p-9">
-                    <svg aria-hidden viewBox="0 0 32 24" className="h-6 w-auto text-royal/40" fill="currentColor">
-                      <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
-                    </svg>
-                    <blockquote
-                      lang={s.lang}
-                      className={`mt-5 text-ink-900 ${s.lang === "hi" ? "font-deva text-[17px] leading-[1.9]" : "font-text text-[17px] leading-[1.75]"}`}
-                    >
-                      {s.quote}
-                    </blockquote>
-                    <figcaption className="mt-7 flex items-center gap-3 border-t border-ink-900/[0.08] pt-5">
-                      <span
-                        aria-hidden
-                        lang={s.lang}
-                        className={`grid h-10 w-10 place-items-center rounded-full bg-ink-900 text-sm font-semibold text-white ${s.lang === "hi" ? "font-deva" : "font-sans"}`}
-                      >
-                        {s.name.charAt(0)}
-                      </span>
-                      <span>
-                        <span lang={s.lang} className={`block font-semibold ${s.lang === "hi" ? "font-deva" : "font-sans"}`}>
-                          {s.name}
-                        </span>
-                        <span className="font-text text-sm text-slate-ink">{s.role}</span>
-                      </span>
-                    </figcaption>
-                  </figure>
+                  <TestimonialCard testimonial={s} />
                 </Reveal>
               </li>
             ))}

@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absolute("/projects"), changeFrequency: "weekly", priority: 0.9 },
     { url: absolute("/about-applause-reality"), changeFrequency: "monthly", priority: 0.7 },
     { url: absolute("/blog"), changeFrequency: "weekly", priority: 0.7 },
+    { url: absolute("/testimonials"), changeFrequency: "monthly", priority: 0.7 },
     { url: absolute("/consultation"), changeFrequency: "yearly", priority: 0.6 },
   ];
   return [

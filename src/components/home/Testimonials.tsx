@@ -3,33 +3,12 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import AdvisorForm from "@/components/AdvisorForm";
+import { testimonials } from "@/content/testimonials";
 import { EASE, Reveal, Words } from "./motion";
 
 const HOLD_MS = 7000;
 
-const quotes = [
-  {
-    quote:
-      "Excellent service, professional approach, and complete transparency throughout the process. Thank you for making the property transaction smooth, hassle-free, and successful. Highly recommended.",
-    name: "Rajeev Kumar Agrawal",
-    role: "Dy. General Manager",
-    org: "SBI",
-  },
-  {
-    quote:
-      "I would like to express my sincere gratitude for your invaluable support and guidance throughout the process of booking my new flat in Noida. Your guidance, prompt responses, and sincere efforts made the entire process seamless and stress-free.",
-    name: "Jitender Kumar",
-    role: "DGM",
-    org: "SBI",
-  },
-  {
-    quote:
-      "Deeply grateful for the seamless support from our first site visit to long after possession. Their dedicated care ensured every step was transparent and stress-free. Truly professional partners.",
-    name: "Anurag",
-    role: "Analyst",
-    org: "PwC",
-  },
-];
+const quotes = testimonials.filter((t) => t.featured);
 
 export default function Testimonials() {
   const [active, setActive] = useState(0);
