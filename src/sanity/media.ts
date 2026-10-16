@@ -77,6 +77,7 @@ const DEFAULTS = {
     1475,
     1066,
   ),
+  // Pexels clip 3258635 (4K dusk drone pull-back): its first ~25s at 6x speed, a 4s, 96-frame scrub.
   locationsTour: {
     src: "/videos/locations-scrub.mp4",
     srcSmall: "/videos/locations-scrub-mobile.mp4",

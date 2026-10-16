@@ -145,7 +145,7 @@ export default async function ProjectsPage() {
         }
         openingVeil={0.45}
         darkHeader
-        scrubDistance={1200}
+        scrubDistance={800}
       />
 
       {/* Corridors, each carrying its own launches */}
