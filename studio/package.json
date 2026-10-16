@@ -1,0 +1,28 @@
+{
+  "name": "applause-reality-studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy",
+    "schema:deploy": "sanity schema deploy",
+    "typegen": "sanity schema extract --path=./schema.json --force && sanity typegen generate",
+    "seed:media": "sanity exec scripts/seed-media.ts --with-user-token"
+  },
+  "dependencies": {
+    "@sanity/icons": "5.2.3",
+    "@sanity/vision": "6.19.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "sanity": "6.19.0",
+    "styled-components": "6.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}

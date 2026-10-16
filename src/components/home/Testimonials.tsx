@@ -3,33 +3,13 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import AdvisorForm from "@/components/AdvisorForm";
+import { testimonials } from "@/content/testimonials";
 import { EASE, Reveal, Words } from "./motion";
+import { Bezel } from "./ui";
 
 const HOLD_MS = 7000;
 
-const quotes = [
-  {
-    quote:
-      "Excellent service, professional approach, and complete transparency throughout the process. Thank you for making the property transaction smooth, hassle-free, and successful. Highly recommended.",
-    name: "Rajeev Kumar Agrawal",
-    role: "Dy. General Manager",
-    org: "SBI",
-  },
-  {
-    quote:
-      "I would like to express my sincere gratitude for your invaluable support and guidance throughout the process of booking my new flat in Noida. Your guidance, prompt responses, and sincere efforts made the entire process seamless and stress-free.",
-    name: "Jitender Kumar",
-    role: "DGM",
-    org: "SBI",
-  },
-  {
-    quote:
-      "Deeply grateful for the seamless support from our first site visit to long after possession. Their dedicated care ensured every step was transparent and stress-free. Truly professional partners.",
-    name: "Anurag",
-    role: "Analyst",
-    org: "PwC",
-  },
-];
+const quotes = testimonials.filter((t) => t.featured);
 
 export default function Testimonials() {
   const [active, setActive] = useState(0);
@@ -47,7 +27,7 @@ export default function Testimonials() {
   return (
     <section
       id="advisor"
-      className="lux-scope relative overflow-hidden bg-ink-900 px-6 py-28 text-ivory md:px-10 md:py-36"
+      className="lux-scope relative overflow-hidden bg-ink-900 px-4 sm:px-6 py-28 text-ivory md:px-10 md:py-36"
     >
       <div className="mx-auto grid max-w-[1320px] gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
         <div
@@ -127,16 +107,18 @@ export default function Testimonials() {
         </div>
 
         <Reveal delay={0.1}>
-          <aside className="lux-on-light rounded-[28px] bg-ivory p-8 text-ink-900 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] md:p-10">
-            <p className="lux-label text-royal">Meet your advisor</p>
-            <h3 className="lux-display mt-5 text-4xl md:text-[44px]">
-              Talk to a Delhi NCR <em>relationship</em> manager.
-            </h3>
-            <p className="mb-8 mt-4 font-text text-base leading-relaxed text-slate-ink">
-              Share a few details and we&apos;ll guide your next step personally.
-            </p>
-            <AdvisorForm />
-          </aside>
+          <Bezel>
+            <aside className="lux-on-light bg-ivory p-8 text-ink-900 md:p-10">
+              <p className="lux-label text-royal">Meet your advisor</p>
+              <h3 className="lux-display mt-5 text-4xl md:text-[44px]">
+                Talk to a Delhi NCR <em>relationship</em> manager.
+              </h3>
+              <p className="mb-8 mt-4 font-text text-base leading-relaxed text-slate-ink">
+                Share a few details and we&apos;ll guide your next step personally.
+              </p>
+              <AdvisorForm />
+            </aside>
+          </Bezel>
         </Reveal>
       </div>
     </section>

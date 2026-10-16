@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/Image";
 import BrandTagline from "@/components/BrandTagline";
 import ClosingCta from "@/components/home/ClosingCta";
 import { CountUp, Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
-import { Arrow, Icon, type IconName, lux } from "@/components/home/ui";
-import AwardWall, { type Award } from "@/components/page/AwardWall";
+import { Arrow, Bezel, Icon, type IconName, lux } from "@/components/home/ui";
+import AwardWall from "@/components/page/AwardWall";
 import JourneyLine from "@/components/page/JourneyLine";
 import RollingJourney from "@/components/page/RollingJourney";
+import TestimonialCard from "@/components/page/TestimonialCard";
 import Tilt from "@/components/page/Tilt";
 import { Cta } from "@/components/sections";
+import { testimonials } from "@/content/testimonials";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { getSiteMedia, type SiteMedia } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Trusted Real Estate Consultants for Delhi-NCR",
@@ -48,11 +51,18 @@ const proofs: { value: React.ReactNode; label: string; text: string }[] = [
   },
 ];
 
-const services: { icon: IconName; title: string; text: string; photo: string; alt: string }[] = [
-  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living.", photo: "/images/pillars/homes.jpg", alt: "Warmly lit living room with night city views" },
-  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.", photo: "/images/pillars/commercial.jpg", alt: "Office tower lit up at dusk" },
-  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios.", photo: "/images/pillars/investment.jpg", alt: "Residential towers at blue hour" },
-  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships.", photo: "/images/pillars/loans.jpg", alt: "A house key on a dark surface" },
+/** Proof cascade (md and up): each card's stacking, overlap and drop, then its resting angle. */
+const cascade = [
+  { place: "md:z-10", tilt: "md:-rotate-2" },
+  { place: "md:z-20 md:-ml-6 md:mt-12", tilt: "md:rotate-[1.5deg]" },
+  { place: "md:z-30 md:-ml-6 md:mt-4", tilt: "md:-rotate-1" },
+];
+
+const services: { icon: IconName; title: string; text: string; photo: keyof SiteMedia["services"] }[] = [
+  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living.", photo: "residential" },
+  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.", photo: "commercial" },
+  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios.", photo: "investment" },
+  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships.", photo: "homeLoans" },
 ];
 
 const journey: { icon: IconName; title: string; text: string }[] = [
@@ -62,50 +72,17 @@ const journey: { icon: IconName; title: string; text: string }[] = [
   { icon: "key", title: "Possession & beyond", text: "Keys in hand — and still on call long after the handover." },
 ];
 
-const awards: Award[] = [
-  { src: "/images/award-sbi.png", w: 1475, h: 1066, title: "Certificate of Excellence", meta: "State Bank of India" },
-  { src: "/images/award-2000cr.png", w: 1050, h: 1498, title: "₹2,000 Crore super launch", meta: "Godrej Properties · Outstanding performance, FY 23–24" },
-  { src: "/images/award-builder.png", w: 1121, h: 1403, title: "Growth Partners Meet 2026", meta: "Gulshan Homes · Gulshan Empire, Wave City" },
-  { src: "/images/award-partnership.png", w: 1507, h: 1044, title: "Partnership & performance", meta: "Recognised by Fusion Group" },
-  { src: "/images/award-corporate.png", w: 1143, h: 1376, title: "Legends of Excellence — Outstanding", meta: "Godrej Majesty" },
-  { src: "/images/award-5.png", w: 1296, h: 1214, title: "Channel partner recognition", meta: "The Prestige City" },
-];
 
-const stories: { quote: string; name: string; role: string; lang?: "hi" }[] = [
-  {
-    quote:
-      "I purchased my builder flat through Mr. Rajeev Kumar Pandey, and my experience was very positive. He guided me throughout the entire process, from property selection to documentation. His professional approach, prompt communication, and transparency helped make the purchase smooth and hassle-free. He was always available to address my queries and provided valuable assistance at every stage. I appreciate his dedication and would recommend him to anyone looking for reliable real estate guidance.",
-    name: "Alok Kumar Mandal",
-    role: "Deputy Manager, State Bank of India",
-  },
-  {
-    quote:
-      "Rajiv made the entire home-buying and loan process much easier for clients. He was always available to guide the interested parties. I have also experienced the same and he patiently answered my queries, and helped me secure the right home. His knowledge, honesty, and commitment to helping clients truly stand out. I would happily recommend him to anyone looking for support with property purchase and home financing.",
-    name: "Netrapal Singh",
-    role: "AGM, State Bank of India",
-  },
-  {
-    quote:
-      "I wanted to take a moment to sincerely thank you Rajeev Pandey ji of Applause group for all your help in securing my new dream flat Revulet of fusion group at Greater Noida. Your expertise, patience and dedication made what could have been stressful process feel incredibly smooth. I truly appreciate your going extra mile to bridge the gap between me and the builder. I could not have been done it without your honest efforts and guidance. Your candid approach towards the home buyers is testimonials for your credibility that one could trust you blindly for buying a flat at Noida/Greater Noida. All the best in your endeavours and for prospective home buyers in pursuit for a reliable builder amid lots of fake brokers around locality.",
-    name: "Praveen Mansinghka",
-    role: "Investor",
-  },
-  {
-    quote:
-      "प्रिय राजीव पांडेय जी, जैसा कि हम सभी जानते हैं, दिल्ली एवं दिल्ली-एनसीआर में अपना एक सुंदर घर होना हर व्यक्ति का सपना होता है। रियल एस्टेट क्षेत्र में आपके 15 वर्षों से अधिक के अनुभव ने न जाने कितने लोगों के इस सपने को साकार करने में महत्वपूर्ण भूमिका निभाई है। लेकिन आपकी सबसे बड़ी विशेषता केवल आपका अनुभव नहीं, बल्कि आपका मानवीय दृष्टिकोण और लोगों के साथ लंबे समय तक भरोसेमंद संबंध बनाने की भावना है। आप सदैव अपने ग्राहकों की आवश्यकताओं को समझकर उन्हें ईमानदारी, पारदर्शिता और समर्पण के साथ सही मार्गदर्शन प्रदान करते हैं। आपकी कार्यशैली, व्यवहार-कुशलता और लोगों के प्रति आत्मीयता आपको इस क्षेत्र में एक विशिष्ट पहचान दिलाती है। मैं आपके उज्ज्वल भविष्य और निरंतर सफलता की कामना करता हूँ।",
-    name: "हनिश शर्मा",
-    role: "Investor",
-    lang: "hi",
-  },
-];
+const stories = testimonials.filter((t) => !t.featured);
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const media = await getSiteMedia();
   return (
     <>
       <SmoothScroll />
 
       {/* 1 · Founder hero */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 pb-24 pt-36 text-ivory md:px-10 md:pb-32 md:pt-44">
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-24 pt-36 text-ivory md:px-10 md:pb-32 md:pt-44">
         <div aria-hidden className="absolute -left-48 top-10 -z-10 h-[520px] w-[640px] rounded-full bg-royal/30 blur-[150px]" />
         <div className="mx-auto grid max-w-[1320px] items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           <div>
@@ -151,39 +128,52 @@ export default function AboutPage() {
           </div>
 
           <Reveal delay={0.2} className="relative mx-auto w-full max-w-[460px]">
-            <Tilt max={5} className="rounded-[28px]">
-              <figure className="relative overflow-hidden rounded-[28px] ring-1 ring-white/10">
-                <Image
-                  src="/images/founder.png"
-                  alt="Rajiv Kr. Pandey, founder of Applause Reality"
-                  width={1120}
-                  height={1404}
-                  priority
-                  sizes="(min-width: 1024px) 460px, 90vw"
-                  className="h-auto w-full"
-                />
-                <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/85 to-transparent" />
-                <figcaption className="absolute inset-x-5 bottom-5">
-                  <span className="block font-sans text-xl font-semibold">Rajiv Kr. Pandey</span>
-                  <span className="font-text text-sm text-ivory/70">Founder &amp; Real Estate Consultant</span>
-                </figcaption>
-              </figure>
+            <Tilt max={5} className="rounded-[2rem]">
+              <Bezel tone="glass">
+                <figure className="relative">
+                  <Image
+                    src={media.founderPortrait.src}
+                    alt={media.founderPortrait.alt}
+                    width={media.founderPortrait.width}
+                    height={media.founderPortrait.height}
+                    priority
+                    sizes="(min-width: 1024px) 460px, 90vw"
+                    className="h-auto w-full"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/85 to-transparent" />
+                  <figcaption className="absolute inset-x-5 bottom-5">
+                    <span className="block font-sans text-xl font-semibold">Rajiv Kr. Pandey</span>
+                    <span className="font-text text-sm text-ivory/70">Founder &amp; Real Estate Consultant</span>
+                  </figcaption>
+                </figure>
+              </Bezel>
             </Tilt>
             {/* Proof chip, offset off the frame */}
-            <div className="absolute -left-6 top-10 hidden items-center gap-3 rounded-2xl bg-white px-4 py-3 text-ink-900 shadow-[0_24px_50px_-20px_rgba(0,0,0,0.6)] md:flex">
-              <Image src="/images/sbi.png" alt="" width={157} height={68} className="h-6 w-auto" />
+            <Bezel
+              tone="glass"
+              radius="1.5rem"
+              className="absolute -left-8 top-10 hidden -rotate-3 shadow-[0_30px_60px_-30px_rgba(5,12,31,0.7)] transition-[rotate,translate] duration-700 ease-[var(--ease-spring)] hover:-translate-y-1 hover:rotate-0 md:block"
+              coreClassName="flex items-center gap-3 bg-white px-4 py-3 text-ink-900"
+            >
+              <Image
+                src={media.partners.sbi.logo.src}
+                alt=""
+                width={media.partners.sbi.logo.width}
+                height={media.partners.sbi.logo.height}
+                className="h-6 w-auto"
+              />
               <span className="font-text text-[13px] font-semibold leading-tight">
                 Certificate of
                 <br />
                 Excellence
               </span>
-            </div>
+            </Bezel>
           </Reveal>
         </div>
       </section>
 
       {/* 2 · The founder's story */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
           <div>
             <div className="lg:sticky lg:top-32">
@@ -215,7 +205,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3 · Mission & proof */}
-      <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <Reveal>
             <p className="lux-label text-royal">Our mission</p>
@@ -234,19 +224,27 @@ export default function AboutPage() {
             </p>
           </Reveal>
 
-          <dl className="mt-20 grid gap-10 md:grid-cols-3 md:gap-10">
+          {/* Z-axis cascade: the cards overlap at slight angles and square up when hovered.
+              Below md they stack flat, with no overlap to fight over taps. */}
+          <ul className="mt-20 grid gap-6 md:mt-24 md:grid-cols-3 md:gap-0">
             {proofs.map((p, i) => (
-              <Reveal key={p.label} delay={i * 0.08} className="border-t border-ink-900/10 pt-6">
-                <dt className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">{p.label}</dt>
-                <dd>
-                  <span className="mt-5 block font-sans text-[clamp(3.5rem,6vw,5.5rem)] font-semibold leading-none tracking-[-0.04em] text-ink-900 tabular-nums">
-                    {p.value}
-                  </span>
-                  <span className="mt-5 block max-w-[30ch] font-text text-[15px] leading-relaxed text-slate-ink">{p.text}</span>
-                </dd>
-              </Reveal>
+              <li key={p.label} className={`relative md:hover:z-40 ${cascade[i].place}`}>
+                <Reveal delay={i * 0.1}>
+                  <Bezel
+                    tone="light"
+                    className={`shadow-[0_40px_80px_-48px_rgba(11,23,51,0.45)] transition-[rotate,translate] duration-700 ease-[var(--ease-spring)] md:hover:-translate-y-2 md:hover:rotate-0 ${cascade[i].tilt}`}
+                    coreClassName="bg-ivory p-7 md:p-9"
+                  >
+                    <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">{p.label}</p>
+                    <p className="mt-6 font-sans text-[clamp(3.5rem,6vw,5.5rem)] font-semibold leading-none tracking-[-0.04em] text-ink-900 tabular-nums">
+                      {p.value}
+                    </p>
+                    <p className="mt-6 max-w-[30ch] font-text text-[15px] leading-relaxed text-slate-ink">{p.text}</p>
+                  </Bezel>
+                </Reveal>
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
       </section>
 
@@ -259,7 +257,7 @@ export default function AboutPage() {
         route={["First visit", "Keys in hand"]}
         steps={journey}
       />
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32 lg:hidden">
+      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32 lg:hidden">
         <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[460px] w-[620px] rounded-full bg-royal/25 blur-[150px]" />
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -281,7 +279,7 @@ export default function AboutPage() {
       </section>
 
       {/* 5 · Services */}
-      <section className="lux-scope lux-on-light bg-ivory px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-ivory px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -306,8 +304,8 @@ export default function AboutPage() {
                 className="group relative isolate min-h-[22rem] overflow-hidden rounded-[24px] bg-ink-950 text-ivory transition-[flex-grow] duration-700 ease-[var(--ease-lux)] sm:min-h-[26rem] lg:min-h-0 lg:flex-1 lg:hover:flex-[2.1]"
               >
                 <Image
-                  src={s.photo}
-                  alt={s.alt}
+                  src={media.services[s.photo].src}
+                  alt={media.services[s.photo].alt}
                   fill
                   sizes="(min-width: 1024px) 40vw, (min-width: 640px) 50vw, 100vw"
                   className="-z-10 object-cover opacity-80 transition-[transform,opacity] duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.04] group-hover:opacity-95"
@@ -319,7 +317,7 @@ export default function AboutPage() {
                     <span className="font-text text-xs font-semibold tabular-nums tracking-[0.18em] text-accent-soft">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md">
+                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-ink-950/40">
                       <Icon name={s.icon} className="h-5 w-5" />
                     </span>
                   </div>
@@ -335,7 +333,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6 · Recognition */}
-      <section className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+      <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -352,13 +350,13 @@ export default function AboutPage() {
             </Reveal>
           </div>
           <div className="mt-14">
-            <AwardWall awards={awards} />
+            <AwardWall awards={media.awards} />
           </div>
         </div>
       </section>
 
       {/* 7 · Client stories */}
-      <section id="stories" className="lux-scope lux-on-light scroll-mt-24 bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section id="stories" className="lux-scope lux-on-light scroll-mt-24 bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -379,32 +377,7 @@ export default function AboutPage() {
             {stories.map((s, i) => (
               <li key={s.name} className="mb-6 break-inside-avoid">
                 <Reveal delay={(i % 2) * 0.08}>
-                  <figure className="rounded-[22px] bg-ivory p-7 md:p-9">
-                    <svg aria-hidden viewBox="0 0 32 24" className="h-6 w-auto text-royal/40" fill="currentColor">
-                      <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
-                    </svg>
-                    <blockquote
-                      lang={s.lang}
-                      className={`mt-5 text-ink-900 ${s.lang === "hi" ? "font-deva text-[17px] leading-[1.9]" : "font-text text-[17px] leading-[1.75]"}`}
-                    >
-                      {s.quote}
-                    </blockquote>
-                    <figcaption className="mt-7 flex items-center gap-3 border-t border-ink-900/[0.08] pt-5">
-                      <span
-                        aria-hidden
-                        lang={s.lang}
-                        className={`grid h-10 w-10 place-items-center rounded-full bg-ink-900 text-sm font-semibold text-white ${s.lang === "hi" ? "font-deva" : "font-sans"}`}
-                      >
-                        {s.name.charAt(0)}
-                      </span>
-                      <span>
-                        <span lang={s.lang} className={`block font-semibold ${s.lang === "hi" ? "font-deva" : "font-sans"}`}>
-                          {s.name}
-                        </span>
-                        <span className="font-text text-sm text-slate-ink">{s.role}</span>
-                      </span>
-                    </figcaption>
-                  </figure>
+                  <TestimonialCard testimonial={s} />
                 </Reveal>
               </li>
             ))}
@@ -420,7 +393,6 @@ export default function AboutPage() {
 
       {/* 8 · Close */}
       <ClosingCta
-        image="/images/residential-complex.jpg"
         label="Book a free consultation"
         title="Let's plan your next *property move.*"
         text="Discuss residential, commercial, leasing, investment or loan needs with our experts — and get a clear, bank-approved shortlist."

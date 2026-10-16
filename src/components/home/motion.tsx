@@ -8,7 +8,7 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import Image from "next/image";
+import Image from "@/components/Image";
 import { useEffect, useRef } from "react";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -17,7 +17,7 @@ export const EASE = [0.22, 1, 0.36, 1] as const;
 export function Reveal({
   children,
   delay = 0,
-  y = 28,
+  y = 44,
   className,
 }: {
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export function Reveal({
       initial={{ opacity: 0, y: reduce ? 0 : y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.8, ease: EASE, delay }}
+      transition={{ duration: 1, ease: EASE, delay }}
     >
       {children}
     </motion.div>

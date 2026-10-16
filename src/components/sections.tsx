@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Image";
 import Link from "next/link";
 import ConsultLink from "@/components/ConsultLink";
 import { site } from "@/lib/site";

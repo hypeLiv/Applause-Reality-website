@@ -7,41 +7,87 @@ export type Project = {
   logo: { src: string; alt: string; w: number; h: number };
   photo: string;
   photoAlt: string;
-  highlights: string;
+  /** One-page highlights graphic; leave out while it's out of date. */
+  highlights?: string;
   facts: { value: string; label: string }[];
   summary: string;
+  /** Search-result title when "name, location" runs long (the brand is appended). */
+  seoTitle?: string;
   /** Search-snippet description, kept under ~155 characters. */
   metaDescription: string;
   /** Long-form description for the project's own page (from the live site). */
   overview: string[];
+  /** Developer credit shown beside the location, e.g. "Hero Realty". */
+  developer?: string;
+  /** Floor plans on offer, shown as a table on the project page. */
+  unitPlans?: { plan: string; area: string; towers: string }[];
+  /** One line under the unit plans about what every home includes. */
+  planNote?: string;
+  /** Specifications included in the price. */
+  specs?: { title: string; detail?: string }[];
+  /** Short amenity highlights, shown as chips. */
+  amenities?: string[];
   /** Optional walkthrough film shown on the project page. */
   film?: { src: string; poster: string; title: string; portrait?: boolean };
   brochure: string;
+  /** Brochure size when it comes from Sanity; local brochures are measured on disk. */
+  brochureBytes?: number;
 };
 
 export const projects: Project[] = [
   {
     key: "hero-homes",
-    name: "Hero Homes",
+    name: "Hero Homes Leafsong Retreat",
     location: "Sector MU, Greater Noida",
+    developer: "Hero Realty",
+    seoTitle: "Hero Homes Leafsong Retreat, Greater Noida",
     featured: true,
     logo: { src: "/images/hero-homes-logo.png", alt: "Hero Homes logo", w: 490, h: 193 },
     photo: "/images/hero-homes-render.png",
-    photoAlt: "Hero Homes Sector MU towers at sunset",
-    highlights: "/images/hero-homes-highlights.png",
+    photoAlt: "Leafsong Retreat by Hero Realty: three G+31 towers at Sector MU, Greater Noida",
+    // Highlights sheet hidden until the client sends one matching the Leafsong Retreat specs.
     facts: [
-      { value: "3 BHK", label: "Premium residences" },
-      { value: "1,650–2,200", label: "Sq. ft. homes" },
-      { value: "~4.7 acres", label: "Three-tower community" },
-      { value: "AQI-controlled", label: "Proposed environment" },
+      { value: "1,656–2,289", label: "Sq. ft. 3 BHK homes" },
+      { value: "3 towers", label: "G+31 · six homes a floor" },
+      { value: "75%", label: "Open green area" },
+      { value: "AQI-controlled", label: "Homes & clubhouse (ERV)" },
     ],
     metaDescription:
-      "Premium 3 BHK homes in a limited three-tower community at Sector MU, Greater Noida, with a clubhouse, pool and a proposed AQI-controlled environment.",
+      "Leafsong Retreat by Hero Realty, Sector MU Greater Noida: 3 BHK homes of 1,656–2,289 sq ft, six per floor, 75% open green and AQI-controlled living.",
     summary:
-      "Premium 3 BHK residences in a limited three-tower community with landscaped greens, jogging tracks, a clubhouse, pool and fitness facilities — plus a proposed AQI-controlled environment for everyday wellness.",
+      "Premium 3 BHK homes of 1,656 to 2,289 sq ft across three G+31 towers, with only six homes a floor, 75% open green area, a three-zone clubhouse and AQI-controlled homes and club.",
     overview: [
-      "Hero Homes Sector MU, Greater Noida, presents premium 3 BHK residences designed for spacious, modern and healthier living. Spread across approximately 4.7 acres, the limited three-tower community features landscaped green spaces, jogging tracks, a clubhouse, swimming pool and fitness facilities.",
-      "Thoughtfully planned homes range from 1,650 to 2,200 sq. ft., while the proposed AQI-controlled environment supports everyday wellness. It brings together contemporary design, privacy, comfort and lifestyle-focused amenities in a promising Greater Noida residential address.",
+      "Leafsong Retreat is Hero Realty's new address in Sector MU, Greater Noida: three G+31 towers of premium 3 BHK residences, with only six apartments on each floor. Homes come in four plans from 1,656 to 2,289 sq ft, each planned around light, privacy and room to breathe.",
+      "Around 75% of the site is left open and green, laid out as three connected zones. The Social Heart has a celebration court and amphitheatre lawn for gatherings and group yoga. The Active Hub has a cricket pitch, pickleball and basketball courts, a bowling alley and a chess park. The Restorative Retreat has a butterfly garden, herb and vegetable garden, lotus pond, hammock garden, reflexology path and a 100-year-old mango tree. The ground floor is kept free of vehicles; arrival and parking are handled at basement level.",
+      "The clubhouse is organised by mood. Parley is for gathering, with a concierge, banquet hall, restaurant, convenience store and book nook. Pulse is for energy, with a gym, open gym, squash court, Zumba and aerobics studio, indoor games arena and pet area. Pause is for slowing down, with yoga and meditation, a spa and salon, a senior lounge, art studio, knowledge centre and kids' arena. A podium level adds a lap pool, kids' pool, Jacuzzi and a pool-deck café.",
+      "Homes and the clubhouse are AQI-controlled through an ERV (energy recovery ventilation) system. The project sits near the DMIC Integrated Industrial Township, one of Greater Noida's growing employment hubs.",
+    ],
+    unitPlans: [
+      { plan: "3 BHK + 2 toilets (A)", area: "1,656 sq ft", towers: "T3" },
+      { plan: "3 BHK + 2 toilets", area: "1,674 sq ft", towers: "T1, T2, T3" },
+      { plan: "3 BHK + 3 toilets", area: "1,937.52 sq ft", towers: "T1, T2, T3" },
+      { plan: "3 BHK + 3 toilets + servant room", area: "2,289.34 sq ft", towers: "T1, T2" },
+    ],
+    planNote:
+      "Every apartment has a pooja room, a dry and a wet kitchen, a 10 ft-long master bedroom and toilet, and balconies 8 ft wide.",
+    specs: [
+      { title: "AQI-controlled homes and club", detail: "ERV (energy recovery ventilation) system" },
+      { title: "Modular kitchen", detail: "Hob, chimney, RO and geyser" },
+      { title: "Engineered marble flooring" },
+      { title: "All-weather split ACs", detail: "Daikin or equivalent" },
+      { title: "Living room", detail: "False ceiling and lights, as per design" },
+      { title: "Fully fitted master bathroom", detail: "Vanity, shower cubicle, mirror and geyser" },
+      { title: "Free transfer", detail: "Once 25% is paid" },
+    ],
+    amenities: [
+      "75% open green area",
+      "Lotus pond and retreat garden",
+      "No vehicles on the ground floor",
+      "Three-zone clubhouse",
+      "Lap pool and pool-deck café",
+      "Squash, pickleball, basketball and a cricket pitch",
+      "Open business area with Wi-Fi",
+      "Vastu compliant",
     ],
     brochure: "/brochures/hero-homes.pdf",
   },
@@ -122,4 +168,3 @@ export const projects: Project[] = [
   },
 ];
 
-export const getProject = (key: string) => projects.find((p) => p.key === key);

@@ -16,6 +16,8 @@ export type Post = {
   title: string;
   excerpt: string;
   cover: string;
+  /** Alt text from Sanity; the title stands in when empty. */
+  coverAlt?: string;
   /** Short topic label shown on cards. */
   topic: string;
   /** ISO date (YYYY-MM-DD). */
@@ -76,7 +78,3 @@ export const formatDate = (iso: string) =>
   iso
     ? new Date(`${iso}T00:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
     : "";
-
-export function getPost(slug: string) {
-  return posts.find((p) => p.slug === slug);
-}

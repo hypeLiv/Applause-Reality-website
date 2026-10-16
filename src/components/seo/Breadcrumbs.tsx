@@ -27,7 +27,7 @@ export default function Breadcrumbs({ items, tone = "light" }: { items: Crumb[];
                   </span>
                 ) : (
                   <>
-                    <Link href={c.href} className={`lux-focus transition-colors ${link}`}>
+                    <Link href={c.href} className={`lux-focus -my-2 py-2 transition-colors ${link}`}>
                       {c.name}
                     </Link>
                     <span aria-hidden className="opacity-50">

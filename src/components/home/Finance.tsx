@@ -1,6 +1,7 @@
-import Image from "next/image";
+import Image from "@/components/Image";
 import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
+import { getSiteMedia, type Img } from "@/sanity/media";
 import { ParallaxImage, Reveal, Words } from "./motion";
 import { Arrow, Icon, lux } from "./ui";
 
@@ -15,17 +16,12 @@ const proofs = [
   { title: "Direct bank lines", text: "Straight into SBI and PNB for faster approvals." },
 ];
 
-const banks = [
-  { src: "/images/sbi.png", alt: "State Bank of India", w: 157, h: 68 },
-  { src: "/images/pnb.png", alt: "Punjab National Bank", w: 124, h: 53 },
-];
-
 /** The SBI award, credited like a photo caption rather than a badge. */
-function Credit({ className = "" }: { className?: string }) {
+function Credit({ sbi, className = "" }: { sbi: Img; className?: string }) {
   return (
     <div className={`lux-glass flex items-center gap-4 rounded-2xl py-3 pl-3 pr-5 ${className}`}>
       <span className="grid h-12 shrink-0 place-items-center rounded-xl bg-white px-3">
-        <Image src="/images/sbi.png" alt="" width={157} height={68} className="h-6 w-auto" />
+        <Image src={sbi.src} alt="" width={sbi.width} height={sbi.height} className="h-6 w-auto" />
       </span>
       <span>
         <span className="block font-text text-[15px] font-semibold leading-tight text-ivory">
@@ -37,14 +33,17 @@ function Credit({ className = "" }: { className?: string }) {
   );
 }
 
-export default function Finance() {
+export default async function Finance() {
+  const { featuredAward, partners } = await getSiteMedia();
+  const banks = [partners.sbi.logo, partners.pnb.logo];
+
   return (
     <section className="lux-scope relative isolate bg-ink-950 text-ivory">
       {/* Full-bleed award photo. Framed high so faces and certificate stay clear of the headline below. */}
       <div className="relative aspect-[4/5] md:aspect-auto md:h-[78svh] md:min-h-[520px] lg:h-[100svh] lg:max-h-[1080px] lg:min-h-[680px]">
         <ParallaxImage
-          src="/images/award-sbi.png"
-          alt="Applause Reality receiving a Certificate of Excellence from State Bank of India"
+          src={featuredAward.src}
+          alt={featuredAward.alt}
           className="h-full"
           imageClassName="object-[50%_20%] lg:object-[50%_15%]"
           range={40}
@@ -55,11 +54,11 @@ export default function Finance() {
           className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-ink-950 via-ink-950/75 to-transparent"
         />
         <Reveal delay={0.2} className="absolute bottom-[34%] right-8 hidden xl:block 2xl:right-14">
-          <Credit />
+          <Credit sbi={partners.sbi.logo} />
         </Reveal>
       </div>
 
-      <div className="relative -mt-[clamp(4.5rem,14vw,12rem)] px-6 pb-28 md:px-10 md:pb-36">
+      <div className="relative -mt-[clamp(4.5rem,14vw,12rem)] px-4 sm:px-6 pb-28 md:px-10 md:pb-36">
         <div className="mx-auto max-w-[1320px]">
           <Reveal>
             <p className="lux-label text-accent-soft">Financial consulting</p>
@@ -69,7 +68,7 @@ export default function Finance() {
             className="lux-display mt-6 max-w-[16ch] text-[clamp(2.75rem,6.4vw,6.5rem)] leading-[0.98]"
           />
           <Reveal delay={0.15} className="mt-8 xl:hidden">
-            <Credit className="inline-flex" />
+            <Credit sbi={partners.sbi.logo} className="inline-flex" />
           </Reveal>
 
           <div className="mt-14 grid gap-14 md:mt-20 lg:grid-cols-12 lg:gap-10">
@@ -124,8 +123,8 @@ export default function Finance() {
               <p className="lux-label text-accent-soft">Bank-trusted partner</p>
               <div className="mt-5 flex gap-3">
                 {banks.map((b) => (
-                  <span key={b.src} className="grid h-16 w-36 place-items-center rounded-xl bg-white px-4 md:h-20 md:w-44">
-                    <Image src={b.src} alt={b.alt} width={b.w} height={b.h} className="h-9 w-auto md:h-11" />
+                  <span key={b.src} className="grid h-16 w-32 place-items-center rounded-xl bg-white px-4 sm:w-36 md:h-20 md:w-44">
+                    <Image src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-9 w-auto md:h-11" />
                   </span>
                 ))}
               </div>

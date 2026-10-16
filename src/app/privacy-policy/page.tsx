@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 // TODO: paste the client's approved privacy policy text here before launch.
 export default function PrivacyPolicyPage() {
   return (
-    <section className="mx-auto max-w-[760px] px-6 pb-24 pt-36 font-text md:pt-44">
+    <section className="mx-auto max-w-[760px] px-4 sm:px-6 pb-24 pt-36 font-text md:pt-44">
       <h1 className="lux-display text-4xl">Privacy Policy</h1>
       <p className="mt-6 text-lg leading-relaxed">
         Applause Reality&apos;s privacy policy will be published here. For any questions about how

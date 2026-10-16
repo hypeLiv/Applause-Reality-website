@@ -1,21 +1,23 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/Image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import VideoCard from "@/components/VideoCard";
 import ClosingCta from "@/components/home/ClosingCta";
 import { Reveal } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
-import { Arrow, Icon, lux } from "@/components/home/ui";
+import { Arrow, Bezel, Icon, lux } from "@/components/home/ui";
 import { ExpandLanding, ExpandLink } from "@/components/page/ExpandTransition";
 import PageHero from "@/components/page/PageHero";
 import { Cta } from "@/components/sections";
-import { getProject, projects, type Project } from "@/content/projects";
+import { projects, type Project } from "@/content/projects";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import { pageMeta } from "@/lib/seo";
+import { downloadHref } from "@/lib/download";
 import { site } from "@/lib/site";
+import { getProjects, getSiteMedia, type Img } from "@/sanity/media";
 
 type Params = { params: Promise<{ key: string }> };
 
@@ -25,19 +27,23 @@ export function generateStaticParams() {
   return projects.map((p) => ({ key: p.key }));
 }
 
+const findProject = async (key: string) => (await getProjects()).find((p) => p.key === key);
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const p = getProject((await params).key);
+  const p = await findProject((await params).key);
   if (!p) return {};
   return pageMeta({
-    title: `${p.name}, ${p.location}`,
+    title: p.seoTitle ?? `${p.name}, ${p.location}`,
     description: p.metaDescription,
     path: `/projects/${p.key}`,
     images: [p.photo],
   });
 }
 
-/** Brochure size read from disk at build time, e.g. "11.3 MB". */
-function fileSize(href: string) {
+/** Brochure size, e.g. "11.3 MB": from Sanity, or read from disk at build time. */
+function fileSize(p: Project) {
+  if (p.brochureBytes) return `${(p.brochureBytes / 1e6).toFixed(1)} MB`;
+  const href = p.brochure;
   try {
     const bytes = fs.statSync(path.join(process.cwd(), "public", href)).size;
     return `${(bytes / 1e6).toFixed(1)} MB`;
@@ -48,11 +54,17 @@ function fileSize(href: string) {
 
 const promises = ["Safe NCR growth", "Bank approved", "Corporate & HR schemes"];
 
+const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+/** "Four" for 4, so small counts read as words in display headings. */
+const count = (n: number) => WORDS[n] ?? String(n);
+
 export default async function ProjectPage({ params }: Params) {
-  const p = getProject((await params).key);
+  const { key } = await params;
+  const [all, media] = await Promise.all([getProjects(), getSiteMedia()]);
+  const p = all.find((o) => o.key === key);
   if (!p) notFound();
-  const others = projects.filter((o) => o.key !== p.key);
-  const size = fileSize(p.brochure);
+  const others = all.filter((o) => o.key !== p.key);
+  const size = fileSize(p);
 
   return (
     <>
@@ -61,12 +73,12 @@ export default async function ProjectPage({ params }: Params) {
       <PageHero
         image={p.photo}
         alt={p.photoAlt}
-        eyebrow={p.location}
+        eyebrow={p.developer ? `${p.location} · By ${p.developer}` : p.location}
         title={p.name}
         lead={p.summary}
         actions={
           <>
-            <a href={p.brochure} download className={lux.heroPrimary}>
+            <a href={downloadHref(p.brochure)} download className={lux.heroPrimary}>
               <Icon name="download" className="h-5 w-5" /> Download brochure
             </a>
             <Cta href={site.whatsappProjects} className={lux.heroGlass}>
@@ -85,13 +97,13 @@ export default async function ProjectPage({ params }: Params) {
         </dl>
       </PageHero>
 
-      <Overview project={p} />
+      <Overview project={p} banks={{ sbi: media.partners.sbi.logo, pnb: media.partners.pnb.logo }} />
+      <Homes project={p} />
       <Inside project={p} />
       <Brochure project={p} size={size} />
       <OtherLaunches projects={others} />
 
       <ClosingCta
-        image="/images/residential-complex.jpg"
         label="Plan a visit"
         title={`See *${p.name}* in person.`}
         text="We arrange the site visit, walk you through the bank-approved paperwork and stay with you through possession and beyond."
@@ -102,9 +114,9 @@ export default async function ProjectPage({ params }: Params) {
   );
 }
 
-function Overview({ project: p }: { project: Project }) {
+function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; pnb: Img } }) {
   return (
-    <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <Breadcrumbs
           items={[
@@ -145,8 +157,9 @@ function Overview({ project: p }: { project: Project }) {
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-ink-900/[0.08] pt-8">
               <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">100% verified by</p>
               <div className="flex items-center gap-5">
-                <Image src="/images/sbi.png" alt="State Bank of India" width={157} height={68} className="h-9 w-auto" />
-                <Image src="/images/pnb.png" alt="Punjab National Bank" width={124} height={53} className="h-9 w-auto" />
+                {[banks.sbi, banks.pnb].map((b) => (
+                  <Image key={b.alt} src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-9 w-auto" />
+                ))}
               </div>
             </div>
           </Reveal>
@@ -156,10 +169,108 @@ function Overview({ project: p }: { project: Project }) {
   );
 }
 
-function Inside({ project: p }: { project: Project }) {
-  const film = p.film;
+/** Unit plans, included specifications and amenity chips, for projects that list them. */
+function Homes({ project: p }: { project: Project }) {
+  const { unitPlans, specs, amenities } = p;
+  if (!unitPlans?.length && !specs?.length && !amenities?.length) return null;
   return (
-    <section className="lux-scope bg-ink-950 px-6 py-24 text-ivory md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-ivory px-4 py-24 text-ink-900 sm:px-6 md:px-10 md:py-32">
+      <div className="mx-auto max-w-[1320px]">
+        <Reveal>
+          <p className="lux-label text-royal">Homes &amp; specifications</p>
+          <h2 className="lux-display mt-6 max-w-[18ch] text-[clamp(2.2rem,4vw,3.6rem)]">
+            {unitPlans?.length ? `${count(unitPlans.length)} plans, ` : ""}
+            <em>{specs?.length ? `${count(specs.length).toLowerCase()} inclusions.` : "every detail considered."}</em>
+          </h2>
+        </Reveal>
+
+        <div className="mt-14 grid items-start gap-5 lg:grid-cols-12">
+          {unitPlans?.length ? (
+            <Reveal className="lg:col-span-7">
+              <Bezel tone="light" coreClassName="bg-white p-5 sm:p-8">
+                <table className="w-full border-collapse text-left font-text">
+                  <caption className="sr-only">Unit plans</caption>
+                  <thead>
+                    <tr className="text-xs uppercase tracking-[0.14em] text-slate-ink">
+                      <th scope="col" className="pb-4 pr-3 font-semibold">Plan</th>
+                      <th scope="col" className="pb-4 pr-3 font-semibold">Saleable area</th>
+                      <th scope="col" className="hidden pb-4 font-semibold sm:table-cell">Towers</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {unitPlans.map((u) => (
+                      <tr key={u.plan} className="border-t border-ink-900/[0.08] align-top">
+                        <th scope="row" className="py-4 pr-3 font-sans text-[15px] font-semibold sm:text-base">
+                          {u.plan}
+                          {/* Phones fold the towers column in under the plan name. */}
+                          <span className="mt-1 block font-text text-sm font-normal text-slate-ink sm:hidden">
+                            Towers {u.towers}
+                          </span>
+                        </th>
+                        <td className="whitespace-nowrap py-4 pr-3 text-[15px] tabular-nums sm:text-base">{u.area}</td>
+                        <td className="hidden py-4 text-[15px] text-slate-ink sm:table-cell sm:text-base">{u.towers}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {p.planNote && (
+                  <p className="mt-6 border-t border-ink-900/[0.08] pt-5 font-text text-[15px] leading-relaxed text-slate-ink">
+                    {p.planNote}
+                  </p>
+                )}
+              </Bezel>
+            </Reveal>
+          ) : null}
+
+          {specs?.length ? (
+            <Reveal delay={0.08} className={unitPlans?.length ? "lg:col-span-5" : "lg:col-span-12"}>
+              <Bezel tone="ink" coreClassName="p-6 text-ivory sm:p-8">
+                <p className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-accent-soft">
+                  Included in the price
+                </p>
+                <ol className="mt-5 space-y-4">
+                  {specs.map((sp, i) => (
+                    <li key={sp.title} className="grid grid-cols-[2rem_1fr] gap-3 border-t border-white/10 pt-4 first:border-0 first:pt-0">
+                      <span className="font-text text-xs font-semibold tabular-nums tracking-[0.16em] text-accent">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span>
+                        <span className="block font-sans text-[15px] font-semibold sm:text-base">{sp.title}</span>
+                        {sp.detail && <span className="mt-0.5 block font-text text-sm text-ivory/60">{sp.detail}</span>}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </Bezel>
+            </Reveal>
+          ) : null}
+        </div>
+
+        {amenities?.length ? (
+          <Reveal delay={0.1}>
+            <ul className="mt-10 flex flex-wrap gap-2" aria-label="Amenity highlights">
+              {amenities.map((a) => (
+                <li
+                  key={a}
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-text text-sm font-medium text-ink-900 ring-1 ring-ink-900/[0.08]"
+                >
+                  <Icon name="check" className="h-4 w-4 text-royal" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function Inside({ project: p }: { project: Project }) {
+  const { film, highlights } = p;
+  if (!film && !highlights) return null;
+  return (
+    <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <Reveal>
           <p className="lux-label text-accent-soft">Inside the project</p>
@@ -186,31 +297,33 @@ function Inside({ project: p }: { project: Project }) {
             </Reveal>
           )}
 
-          <Reveal delay={0.1} className={film ? "" : "max-w-4xl"}>
-            <figure>
-              <a
-                href={p.highlights}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-white/10"
-              >
-                <Image
-                  src={p.highlights}
-                  alt={`${p.name} project highlights`}
-                  width={1535}
-                  height={1024}
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="h-auto w-full transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.02]"
-                />
-              </a>
-              <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
-                <span>Project highlights</span>
-                <a href={p.highlights} target="_blank" rel="noopener noreferrer" className="lux-focus font-semibold text-ivory/80 hover:text-ivory">
-                  Open full size ↗
+          {highlights && (
+            <Reveal delay={0.1} className={film ? "" : "max-w-4xl"}>
+              <figure>
+                <a
+                  href={highlights}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-white/10"
+                >
+                  <Image
+                    src={highlights}
+                    alt={`${p.name} project highlights`}
+                    width={1535}
+                    height={1024}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="h-auto w-full transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.02]"
+                  />
                 </a>
-              </figcaption>
-            </figure>
-          </Reveal>
+                <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
+                  <span>Project highlights</span>
+                  <a href={highlights} target="_blank" rel="noopener noreferrer" className="lux-focus -my-2 py-2 font-semibold text-ivory/80 hover:text-ivory">
+                    Open full size ↗
+                  </a>
+                </figcaption>
+              </figure>
+            </Reveal>
+          )}
         </div>
       </div>
     </section>
@@ -219,7 +332,7 @@ function Inside({ project: p }: { project: Project }) {
 
 function Brochure({ project: p, size }: { project: Project; size: string | null }) {
   return (
-    <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-6 py-20 text-ink-900 md:px-10 md:py-28">
+    <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-4 sm:px-6 py-20 text-ink-900 md:px-10 md:py-28">
       <Reveal className="mx-auto max-w-[1320px]">
         <div className="grid items-center gap-8 rounded-[28px] bg-white p-7 ring-1 ring-ink-900/[0.06] md:grid-cols-[auto_1fr_auto] md:gap-10 md:p-10">
           <span className="relative grid h-24 w-20 place-items-center rounded-xl bg-ink-900 text-white">
@@ -236,7 +349,7 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href={p.brochure} download className={lux.primary}>
+            <a href={downloadHref(p.brochure)} download className={lux.primary}>
               <Icon name="download" className="h-4 w-4" /> Download
             </a>
             <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
@@ -251,7 +364,7 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
 
 function OtherLaunches({ projects: list }: { projects: Project[] }) {
   return (
-    <section className="lux-scope lux-on-light bg-white px-6 py-24 text-ink-900 md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

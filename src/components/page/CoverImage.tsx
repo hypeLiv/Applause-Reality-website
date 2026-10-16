@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Image";
 
 /**
  * A cover that never crops: the image is shown whole, over a blurred, scaled-up

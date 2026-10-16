@@ -1,21 +1,23 @@
-import Image from "next/image";
+import Image from "@/components/Image";
+import { getSiteMedia } from "@/sanity/media";
 import { Reveal, Words } from "./motion";
+import { Bezel } from "./ui";
 
-const partners = [
-  { src: "/images/godrej.png", alt: "Godrej Properties", w: 203, h: 83, kind: "Developer" },
-  { src: "/images/sbi.png", alt: "State Bank of India", w: 157, h: 68, kind: "Banking" },
-  { src: "/images/gulshan.png", alt: "Gulshan Group", w: 184, h: 100, kind: "Developer" },
-  { src: "/images/pnb-full.png", alt: "Punjab National Bank", w: 327, h: 103, kind: "Banking" },
-  { src: "/images/eternia.png", alt: "Eternia Residences", w: 178, h: 96, kind: "Developer" },
-];
-
-export default function Partners() {
+export default async function Partners() {
+  const { partners: logos } = await getSiteMedia();
+  const partners = [
+    { ...logos.godrej.logo, kind: "Developer" },
+    { ...logos.sbi.logo, kind: "Banking" },
+    { ...logos.gulshan.logo, kind: "Developer" },
+    { ...logos.pnb.logoWide, kind: "Banking" },
+    { ...logos.eternia.logo, kind: "Developer" },
+  ];
   // Two copies side by side; the track slides by exactly one copy for a seamless loop.
   const track = [...partners, ...partners];
 
   return (
     <section className="lux-scope lux-on-light bg-ivory py-28 text-ink-900 md:py-36">
-      <div className="mx-auto max-w-[1100px] px-6 text-center md:px-10">
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-6 text-center md:px-10">
         <Reveal>
           <p className="lux-label text-royal">Aligned with global quality standards</p>
         </Reveal>
@@ -36,23 +38,30 @@ export default function Partners() {
         aria-label="Our partners"
         role="region"
       >
-        <ul className="lux-marquee flex w-max gap-6">
+        <ul className="lux-marquee flex w-max gap-6 py-3">
           {track.map((p, i) => (
             <li
               key={`${p.src}-${i}`}
               aria-hidden={i >= partners.length}
-              className="group flex h-36 w-64 shrink-0 flex-col items-center justify-center gap-3 rounded-[18px] bg-white px-8 shadow-[0_1px_0_rgba(11,23,51,0.06),0_20px_40px_-28px_rgba(11,23,51,0.35)] transition-transform duration-300 hover:-translate-y-1"
+              className="h-40 w-[17rem] shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] hover:-translate-y-1"
             >
-              <Image
-                src={p.src}
-                alt={i < partners.length ? p.alt : ""}
-                width={p.w}
-                height={p.h}
-                className="h-14 w-auto max-w-full object-contain"
-              />
-              <span className="font-text text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-ink">
-                {p.kind}
-              </span>
+              <Bezel
+                tone="light"
+                radius="1.5rem"
+                className="h-full"
+                coreClassName="flex flex-col items-center justify-center gap-3 bg-white px-8"
+              >
+                <Image
+                  src={p.src}
+                  alt={i < partners.length ? p.alt : ""}
+                  width={p.width}
+                  height={p.height}
+                  className="h-14 w-auto max-w-full object-contain"
+                />
+                <span className="font-text text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-ink">
+                  {p.kind}
+                </span>
+              </Bezel>
             </li>
           ))}
         </ul>

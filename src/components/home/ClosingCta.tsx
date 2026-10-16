@@ -1,20 +1,22 @@
 import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
+import { getSiteMedia } from "@/sanity/media";
 import { ParallaxImage, Reveal, Words } from "./motion";
-import { Arrow, Icon, lux } from "./ui";
+import { Arrow, Bezel, Icon, lux } from "./ui";
 
 /**
  * Full-bleed closing call to action: a glass panel over a drifting photo.
  * Defaults are the homepage copy; inner pages pass their own.
  */
-export default function ClosingCta({
-  image = "/images/residential-complex.jpg",
+export default async function ClosingCta({
+  image,
   label = "A home for generations",
   title = "Your new chapter starts with *expert* help.",
   text = "Your home should be a celebration of your family's achievements. From the first tour to the final handover and beyond, we manage every legal and financial detail for you.",
   actionLabel = "Schedule a site visit",
   footnote = "Dedicated household growth · Total guidance",
 }: {
+  /** Background photo; defaults to the banner photo set in Sanity. */
   image?: string;
   label?: string;
   title?: string;
@@ -22,12 +24,18 @@ export default function ClosingCta({
   actionLabel?: string;
   footnote?: string;
 }) {
+  const bg = image ?? (await getSiteMedia()).ctaImage.src;
+
   return (
-    <section className="lux-scope relative isolate flex min-h-[92svh] items-center overflow-hidden bg-ink-950 px-6 py-28 text-ivory md:px-10">
-      <ParallaxImage src={image} alt="" range={90} className="!absolute inset-0 -z-20" />
+    <section className="lux-scope relative isolate flex min-h-[92svh] items-center overflow-hidden bg-ink-950 px-3 py-28 text-ivory sm:px-6 md:px-10">
+      <ParallaxImage src={bg} alt="" range={90} className="!absolute inset-0 -z-20" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-950/70 via-ink-950/45 to-ink-950/85" />
 
-      <div className="lux-glass mx-auto w-full max-w-[820px] rounded-[28px] px-8 py-14 text-center md:px-16 md:py-20">
+      <Bezel
+        tone="glass"
+        className="mx-auto w-full max-w-[820px]"
+        coreClassName="bg-gradient-to-b from-ink-900/80 to-ink-950/85 px-5 py-12 text-center sm:px-8 sm:py-14 md:px-16 md:py-20"
+      >
         <Reveal>
           <p className="lux-label justify-center text-accent-soft">{label}</p>
         </Reveal>
@@ -49,7 +57,7 @@ export default function ClosingCta({
             <p className="mt-10 font-text text-xs uppercase tracking-[0.18em] text-ivory/55">{footnote}</p>
           )}
         </Reveal>
-      </div>
+      </Bezel>
     </section>
   );
 }

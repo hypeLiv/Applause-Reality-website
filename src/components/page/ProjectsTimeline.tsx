@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import Image from "next/image";
+import Image from "@/components/Image";
 import { useRef } from "react";
 import { Arrow, Icon, lux } from "@/components/home/ui";
 import type { Project } from "@/content/projects";
@@ -47,7 +47,7 @@ function Row({ project: p, index }: { project: Project; index: number }) {
   const flip = index % 2 === 1;
 
   return (
-    <li ref={ref} id={p.key} data-expand-root className="relative scroll-mt-28 pb-20 pl-10 last:pb-0 md:pb-28 lg:pl-0">
+    <li ref={ref} id={p.key} data-expand-root className="relative scroll-mt-28 pb-20 pl-7 last:pb-0 sm:pl-10 md:pb-28 lg:pl-0">
       {/* Node on the spine */}
       <span
         aria-hidden
@@ -57,7 +57,7 @@ function Row({ project: p, index }: { project: Project; index: number }) {
       </span>
 
       <motion.div style={{ opacity }} className="grid items-start gap-6 lg:grid-cols-2 lg:gap-24">
-        <article className={`rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-7 md:p-10 ${flip ? "lg:order-2" : ""}`}>
+        <article className={`rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-5 sm:p-7 md:p-10 ${flip ? "lg:order-2" : ""}`}>
           <ProjectDetails project={p} index={index} />
         </article>
 
@@ -124,21 +124,21 @@ function ProjectDetails({ project: p, index }: { project: Project; index: number
         <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostDark}>
           <Icon name="download" className="h-4 w-4" /> Brochure
         </a>
-        <HighlightsButton project={p} />
+        {p.highlights && <HighlightsButton project={p} src={p.highlights} />}
       </div>
     </div>
   );
 }
 
 /** "View highlights" opens the project's highlights sheet in a modal. */
-function HighlightsButton({ project: p }: { project: Project }) {
+function HighlightsButton({ project: p, src }: { project: Project; src: string }) {
   const ref = useRef<HTMLDialogElement>(null);
   return (
     <>
       <button
         type="button"
         onClick={() => ref.current?.showModal()}
-        className="lux-focus inline-flex items-center gap-2 font-text text-sm font-semibold text-ivory/80 underline-offset-4 hover:text-ivory hover:underline"
+        className="lux-focus -my-2 inline-flex items-center gap-2 py-2 font-text text-sm font-semibold text-ivory/80 underline-offset-4 hover:text-ivory hover:underline"
       >
         <Icon name="document" className="h-4 w-4" /> View highlights
       </button>
@@ -152,7 +152,7 @@ function HighlightsButton({ project: p }: { project: Project }) {
       >
         <div className="relative overflow-hidden rounded-[24px] bg-white">
           <Image
-            src={p.highlights}
+            src={src}
             alt={`${p.name} project highlights`}
             width={1600}
             height={1060}
