@@ -267,7 +267,8 @@ function Homes({ project: p }: { project: Project }) {
 }
 
 function Inside({ project: p }: { project: Project }) {
-  const film = p.film;
+  const { film, highlights } = p;
+  if (!film && !highlights) return null;
   return (
     <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
@@ -296,31 +297,33 @@ function Inside({ project: p }: { project: Project }) {
             </Reveal>
           )}
 
-          <Reveal delay={0.1} className={film ? "" : "max-w-4xl"}>
-            <figure>
-              <a
-                href={p.highlights}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-white/10"
-              >
-                <Image
-                  src={p.highlights}
-                  alt={`${p.name} project highlights`}
-                  width={1535}
-                  height={1024}
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="h-auto w-full transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.02]"
-                />
-              </a>
-              <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
-                <span>Project highlights</span>
-                <a href={p.highlights} target="_blank" rel="noopener noreferrer" className="lux-focus -my-2 py-2 font-semibold text-ivory/80 hover:text-ivory">
-                  Open full size ↗
+          {highlights && (
+            <Reveal delay={0.1} className={film ? "" : "max-w-4xl"}>
+              <figure>
+                <a
+                  href={highlights}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-white/10"
+                >
+                  <Image
+                    src={highlights}
+                    alt={`${p.name} project highlights`}
+                    width={1535}
+                    height={1024}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="h-auto w-full transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.02]"
+                  />
                 </a>
-              </figcaption>
-            </figure>
-          </Reveal>
+                <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
+                  <span>Project highlights</span>
+                  <a href={highlights} target="_blank" rel="noopener noreferrer" className="lux-focus -my-2 py-2 font-semibold text-ivory/80 hover:text-ivory">
+                    Open full size ↗
+                  </a>
+                </figcaption>
+              </figure>
+            </Reveal>
+          )}
         </div>
       </div>
     </section>

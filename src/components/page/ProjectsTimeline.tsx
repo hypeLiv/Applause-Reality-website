@@ -124,14 +124,14 @@ function ProjectDetails({ project: p, index }: { project: Project; index: number
         <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostDark}>
           <Icon name="download" className="h-4 w-4" /> Brochure
         </a>
-        <HighlightsButton project={p} />
+        {p.highlights && <HighlightsButton project={p} src={p.highlights} />}
       </div>
     </div>
   );
 }
 
 /** "View highlights" opens the project's highlights sheet in a modal. */
-function HighlightsButton({ project: p }: { project: Project }) {
+function HighlightsButton({ project: p, src }: { project: Project; src: string }) {
   const ref = useRef<HTMLDialogElement>(null);
   return (
     <>
@@ -152,7 +152,7 @@ function HighlightsButton({ project: p }: { project: Project }) {
       >
         <div className="relative overflow-hidden rounded-[24px] bg-white">
           <Image
-            src={p.highlights}
+            src={src}
             alt={`${p.name} project highlights`}
             width={1600}
             height={1060}

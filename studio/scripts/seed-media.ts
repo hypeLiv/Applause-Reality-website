@@ -133,7 +133,7 @@ async function main() {
       slug: { _type: "slug", current: p.key },
       photo: await image(p.photo, p.photoAlt),
       logo: await image(p.logo.src, p.logo.alt),
-      highlights: await image(p.highlights, `${p.name} project highlights`),
+      ...(p.highlights ? { highlights: await image(p.highlights, `${p.name} project highlights`) } : {}),
       brochure: await file(p.brochure),
       ...(p.film
         ? {

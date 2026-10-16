@@ -7,7 +7,8 @@ export type Project = {
   logo: { src: string; alt: string; w: number; h: number };
   photo: string;
   photoAlt: string;
-  highlights: string;
+  /** One-page highlights graphic; leave out while it's out of date. */
+  highlights?: string;
   facts: { value: string; label: string }[];
   summary: string;
   /** Search-result title when "name, location" runs long (the brand is appended). */
@@ -44,7 +45,7 @@ export const projects: Project[] = [
     logo: { src: "/images/hero-homes-logo.png", alt: "Hero Homes logo", w: 490, h: 193 },
     photo: "/images/hero-homes-render.png",
     photoAlt: "Leafsong Retreat by Hero Realty: three G+31 towers at Sector MU, Greater Noida",
-    highlights: "/images/hero-homes-highlights.png",
+    // Highlights sheet hidden until the client sends one matching the Leafsong Retreat specs.
     facts: [
       { value: "1,656–2,289", label: "Sq. ft. 3 BHK homes" },
       { value: "3 towers", label: "G+31 · six homes a floor" },
