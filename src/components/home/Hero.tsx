@@ -10,7 +10,7 @@ import type { Project } from "@/content/projects";
 import { site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
 import { EASE, Words } from "./motion";
-import { Arrow, Icon, lux } from "./ui";
+import { Arrow, Bezel, Icon, lux } from "./ui";
 
 
 /**
@@ -131,7 +131,7 @@ export default function Hero({
             href={site.phone.href}
             className="lux-focus group flex items-center gap-3 font-text text-sm text-white/75 transition-colors hover:text-white"
           >
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/15 backdrop-blur-md transition-colors group-hover:bg-white/25">
+            <span className="grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/[0.12] transition-[background-color,translate,scale,rotate] duration-500 ease-[var(--ease-spring)] group-hover:scale-105 group-hover:bg-white/20">
               <Icon name="phone" className="h-5 w-5" />
             </span>
             Speak to an advisor · {site.phone.display}
@@ -165,70 +165,72 @@ export default function Hero({
 function FeaturedCard({ featured }: { featured: Project }) {
   const href = `/projects/${featured.key}`;
   return (
-    <article className="lux-glass group overflow-hidden rounded-[24px] text-white">
-      <Link href={href} className="lux-focus relative block aspect-[2/1] overflow-hidden" tabIndex={-1} aria-hidden>
-        <Image
-          src={featured.photo}
-          alt={featured.photoAlt}
-          fill
-          sizes="(min-width: 1024px) 460px, 100vw"
-          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-        />
-        <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/80 to-transparent" />
-        <span className="absolute bottom-3 left-4 font-text text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80">
-          Bank approved · Corporate &amp; HR schemes
-        </span>
-        <span className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-ink-950/60 px-3 py-1.5 font-text text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-soft backdrop-blur-md">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+    <Bezel tone="glass" radius="1.75rem">
+      <article className="group bg-gradient-to-b from-ink-900/85 to-ink-950/90 text-white">
+        <Link href={href} className="lux-focus relative block aspect-[2/1] overflow-hidden" tabIndex={-1} aria-hidden>
+          <Image
+            src={featured.photo}
+            alt={featured.photoAlt}
+            fill
+            sizes="(min-width: 1024px) 460px, 100vw"
+            className="object-cover transition-transform duration-1000 ease-[var(--ease-spring)] group-hover:scale-[1.04]"
+          />
+          <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/80 to-transparent" />
+          <span className="absolute bottom-3 left-4 font-text text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80">
+            Bank approved · Corporate &amp; HR schemes
           </span>
-          Featured launch
-        </span>
-      </Link>
-
-      <div className="p-5">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h2 className="font-sans text-2xl font-semibold tracking-[-0.02em]">{featured.name}</h2>
-            <p className="mt-1 flex items-center gap-1.5 font-text text-sm text-white/70">
-              <Icon name="pin" className="h-4 w-4 text-accent-soft" />
-              {featured.location}
-            </p>
-          </div>
-          <span className="grid h-11 shrink-0 place-items-center rounded-xl bg-white px-3">
-            <Image src={featured.logo.src} alt={featured.logo.alt} width={featured.logo.w} height={featured.logo.h} className="h-7 w-auto" />
+          <span className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-ink-950/75 px-3 py-1.5 font-text text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-soft ring-1 ring-white/10">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            Featured launch
           </span>
-        </div>
+        </Link>
 
-        <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10">
-          {featured.facts.map((f) => (
-            <div key={f.label} className="bg-ink-950/40 px-4 py-2.5">
-              <dd className="font-sans text-base font-semibold tabular-nums">{f.value}</dd>
-              <dt className="order-first font-text text-xs text-white/60">{f.label}</dt>
+        <div className="p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="font-sans text-2xl font-semibold tracking-[-0.02em]">{featured.name}</h2>
+              <p className="mt-1 flex items-center gap-1.5 font-text text-sm text-white/70">
+                <Icon name="pin" className="h-4 w-4 text-accent-soft" />
+                {featured.location}
+              </p>
             </div>
-          ))}
-        </dl>
+            <span className="grid h-11 shrink-0 place-items-center rounded-xl bg-white px-3">
+              <Image src={featured.logo.src} alt={featured.logo.alt} width={featured.logo.w} height={featured.logo.h} className="h-7 w-auto" />
+            </span>
+          </div>
 
-        <div className="mt-5 flex gap-3">
-          <Link
-            href={href}
-            className="lux-focus group/btn inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-ivory px-5 py-3 font-text text-sm font-semibold text-ink-950 transition-colors hover:bg-white"
-          >
-            Explore project
-            <Icon name="arrow" className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-          </Link>
-          <a
-            href={featured.brochure}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="lux-focus inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 font-text text-sm font-semibold transition-colors hover:bg-white/10"
-          >
-            <Icon name="document" className="h-4 w-4" />
-            Brochure
-          </a>
+          <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10">
+            {featured.facts.map((f) => (
+              <div key={f.label} className="bg-ink-950/40 px-4 py-2.5">
+                <dd className="font-sans text-base font-semibold tabular-nums">{f.value}</dd>
+                <dt className="order-first font-text text-xs text-white/60">{f.label}</dt>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-5 flex gap-3">
+            <Link
+              href={href}
+              className="lux-focus lux-btn inline-flex flex-1 items-center justify-between gap-2 rounded-full bg-ivory py-3 pl-5 font-text text-sm font-semibold text-ink-950 transition-[translate,scale,rotate,background-color] duration-500 ease-[var(--ease-spring)] [--island:1.75rem] hover:bg-white active:scale-[0.98]"
+            >
+              Explore project
+              <Arrow />
+            </Link>
+            <a
+              href={featured.brochure}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lux-focus inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 font-text text-sm font-semibold transition-[translate,scale,rotate,background-color] duration-500 ease-[var(--ease-spring)] hover:bg-white/10 active:scale-[0.98]"
+            >
+              <Icon name="document" className="h-4 w-4" />
+              Brochure
+            </a>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </Bezel>
   );
 }

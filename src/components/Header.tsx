@@ -5,9 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ConsultLink from "@/components/ConsultLink";
+import { Arrow } from "@/components/home/ui";
 import { nav, site } from "@/lib/site";
-
 import type { Img } from "@/sanity/media";
+
 /** Pages whose hero is dark, matched by path so the first paint is already right. */
 const DARK_HERO = /^\/($|projects|blog|about-applause-reality|testimonials)/;
 
@@ -16,6 +17,19 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
+
+  // While the menu sheet is open: hold the page still and let Escape close it.
+  useEffect(() => {
+    if (!open) return;
+    const html = document.documentElement;
+    html.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      html.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -39,7 +53,8 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   // dark hero until you scroll, and over any marked section while it's behind
   // the bar. Light-topped pages (consultation, privacy) keep the frosted pill.
   const darkTop = DARK_HERO.test(pathname);
-  const onHero = !open && ((darkTop && !scrolled) || overDark);
+  // The open menu is a dark full-screen sheet, so the bar dissolves into it too.
+  const onHero = open || (darkTop && !scrolled) || overDark;
 
   const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
     onHero
@@ -58,7 +73,10 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 px-4 sm:px-6 ${
+      className={`fixed inset-x-0 top-0 px-4 sm:px-6 ${
+        // Above the floating chat button (z-50) while the menu sheet covers the screen.
+        open ? "z-[60]" : "z-50"
+      } ${
         onHero ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"
       } transition-[padding] duration-500`}
     >
@@ -135,46 +153,87 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="site-menu"
             onClick={() => setOpen((v) => !v)}
-            className={`grid h-9 w-9 place-items-center rounded-full transition-colors lg:hidden ${
+            className={`grid h-10 w-10 place-items-center rounded-full transition-[background-color,translate,scale,rotate] duration-500 ease-[var(--ease-spring)] active:scale-[0.94] lg:hidden ${
               onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
             }`}
           >
-            <span className="sr-only">Menu</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
-              {open ? (
-                <path d="M6 6l12 12M18 6L6 18" />
-              ) : (
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              )}
-            </svg>
+            {/* Two lines that rotate into an X rather than swapping icons. */}
+            <span aria-hidden className="relative block h-3 w-5">
+              <span
+                className={`absolute left-0 top-0 h-[1.5px] w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-spring)] ${
+                  open ? "translate-y-[5.25px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`absolute bottom-0 left-0 h-[1.5px] w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-spring)] ${
+                  open ? "-translate-y-[5.25px] -rotate-45" : ""
+                }`}
+              />
+            </span>
           </button>
         </div>
       </div>
 
-      {open && (
-        <nav className="mx-auto mt-2 flex max-w-[1060px] flex-col gap-1 rounded-[28px] border border-white/70 bg-white/90 p-3 shadow-[0_20px_50px_-20px_rgba(8,21,45,0.35)] backdrop-blur-xl lg:hidden">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="rounded-full px-4 py-3 font-text text-[14px] font-medium uppercase tracking-[0.08em] text-ink-900 hover:bg-ink-900/[0.05]"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <a href={site.phone.href} className="px-4 py-3 font-text font-semibold text-ink-900">
-            Call {site.phone.display}
-          </a>
+      {/* Phones and tablets: a full-screen sheet; each link rises out of its own mask in turn. */}
+      <div
+        id="site-menu"
+        aria-hidden={!open}
+        className={`fixed inset-0 -z-10 flex flex-col bg-ink-950/90 backdrop-blur-3xl transition-[opacity,visibility] duration-500 ease-[var(--ease-spring)] lg:hidden ${
+          open ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <nav aria-label="Main" className="flex flex-1 flex-col justify-center px-6 pt-24 sm:px-10">
+          <ul>
+            {nav.map((item, i) => {
+              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              return (
+                <li key={item.href} className="overflow-hidden border-b border-white/10">
+                  <Link
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    tabIndex={open ? undefined : -1}
+                    style={{ transitionDelay: open ? `${100 + i * 60}ms` : "0ms" }}
+                    className={`flex items-baseline justify-between py-4 transition-[translate,scale,rotate,opacity] duration-700 ease-[var(--ease-spring)] ${
+                      open ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
+                    }`}
+                  >
+                    <span className={`lux-display text-[clamp(2.4rem,9vw,3.6rem)] ${active ? "text-ivory" : "text-ivory/70"}`}>
+                      {item.label}
+                    </span>
+                    <span className="font-text text-xs font-semibold tracking-[0.2em] text-accent tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+        <div
+          style={{ transitionDelay: open ? `${120 + nav.length * 60}ms` : "0ms" }}
+          className={`flex flex-col gap-3 px-6 pb-10 transition-[translate,scale,rotate,opacity] duration-700 ease-[var(--ease-spring)] sm:px-10 ${
+            open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          }`}
+        >
           <ConsultLink
             onClick={() => setOpen(false)}
-            className="rounded-full bg-ink-900 px-4 py-3 text-center font-text font-semibold text-ivory"
+            className="lux-btn flex items-center justify-between rounded-full bg-ivory py-2 pl-6 pr-2 font-text text-[15px] font-semibold text-ink-950 transition-transform duration-500 ease-[var(--ease-spring)] active:scale-[0.98]"
           >
             Free Consultation
+            <Arrow />
           </ConsultLink>
-        </nav>
-      )}
+          <a
+            href={site.phone.href}
+            tabIndex={open ? undefined : -1}
+            className="rounded-full border border-white/20 px-6 py-4 text-center font-text text-[15px] font-semibold text-ivory"
+          >
+            Call {site.phone.display}
+          </a>
+        </div>
+      </div>
     </header>
   );
 }

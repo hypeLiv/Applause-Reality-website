@@ -157,7 +157,7 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
       <button
         type="submit"
         disabled={status === "sending"}
-        className="lux-focus group mt-3 inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-ink-900 font-text text-[15px] font-semibold text-ivory shadow-[0_18px_36px_-18px_rgba(11,23,51,0.6)] transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-royal active:translate-y-0 disabled:cursor-wait disabled:opacity-70 sm:col-span-2"
+        className="lux-focus lux-btn group mt-3 inline-flex h-14 w-full items-center justify-between gap-2 rounded-full bg-ink-900 pl-7 font-text text-[15px] font-semibold text-ivory shadow-[0_24px_48px_-24px_rgba(11,23,51,0.55)] transition-[background-color,translate,scale,rotate] duration-500 ease-[var(--ease-spring)] [--island:2.5rem] hover:bg-royal active:scale-[0.98] disabled:cursor-wait disabled:opacity-70 sm:col-span-2"
       >
         {status === "sending" ? "Sending…" : mobile ? "Continue on WhatsApp" : "Request a callback"}
         {status !== "sending" && <Arrow />}

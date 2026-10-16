@@ -29,8 +29,8 @@ const promises = [
   "पजेशन के बाद भी, आपकी भविष्य की हर ज़रूरत के लिए हम हमेशा आपके साथ खड़े हैं।",
 ];
 
-// Inter for everything (Hind fills in Devanagari), via the next/font variables in layout.tsx.
-const INTER = 'var(--ff-inter), var(--ff-hind), "Inter", system-ui, sans-serif';
+// The site sans for everything (Hind fills in Devanagari), via the next/font variables in layout.tsx.
+const SANS = "var(--ff-sans), var(--ff-hind), system-ui, sans-serif";
 
 export default function Footer() {
   return (
@@ -46,8 +46,9 @@ export default function Footer() {
       columns={columns}
       note={`© ${new Date().getFullYear()} ${site.name} · Delhi NCR`}
       palette={{ background: "#050c1f", ink: "#f7f4ee", warm: "#8ea6e8" }}
-      fontFamily='"Inter", system-ui, sans-serif'
-      monoFamily={INTER}
+      // Canvas fonts need a real family name (it ignores CSS variables); next/font registers this one.
+      fontFamily='"Plus Jakarta Sans", system-ui, sans-serif'
+      monoFamily={SANS}
       // Baseline on the bottom edge: the letters sit whole, only the descenders crop.
       crop={0}
       // The word is fitted to the width, so its height scales with vw. The

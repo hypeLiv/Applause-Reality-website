@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import ClosingCta from "@/components/home/ClosingCta";
 import { CountUp, Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
+import { Bezel } from "@/components/home/ui";
 import StoryGrid from "@/components/page/StoryGrid";
 import TestimonialCard from "@/components/page/TestimonialCard";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import JsonLd from "@/components/seo/JsonLd";
 import { byline, outcomes, testimonials } from "@/content/testimonials";
 import { absolute, pageMeta } from "@/lib/seo";
-
 import { getSiteMedia } from "@/sanity/media";
+
 export const metadata: Metadata = pageMeta({
   title: "Client Reviews from NCR Home Buyers",
   description:
@@ -36,8 +37,8 @@ const reviewSchema = {
 
 export default async function TestimonialsPage() {
   const [lead, ...rest] = testimonials;
-
   const { testimonialsCtaImage } = await getSiteMedia();
+
   return (
     <>
       <SmoothScroll />
@@ -83,37 +84,50 @@ export default async function TestimonialsPage() {
       {/* Lead review, lifted over the masthead's edge */}
       <section className="lux-scope lux-on-light bg-white px-6 pb-24 text-ink-900 md:px-10 md:pb-32">
         <div className="mx-auto max-w-[1320px]">
-          <Reveal className="relative z-10 -mt-28 md:-mt-36">
-            <div className="grid overflow-hidden rounded-[28px] bg-ivory shadow-[0_40px_80px_-40px_rgba(11,23,51,0.45)] ring-1 ring-ink-900/[0.06] lg:grid-cols-[1.3fr_0.7fr]">
-              <figure className="flex flex-col justify-between gap-10 p-8 md:p-14">
-                <svg aria-hidden viewBox="0 0 32 24" className="h-9 w-auto self-start text-royal/40" fill="currentColor">
-                  <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
-                </svg>
-                <blockquote className="font-serif text-[clamp(1.6rem,2.6vw,2.4rem)] leading-[1.3]">{lead.quote}</blockquote>
-                <figcaption className="flex items-center gap-4 border-t border-ink-900/[0.08] pt-6">
-                  <span aria-hidden className="grid h-12 w-12 place-items-center rounded-full bg-ink-900 font-sans text-base font-semibold text-white">
-                    {lead.name.charAt(0)}
-                  </span>
-                  <span>
-                    <span className="block font-sans text-lg font-semibold">{lead.name}</span>
-                    <span className="font-text text-sm text-slate-ink">{byline(lead)}</span>
-                  </span>
-                </figcaption>
-              </figure>
+          {/* Asymmetric bento, lifted over the masthead: the lead review spans the left, the figures stack right. */}
+          <div className="relative z-10 -mt-28 grid gap-4 md:-mt-36 lg:grid-cols-12 lg:grid-rows-3 lg:gap-5">
+            <Reveal className="lg:col-span-8 lg:row-span-3">
+              <Bezel
+                tone="light"
+                className="h-full shadow-[0_50px_100px_-50px_rgba(11,23,51,0.45)]"
+                coreClassName="h-full bg-ivory"
+              >
+                <figure className="flex h-full flex-col justify-between gap-10 p-8 md:p-14">
+                  <svg aria-hidden viewBox="0 0 32 24" className="h-9 w-auto self-start text-royal/40" fill="currentColor">
+                    <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
+                  </svg>
+                  <blockquote className="font-serif text-[clamp(1.6rem,2.6vw,2.4rem)] leading-[1.3]">{lead.quote}</blockquote>
+                  <figcaption className="flex items-center gap-4 border-t border-ink-900/[0.08] pt-6">
+                    <span aria-hidden className="grid h-12 w-12 place-items-center rounded-full bg-ink-900 font-sans text-base font-semibold text-white">
+                      {lead.name.charAt(0)}
+                    </span>
+                    <span>
+                      <span className="block font-sans text-lg font-semibold">{lead.name}</span>
+                      <span className="font-text text-sm text-slate-ink">{byline(lead)}</span>
+                    </span>
+                  </figcaption>
+                </figure>
+              </Bezel>
+            </Reveal>
 
-              <dl className="grid content-center gap-10 bg-ink-900 p-8 text-ivory md:p-14">
-                {stats.map((s) => (
-                  <div key={s.label} className="border-t border-white/10 pt-6 first:border-0 first:pt-0">
+            {stats.map((s, i) => (
+              <Reveal key={s.label} delay={0.08 + i * 0.08} className="lg:col-span-4">
+                <Bezel
+                  tone="ink"
+                  className="h-full shadow-[0_40px_80px_-48px_rgba(11,23,51,0.5)]"
+                  coreClassName="h-full"
+                >
+                  <dl className="flex h-full flex-col justify-between gap-6 p-7 text-ivory md:p-8">
                     <dt className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-ivory/55">{s.label}</dt>
-                    <dd className="lux-display mt-2 text-[clamp(2.6rem,4vw,3.6rem)]">
+                    <dd className="lux-display text-[clamp(2.6rem,4vw,3.6rem)]">
                       <CountUp to={s.to} />
                       {s.suffix}
                     </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </Reveal>
+                  </dl>
+                </Bezel>
+              </Reveal>
+            ))}
+          </div>
 
           <div className="mt-24 grid items-end gap-8 md:mt-32 lg:grid-cols-[1.1fr_0.9fr]">
             <div>

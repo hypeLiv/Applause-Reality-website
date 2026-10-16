@@ -1,16 +1,53 @@
-/** Landing-page buttons and line icons (24px grid, 1.5px stroke). */
+/** Landing-page buttons, the bezel frame and line icons (24px grid, 1.25px stroke). */
 
+// Pills press in on click; an <Arrow /> inside turns into a trailing island (see .lux-btn in globals.css).
 const base =
-  "lux-focus group inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 font-text text-[15px] font-semibold transition-all duration-200 ease-[var(--ease-lux)]";
+  "lux-focus lux-btn group inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 font-text text-[15px] font-semibold transition-[translate,scale,rotate,background-color,border-color,color,box-shadow] duration-500 ease-[var(--ease-spring)] active:scale-[0.98]";
 
 export const lux = {
-  primary: `${base} lux-primary hover:-translate-y-0.5 active:translate-y-0`,
+  primary: `${base} lux-primary`,
   ghostDark: `${base} border border-white/20 text-ivory hover:border-white/50 hover:bg-white/5`,
   ghostLight: `${base} border border-ink-900/15 text-ink-900 hover:border-ink-900/40 hover:bg-ink-900/[0.03]`,
-  // Hero pair: solid ivory primary + tinted glass secondary, sized up for the framed hero.
-  heroPrimary: `${base} bg-ivory px-9 py-[18px] text-base text-ink-950 shadow-[0_18px_40px_-16px_rgba(0,0,0,0.6)] hover:-translate-y-0.5 hover:bg-white active:translate-y-0`,
-  heroGlass: `${base} border border-white/30 bg-white/15 px-9 py-[18px] text-base text-white backdrop-blur-md hover:bg-white/25`,
+  // Hero pair: solid ivory primary + tinted secondary, sized up for the framed hero.
+  heroPrimary: `${base} lux-btn-lg bg-ivory px-9 py-[18px] text-base text-ink-950 shadow-[0_24px_48px_-24px_rgba(5,12,31,0.7)] hover:bg-white`,
+  heroGlass: `${base} lux-btn-lg border border-white/25 bg-white/[0.12] px-9 py-[18px] text-base text-white hover:bg-white/20`,
 };
+
+const bezelTone = {
+  // On ink sections.
+  dark: { shell: "bg-white/[0.045] ring-1 ring-white/10", core: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]" },
+  // Over photography, where the tray needs a little more presence.
+  glass: { shell: "bg-white/10 ring-1 ring-white/20", core: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" },
+  // On ivory and white sections.
+  light: { shell: "bg-ink-900/[0.035] ring-1 ring-ink-900/[0.07]", core: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)]" },
+  // A dark card set into a light section.
+  ink: { shell: "bg-ink-900/[0.035] ring-1 ring-ink-900/[0.07]", core: "bg-ink-900 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]" },
+} as const;
+
+/**
+ * Double-bezel frame: a hairline tray (shell) holding the card (core), with
+ * the core's radius inset by the tray's padding so the curves stay concentric.
+ */
+export function Bezel({
+  tone = "dark",
+  radius = "2rem",
+  className = "",
+  coreClassName = "",
+  children,
+}: {
+  tone?: keyof typeof bezelTone;
+  radius?: string;
+  className?: string;
+  coreClassName?: string;
+  children: React.ReactNode;
+}) {
+  const t = bezelTone[tone];
+  return (
+    <div style={{ "--bz": radius } as React.CSSProperties} className={`rounded-[var(--bz)] p-1.5 ${t.shell} ${className}`}>
+      <div className={`h-full overflow-hidden rounded-[calc(var(--bz)-0.375rem)] ${t.core} ${coreClassName}`}>{children}</div>
+    </div>
+  );
+}
 
 const paths = {
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
@@ -67,7 +104,7 @@ export function Icon({ name, className = "h-6 w-6" }: { name: IconName; classNam
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth="1.25"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
@@ -80,6 +117,8 @@ export function Icon({ name, className = "h-6 w-6" }: { name: IconName; classNam
 
 export function Arrow() {
   return (
-    <Icon name="arrow" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+    <span aria-hidden className="lux-island">
+      <Icon name="arrow" className="h-4 w-4" />
+    </span>
   );
 }

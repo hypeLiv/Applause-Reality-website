@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import AdvisorForm from "@/components/AdvisorForm";
 import { testimonials } from "@/content/testimonials";
 import { EASE, Reveal, Words } from "./motion";
+import { Bezel } from "./ui";
 
 const HOLD_MS = 7000;
 
@@ -106,16 +107,18 @@ export default function Testimonials() {
         </div>
 
         <Reveal delay={0.1}>
-          <aside className="lux-on-light rounded-[28px] bg-ivory p-8 text-ink-900 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] md:p-10">
-            <p className="lux-label text-royal">Meet your advisor</p>
-            <h3 className="lux-display mt-5 text-4xl md:text-[44px]">
-              Talk to a Delhi NCR <em>relationship</em> manager.
-            </h3>
-            <p className="mb-8 mt-4 font-text text-base leading-relaxed text-slate-ink">
-              Share a few details and we&apos;ll guide your next step personally.
-            </p>
-            <AdvisorForm />
-          </aside>
+          <Bezel>
+            <aside className="lux-on-light bg-ivory p-8 text-ink-900 md:p-10">
+              <p className="lux-label text-royal">Meet your advisor</p>
+              <h3 className="lux-display mt-5 text-4xl md:text-[44px]">
+                Talk to a Delhi NCR <em>relationship</em> manager.
+              </h3>
+              <p className="mb-8 mt-4 font-text text-base leading-relaxed text-slate-ink">
+                Share a few details and we&apos;ll guide your next step personally.
+              </p>
+              <AdvisorForm />
+            </aside>
+          </Bezel>
         </Reveal>
       </div>
     </section>

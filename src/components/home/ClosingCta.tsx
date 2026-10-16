@@ -2,7 +2,7 @@ import { Cta } from "@/components/sections";
 import { site } from "@/lib/site";
 import { getSiteMedia } from "@/sanity/media";
 import { ParallaxImage, Reveal, Words } from "./motion";
-import { Arrow, Icon, lux } from "./ui";
+import { Arrow, Bezel, Icon, lux } from "./ui";
 
 /**
  * Full-bleed closing call to action: a glass panel over a drifting photo.
@@ -31,7 +31,11 @@ export default async function ClosingCta({
       <ParallaxImage src={bg} alt="" range={90} className="!absolute inset-0 -z-20" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-950/70 via-ink-950/45 to-ink-950/85" />
 
-      <div className="lux-glass mx-auto w-full max-w-[820px] rounded-[28px] px-8 py-14 text-center md:px-16 md:py-20">
+      <Bezel
+        tone="glass"
+        className="mx-auto w-full max-w-[820px]"
+        coreClassName="bg-gradient-to-b from-ink-900/80 to-ink-950/85 px-8 py-14 text-center md:px-16 md:py-20"
+      >
         <Reveal>
           <p className="lux-label justify-center text-accent-soft">{label}</p>
         </Reveal>
@@ -53,7 +57,7 @@ export default async function ClosingCta({
             <p className="mt-10 font-text text-xs uppercase tracking-[0.18em] text-ivory/55">{footnote}</p>
           )}
         </Reveal>
-      </div>
+      </Bezel>
     </section>
   );
 }

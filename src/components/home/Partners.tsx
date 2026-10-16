@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getSiteMedia } from "@/sanity/media";
 import { Reveal, Words } from "./motion";
+import { Bezel } from "./ui";
 
 export default async function Partners() {
   const { partners: logos } = await getSiteMedia();
@@ -37,23 +38,30 @@ export default async function Partners() {
         aria-label="Our partners"
         role="region"
       >
-        <ul className="lux-marquee flex w-max gap-6">
+        <ul className="lux-marquee flex w-max gap-6 py-3">
           {track.map((p, i) => (
             <li
               key={`${p.src}-${i}`}
               aria-hidden={i >= partners.length}
-              className="group flex h-36 w-64 shrink-0 flex-col items-center justify-center gap-3 rounded-[18px] bg-white px-8 shadow-[0_1px_0_rgba(11,23,51,0.06),0_20px_40px_-28px_rgba(11,23,51,0.35)] transition-transform duration-300 hover:-translate-y-1"
+              className="h-40 w-[17rem] shrink-0 transition-transform duration-500 ease-[var(--ease-spring)] hover:-translate-y-1"
             >
-              <Image
-                src={p.src}
-                alt={i < partners.length ? p.alt : ""}
-                width={p.width}
-                height={p.height}
-                className="h-14 w-auto max-w-full object-contain"
-              />
-              <span className="font-text text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-ink">
-                {p.kind}
-              </span>
+              <Bezel
+                tone="light"
+                radius="1.5rem"
+                className="h-full"
+                coreClassName="flex flex-col items-center justify-center gap-3 bg-white px-8"
+              >
+                <Image
+                  src={p.src}
+                  alt={i < partners.length ? p.alt : ""}
+                  width={p.width}
+                  height={p.height}
+                  className="h-14 w-auto max-w-full object-contain"
+                />
+                <span className="font-text text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-ink">
+                  {p.kind}
+                </span>
+              </Bezel>
             </li>
           ))}
         </ul>

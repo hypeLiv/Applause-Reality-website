@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Hind, Inter } from "next/font/google";
+import { Fraunces, Hind, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -11,10 +11,11 @@ import { absolute, DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { getSiteMedia, type SiteMedia } from "@/sanity/media";
 
-const inter = Inter({
+// Warm geometric sans for body, labels and UI.
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  variable: "--ff-inter",
+  variable: "--ff-sans",
 });
 // Light, high-contrast display serif for headings (free stand-in for Roslindale Display).
 const fraunces = Fraunces({
@@ -23,7 +24,7 @@ const fraunces = Fraunces({
   axes: ["opsz"],
   variable: "--ff-fraunces",
 });
-// Inter has no Devanagari; Hind covers the Hindi taglines and testimonials.
+// Jakarta has no Devanagari; Hind covers the Hindi taglines and testimonials.
 const hind = Hind({
   subsets: ["devanagari"],
   weight: ["400", "500", "600", "700"],
@@ -88,7 +89,7 @@ export default async function RootLayout({
   const media = await getSiteMedia();
   return (
     // The head script may add the intro-done class before hydration.
-    <html lang="en" className={`${inter.variable} ${hind.variable} ${fraunces.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${hind.variable} ${fraunces.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
       </head>

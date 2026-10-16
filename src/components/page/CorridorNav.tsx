@@ -28,7 +28,7 @@ export default function CorridorNav({ items }: { items: Item[] }) {
 
   return (
     <nav aria-label="Locations" className="sticky top-[80px] z-40 flex justify-center px-4">
-      <ul className="lux-glass flex max-w-full gap-1 overflow-x-auto rounded-full p-1.5 [scrollbar-width:none]">
+      <ul className="lux-glass flex max-w-full backdrop-blur-xl gap-1 overflow-x-auto rounded-full p-1.5 [scrollbar-width:none]">
         {items.map((item) => {
           const on = item.id === active;
           return (

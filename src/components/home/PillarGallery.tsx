@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import MorphGallery from "@/components/ui/morph-gallery";
+import { Bezel } from "./ui";
 
 type Pillar = { label: string; src: string; alt: string };
 
@@ -50,7 +51,7 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
       onFocus={() => setHeld(true)}
       onBlur={() => setHeld(false)}
     >
-      <div className="relative overflow-hidden rounded-[28px] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
+      <Bezel coreClassName="relative">
         <MorphGallery
           items={pillars.map((p) => ({ src: p.src, alt: p.alt }))}
           index={index}
@@ -70,7 +71,7 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
             </p>
           </div>
         </div>
-      </div>
+      </Bezel>
 
       <ul className="mt-4 grid grid-cols-4 gap-2 md:mt-5 md:gap-4">
         {pillars.map((p, i) => {

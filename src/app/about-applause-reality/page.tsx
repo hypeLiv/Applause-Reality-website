@@ -4,7 +4,7 @@ import BrandTagline from "@/components/BrandTagline";
 import ClosingCta from "@/components/home/ClosingCta";
 import { CountUp, Reveal, Words } from "@/components/home/motion";
 import SmoothScroll from "@/components/home/SmoothScroll";
-import { Arrow, Icon, type IconName, lux } from "@/components/home/ui";
+import { Arrow, Bezel, Icon, type IconName, lux } from "@/components/home/ui";
 import AwardWall from "@/components/page/AwardWall";
 import JourneyLine from "@/components/page/JourneyLine";
 import RollingJourney from "@/components/page/RollingJourney";
@@ -49,6 +49,13 @@ const proofs: { value: React.ReactNode; label: string; text: string }[] = [
     label: "Leasing strength",
     text: "Top-tier reach in office and retail leasing across NCR’s high-visibility business districts.",
   },
+];
+
+/** Proof cascade (md and up): each card's stacking, overlap and drop, then its resting angle. */
+const cascade = [
+  { place: "md:z-10", tilt: "md:-rotate-2" },
+  { place: "md:z-20 md:-ml-6 md:mt-12", tilt: "md:rotate-[1.5deg]" },
+  { place: "md:z-30 md:-ml-6 md:mt-4", tilt: "md:-rotate-1" },
 ];
 
 const services: { icon: IconName; title: string; text: string; photo: keyof SiteMedia["services"] }[] = [
@@ -121,26 +128,33 @@ export default async function AboutPage() {
           </div>
 
           <Reveal delay={0.2} className="relative mx-auto w-full max-w-[460px]">
-            <Tilt max={5} className="rounded-[28px]">
-              <figure className="relative overflow-hidden rounded-[28px] ring-1 ring-white/10">
-                <Image
-                  src={media.founderPortrait.src}
-                  alt={media.founderPortrait.alt}
-                  width={media.founderPortrait.width}
-                  height={media.founderPortrait.height}
-                  priority
-                  sizes="(min-width: 1024px) 460px, 90vw"
-                  className="h-auto w-full"
-                />
-                <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/85 to-transparent" />
-                <figcaption className="absolute inset-x-5 bottom-5">
-                  <span className="block font-sans text-xl font-semibold">Rajiv Kr. Pandey</span>
-                  <span className="font-text text-sm text-ivory/70">Founder &amp; Real Estate Consultant</span>
-                </figcaption>
-              </figure>
+            <Tilt max={5} className="rounded-[2rem]">
+              <Bezel tone="glass">
+                <figure className="relative">
+                  <Image
+                    src={media.founderPortrait.src}
+                    alt={media.founderPortrait.alt}
+                    width={media.founderPortrait.width}
+                    height={media.founderPortrait.height}
+                    priority
+                    sizes="(min-width: 1024px) 460px, 90vw"
+                    className="h-auto w-full"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/85 to-transparent" />
+                  <figcaption className="absolute inset-x-5 bottom-5">
+                    <span className="block font-sans text-xl font-semibold">Rajiv Kr. Pandey</span>
+                    <span className="font-text text-sm text-ivory/70">Founder &amp; Real Estate Consultant</span>
+                  </figcaption>
+                </figure>
+              </Bezel>
             </Tilt>
             {/* Proof chip, offset off the frame */}
-            <div className="absolute -left-6 top-10 hidden items-center gap-3 rounded-2xl bg-white px-4 py-3 text-ink-900 shadow-[0_24px_50px_-20px_rgba(0,0,0,0.6)] md:flex">
+            <Bezel
+              tone="glass"
+              radius="1.5rem"
+              className="absolute -left-8 top-10 hidden -rotate-3 shadow-[0_30px_60px_-30px_rgba(5,12,31,0.7)] transition-[rotate,translate] duration-700 ease-[var(--ease-spring)] hover:-translate-y-1 hover:rotate-0 md:block"
+              coreClassName="flex items-center gap-3 bg-white px-4 py-3 text-ink-900"
+            >
               <Image
                 src={media.partners.sbi.logo.src}
                 alt=""
@@ -153,7 +167,7 @@ export default async function AboutPage() {
                 <br />
                 Excellence
               </span>
-            </div>
+            </Bezel>
           </Reveal>
         </div>
       </section>
@@ -210,19 +224,27 @@ export default async function AboutPage() {
             </p>
           </Reveal>
 
-          <dl className="mt-20 grid gap-10 md:grid-cols-3 md:gap-10">
+          {/* Z-axis cascade: the cards overlap at slight angles and square up when hovered.
+              Below md they stack flat, with no overlap to fight over taps. */}
+          <ul className="mt-20 grid gap-6 md:mt-24 md:grid-cols-3 md:gap-0">
             {proofs.map((p, i) => (
-              <Reveal key={p.label} delay={i * 0.08} className="border-t border-ink-900/10 pt-6">
-                <dt className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">{p.label}</dt>
-                <dd>
-                  <span className="mt-5 block font-sans text-[clamp(3.5rem,6vw,5.5rem)] font-semibold leading-none tracking-[-0.04em] text-ink-900 tabular-nums">
-                    {p.value}
-                  </span>
-                  <span className="mt-5 block max-w-[30ch] font-text text-[15px] leading-relaxed text-slate-ink">{p.text}</span>
-                </dd>
-              </Reveal>
+              <li key={p.label} className={`relative md:hover:z-40 ${cascade[i].place}`}>
+                <Reveal delay={i * 0.1}>
+                  <Bezel
+                    tone="light"
+                    className={`shadow-[0_40px_80px_-48px_rgba(11,23,51,0.45)] transition-[rotate,translate] duration-700 ease-[var(--ease-spring)] md:hover:-translate-y-2 md:hover:rotate-0 ${cascade[i].tilt}`}
+                    coreClassName="bg-ivory p-7 md:p-9"
+                  >
+                    <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">{p.label}</p>
+                    <p className="mt-6 font-sans text-[clamp(3.5rem,6vw,5.5rem)] font-semibold leading-none tracking-[-0.04em] text-ink-900 tabular-nums">
+                      {p.value}
+                    </p>
+                    <p className="mt-6 max-w-[30ch] font-text text-[15px] leading-relaxed text-slate-ink">{p.text}</p>
+                  </Bezel>
+                </Reveal>
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
       </section>
 
@@ -295,7 +317,7 @@ export default async function AboutPage() {
                     <span className="font-text text-xs font-semibold tabular-nums tracking-[0.18em] text-accent-soft">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md">
+                    <span className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-ink-950/40">
                       <Icon name={s.icon} className="h-5 w-5" />
                     </span>
                   </div>
