@@ -10,6 +10,9 @@ import { isDarkBehind } from "@/lib/backdrop";
 import { nav, site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
 
+/** How often (ms) the logo re-checks what's behind it while scrolling: ~8 times a second. */
+const PROBE_MS = 125;
+
 export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Img }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -33,6 +36,18 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   }, [open]);
 
   useEffect(() => {
+    // The logo probe is the costly part, so it runs at most every PROBE_MS (with a trailing run once
+    // scrolling settles) and only from lg, where the logo stands bare; below lg it sits in the white pill.
+    const wide = window.matchMedia("(min-width: 1024px)");
+    let probeTimer = 0;
+    let lastProbe = -PROBE_MS;
+    const probe = () => {
+      probeTimer = 0;
+      lastProbe = performance.now();
+      if (!wide.matches) setOverBackdrop(false);
+      else if (logoRef.current && headerRef.current) setOverBackdrop(isDarkBehind(logoRef.current, headerRef.current));
+    };
+
     let frame = 0;
     const update = () => {
       frame = 0;
@@ -46,7 +61,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
       // as long as it sits behind it (e.g. a pinned full-bleed video hero).
       setOverDark(behind("[data-header-over-dark]"));
       // Whatever is directly behind the bare logo decides its colour (see lib/backdrop).
-      if (logoRef.current && headerRef.current) setOverBackdrop(isDarkBehind(logoRef.current, headerRef.current));
+      probeTimer ||= window.setTimeout(probe, Math.max(0, PROBE_MS - (performance.now() - lastProbe)));
     };
     const onScroll = () => {
       frame ||= requestAnimationFrame(update);
@@ -56,6 +71,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
     window.addEventListener("resize", onScroll);
     return () => {
       cancelAnimationFrame(frame);
+      clearTimeout(probeTimer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
