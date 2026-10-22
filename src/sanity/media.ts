@@ -69,7 +69,7 @@ const DEFAULTS = {
     investment: local("/images/pillars/investment.jpg", "Residential towers at blue hour"),
     homeLoans: local("/images/pillars/loans.jpg", "A house key on a dark surface"),
   },
-  homeHeroImage: local("/images/hero-homes/towers-sky.jpg", "Three Hero Homes Leafsong Retreat towers against a clear blue sky"),
+  homeHeroImage: local("/images/hero-homes/central-lawn.jpg", "Families strolling across a sunlit central lawn at Hero Homes Leafsong Retreat"),
   homeWalkthrough: {
     src: "/videos/walkthrough-scrub.mp4",
     srcSmall: "/videos/walkthrough-scrub-mobile.mp4",
