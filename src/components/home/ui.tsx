@@ -11,6 +11,9 @@ export const lux = {
   // Hero pair: solid ivory primary + tinted secondary, sized up for the framed hero.
   heroPrimary: `${base} lux-btn-lg bg-ivory px-9 py-[18px] text-base text-ink-950 shadow-[0_24px_48px_-24px_rgba(5,12,31,0.7)] hover:bg-white`,
   heroGlass: `${base} lux-btn-lg border border-white/25 bg-white/[0.12] px-9 py-[18px] text-base text-white hover:bg-white/20`,
+  // Daylight hero pair: solid royal primary + white secondary, over a bright photo.
+  dayPrimary: `${base} lux-btn-lg bg-royal px-9 py-[18px] text-base text-white shadow-[0_24px_48px_-24px_rgba(36,69,160,0.75)] hover:bg-[#1c3880]`,
+  dayGlass: `${base} lux-btn-lg border border-ink-900/10 bg-white/85 px-9 py-[18px] text-base text-ink-900 hover:border-ink-900/25 hover:bg-white`,
 };
 
 const bezelTone = {
@@ -20,6 +23,11 @@ const bezelTone = {
   glass: { shell: "bg-white/10 ring-1 ring-white/20", core: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]" },
   // On ivory and white sections.
   light: { shell: "bg-ink-900/[0.035] ring-1 ring-ink-900/[0.07]", core: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)]" },
+  // A white card floating over bright photography.
+  day: {
+    shell: "bg-white/45 ring-1 ring-white/70 shadow-[0_40px_80px_-40px_rgba(11,23,51,0.4)]",
+    core: "shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)]",
+  },
   // A dark card set into a light section.
   ink: { shell: "bg-ink-900/[0.035] ring-1 ring-ink-900/[0.07]", core: "bg-ink-900 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]" },
 } as const;

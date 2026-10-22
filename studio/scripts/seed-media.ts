@@ -48,7 +48,7 @@ const settings = {
     investment: { src: "/images/pillars/investment.jpg", alt: "Residential towers at blue hour" },
     homeLoans: { src: "/images/pillars/loans.jpg", alt: "A house key on a dark surface" },
   },
-  homeHeroImage: { src: "/images/hero-towers-dusk.jpg", alt: "Three residential towers reflected in still water at dusk" },
+  homeHeroImage: { src: "/images/hero-homes/towers-sky.jpg", alt: "Three Hero Homes Leafsong Retreat towers against a clear blue sky" },
   homeWalkthrough: {
     video: "/videos/walkthrough-scrub.mp4",
     mobileVideo: "/videos/walkthrough-scrub-mobile.mp4",

@@ -54,6 +54,10 @@ export interface TokyoSkylineHeroProps {
   darkHeader?: boolean;
   /** Darkening (0–1) over the opening frame so the title reads; lifts as the title fades. */
   openingVeil?: number;
+  /** Darkening (0–1) under the brand mark once the footage ends. */
+  closingVeil?: number;
+  /** Edge shading that keeps the header and scroll hint legible: "deep" for dusk footage, "soft" for bright interiors. */
+  shade?: "deep" | "soft";
   /** Scroll distance (px) spent scrubbing, on top of one viewport of pinning. */
   scrubDistance?: number;
   id?: string;
@@ -87,6 +91,8 @@ export default function TokyoSkylineHero({
   navItems = [],
   signature = false,
   openingVeil = 0,
+  closingVeil = 0.6,
+  shade = "deep",
   darkHeader = false,
   scrubDistance = 3200,
   id,
@@ -161,7 +167,7 @@ export default function TokyoSkylineHero({
       if (hintRef.current) hintRef.current.style.opacity = p > 0.02 ? "0" : "1";
 
       const b = clamp((p - TEXT_START) / (TEXT_END - TEXT_START), 0, 1);
-      if (veilRef.current) veilRef.current.style.opacity = String(Math.max(b * 0.6, t * openingVeil));
+      if (veilRef.current) veilRef.current.style.opacity = String(Math.max(b * closingVeil, t * openingVeil));
       if (brandRef.current) {
         brandRef.current.style.opacity = String(b);
         brandRef.current.style.transform = `translateY(${(1 - b) * 16}px) scale(${0.98 + b * 0.02})`;
@@ -232,7 +238,7 @@ export default function TokyoSkylineHero({
       video.removeEventListener("loadeddata", onLoadedData);
       video.removeEventListener("seeked", onSeeked);
     };
-  }, [scrubDistance, openingVeil, videoSrcSmall]);
+  }, [scrubDistance, openingVeil, closingVeil, videoSrcSmall]);
 
   return (
     <section
@@ -287,7 +293,13 @@ export default function TokyoSkylineHero({
           />
         )}
 
-        <div className="pointer-events-none absolute inset-0 z-[3] bg-[linear-gradient(180deg,rgba(5,12,31,0.45),rgba(5,12,31,0)_30%,rgba(5,12,31,0.1)_70%,rgba(5,12,31,0.6))]" />
+        <div
+          className={`pointer-events-none absolute inset-0 z-[3] ${
+            shade === "soft"
+              ? "bg-[linear-gradient(180deg,rgba(5,12,31,0.22),rgba(5,12,31,0)_28%,rgba(5,12,31,0)_72%,rgba(5,12,31,0.3))]"
+              : "bg-[linear-gradient(180deg,rgba(5,12,31,0.45),rgba(5,12,31,0)_30%,rgba(5,12,31,0.1)_70%,rgba(5,12,31,0.6))]"
+          }`}
+        />
 
         {title && (
           <div

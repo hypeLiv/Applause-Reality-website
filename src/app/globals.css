@@ -148,6 +148,23 @@ body {
   outline-offset: 3px;
 }
 
+/* Daylight scope (the homepage): royal blue carries the actions, the
+   stressed headline phrase and the focus ring on its light surfaces. */
+.lux-day .lux-primary {
+  background: var(--color-royal);
+  color: #fff;
+}
+.lux-day .lux-primary:hover {
+  background: #1c3880;
+}
+.lux-day .lux-display em {
+  color: var(--color-royal);
+}
+.lux-day .lux-on-light .lux-focus:focus-visible,
+.lux-day .lux-on-light :focus-visible {
+  outline-color: var(--color-royal);
+}
+
 /* Dark raised surface over photography: a tinted ink fill + top hairline.
    No backdrop blur here, since it repaints on every scroll frame; sticky
    elements add their own blur. */

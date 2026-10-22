@@ -52,7 +52,7 @@ const intro =
  */
 export default function Journey() {
   return (
-    <section className="lux-scope relative bg-ink-900 text-ivory">
+    <section className="lux-scope lux-on-light relative bg-white text-ink-900">
       <div className="hidden md:block motion-reduce:hidden">
         <Rail />
       </div>
@@ -129,20 +129,20 @@ function Rail() {
           {/* Intro panel */}
           <div className="flex w-[44vw] min-w-[440px] max-w-[640px] shrink-0 flex-col justify-center pl-[6vw] pr-12">
             <Reveal>
-              <p className="lux-label text-accent-soft">End-to-end stewardship</p>
+              <p className="lux-label text-royal">End-to-end stewardship</p>
             </Reveal>
             <Words
               text="One partner, *every* milestone."
               className="lux-display mt-6 text-[clamp(2.5rem,4.4vw,4.25rem)]"
             />
             <Reveal delay={0.15}>
-              <p className="mt-6 max-w-[28rem] font-text text-lg leading-relaxed text-ivory/70">{intro}</p>
+              <p className="mt-6 max-w-[28rem] font-text text-lg leading-relaxed text-slate-ink">{intro}</p>
               <Cta href={site.whatsapp} className={`${lux.primary} mt-9`}>
                 Plan my first visit <Arrow />
               </Cta>
-              <p className="mt-10 flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.2em] text-ivory/45">
+              <p className="mt-10 flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.2em] text-ink-900/45">
                 Scroll
-                <span aria-hidden className="h-px w-10 bg-ivory/30" />
+                <span aria-hidden className="h-px w-10 bg-ink-900/20" />
                 <span aria-hidden>→</span>
               </p>
             </Reveal>
@@ -160,16 +160,16 @@ function Rail() {
               } as React.CSSProperties
             }
           >
-            <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-white/12" />
+            <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-ink-900/10" />
             <motion.span
               aria-hidden
               style={{ scaleX: lineScale }}
-              className="absolute inset-x-0 top-1/2 h-px origin-left bg-gradient-to-r from-accent/70 to-accent"
+              className="absolute inset-x-0 top-1/2 h-px origin-left bg-gradient-to-r from-periwinkle to-royal"
             />
             <motion.span
               aria-hidden
               style={{ opacity: endDot }}
-              className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-accent"
+              className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-royal"
             />
 
             <ol>
@@ -189,11 +189,11 @@ function Rail() {
 
           {/* Closing panel */}
           <div className="flex w-[40vw] min-w-[420px] max-w-[600px] shrink-0 flex-col justify-center pl-10 pr-[6vw]">
-            <p className="lux-label text-accent-soft">And beyond</p>
+            <p className="lux-label text-royal">And beyond</p>
             <p className="mt-6 font-sans text-[clamp(1.75rem,2.6vw,2.6rem)] font-semibold leading-tight tracking-[-0.03em]">
               We stay on — long after the keys are yours.
             </p>
-            <Cta href={site.whatsapp} className={`${lux.ghostDark} mt-9 self-start`}>
+            <Cta href={site.whatsapp} className={`${lux.ghostLight} mt-9 self-start`}>
               Talk to an advisor <Arrow />
             </Cta>
           </div>
@@ -220,7 +220,7 @@ function Milestone({
 }) {
   const above = index % 2 === 0;
   const ease = "ease-[cubic-bezier(0.22,1,0.36,1)]";
-  const tip = `absolute -left-[4px] h-[9px] w-[9px] rounded-full bg-accent shadow-[0_0_0_5px_rgba(142,166,232,0.15)] transition-transform duration-300 ${
+  const tip = `absolute -left-[4px] h-[9px] w-[9px] rounded-full bg-royal shadow-[0_0_0_5px_rgba(36,69,160,0.12)] transition-transform duration-300 ${
     on ? "scale-100 delay-500" : "scale-0"
   }`;
   const copy = `w-[300px] transition-all duration-700 ${ease} ${
@@ -228,14 +228,14 @@ function Milestone({
   }`;
   const body = (
     <>
-      <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-accent-soft tabular-nums">
-        <Icon name={icon} className="h-5 w-5 text-accent" />
+      <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-royal tabular-nums">
+        <Icon name={icon} className="h-5 w-5 text-periwinkle" />
         Step {String(index + 1).padStart(2, "0")}
       </p>
       <h3 className="mt-3 font-sans text-[clamp(1.4rem,1.9vw,1.85rem)] font-semibold leading-tight tracking-[-0.02em]">
         {title}
       </h3>
-      <p className="mt-2 font-text text-[15px] leading-relaxed text-ivory/65">{text}</p>
+      <p className="mt-2 font-text text-[15px] leading-relaxed text-slate-ink">{text}</p>
     </>
   );
 
@@ -250,7 +250,7 @@ function Milestone({
         <span
           aria-hidden
           className={`absolute -left-[5px] -top-[5px] h-[11px] w-[11px] rounded-full border transition-colors duration-500 ${
-            on ? "border-accent bg-accent" : "border-white/25 bg-ink-900"
+            on ? "border-royal bg-royal" : "border-ink-900/20 bg-white"
           }`}
         />
         {above ? (
@@ -263,7 +263,7 @@ function Milestone({
           >
             <span
               aria-hidden
-              className={`absolute bottom-0 left-0 top-3 w-px origin-bottom bg-accent transition-transform duration-700 ${ease}`}
+              className={`absolute bottom-0 left-0 top-3 w-px origin-bottom bg-royal transition-transform duration-700 ${ease}`}
               style={{ transform: `scaleY(${on ? 1 : 0})` }}
             />
             <span aria-hidden className={`${tip} top-2`} />
@@ -273,7 +273,7 @@ function Milestone({
           <>
             <span
               aria-hidden
-              className={`absolute left-0 top-0 w-px origin-top bg-accent transition-transform duration-700 ${ease}`}
+              className={`absolute left-0 top-0 w-px origin-top bg-royal transition-transform duration-700 ${ease}`}
               style={{ height: STEM, transform: `scaleY(${on ? 1 : 0})` }}
             />
             <span aria-hidden className={tip} style={{ top: `calc(${STEM} - 4px)` }} />
@@ -293,30 +293,30 @@ function Stacked() {
   return (
     <div className="px-4 sm:px-6 py-24">
       <Reveal>
-        <p className="lux-label text-accent-soft">End-to-end stewardship</p>
+        <p className="lux-label text-royal">End-to-end stewardship</p>
       </Reveal>
       {/* The desktop rail owns the real h2/h3s; these repeat them for phones. */}
       <Words text="One partner, *every* milestone." as="p" ariaLevel={2} className="lux-display mt-6 text-[2.6rem]" />
       <Reveal delay={0.1}>
-        <p className="mt-6 font-text text-lg leading-relaxed text-ivory/70">{intro}</p>
+        <p className="mt-6 font-text text-lg leading-relaxed text-slate-ink">{intro}</p>
       </Reveal>
 
-      <ol className="relative mt-14 space-y-10 border-l border-accent/40 pl-8">
+      <ol className="relative mt-14 space-y-10 border-l border-royal/25 pl-8">
         {steps.map((s, i) => (
           <li key={s.title} className="relative">
             <span
               aria-hidden
-              className="absolute -left-[37px] top-1 h-[9px] w-[9px] rounded-full bg-accent shadow-[0_0_0_5px_rgba(142,166,232,0.15)]"
+              className="absolute -left-[37px] top-1 h-[9px] w-[9px] rounded-full bg-royal shadow-[0_0_0_5px_rgba(36,69,160,0.12)]"
             />
             <Reveal>
-              <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-accent-soft">
-                <Icon name={s.icon} className="h-5 w-5 text-accent" />
+              <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-royal">
+                <Icon name={s.icon} className="h-5 w-5 text-periwinkle" />
                 Step {String(i + 1).padStart(2, "0")}
               </p>
               <p role="heading" aria-level={3} className="mt-2 font-sans text-2xl font-semibold tracking-[-0.02em]">
                 {s.title}
               </p>
-              <p className="mt-2 font-text text-base leading-relaxed text-ivory/65">{s.text}</p>
+              <p className="mt-2 font-text text-base leading-relaxed text-slate-ink">{s.text}</p>
             </Reveal>
           </li>
         ))}

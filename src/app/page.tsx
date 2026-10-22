@@ -24,7 +24,8 @@ export default async function Home() {
   const featured = projects.find((p) => p.featured) ?? projects[0];
 
   return (
-    <>
+    // lux-day: the homepage's bright treatment (royal actions and accents; see globals.css).
+    <div className="lux-day">
       <SmoothScroll />
       <Hero
         background={media.homeHeroImage}
@@ -38,7 +39,7 @@ export default async function Home() {
       <Finance />
       <Testimonials quotes={featuredReviews.length ? featuredReviews : testimonials.slice(0, 3)} />
       <Partners />
-      <ClosingCta />
-    </>
+      <ClosingCta tone="light" />
+    </div>
   );
 }

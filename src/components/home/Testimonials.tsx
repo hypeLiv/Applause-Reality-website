@@ -26,7 +26,7 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
   return (
     <section
       id="advisor"
-      className="lux-scope relative overflow-hidden bg-ink-900 px-4 sm:px-6 py-28 text-ivory md:px-10 md:py-36"
+      className="lux-scope lux-on-light relative isolate overflow-hidden bg-mist px-4 sm:px-6 py-28 text-ink-900 md:px-10 md:py-36"
     >
       <div className="mx-auto grid max-w-[1320px] gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
         <div
@@ -37,7 +37,7 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
           className="flex flex-col"
         >
           <Reveal>
-            <p className="lux-label text-accent-soft">Trusted by those who fund the nation</p>
+            <p className="lux-label text-royal">Trusted by those who fund the nation</p>
           </Reveal>
           <Words
             text="Bankers buy *through us.*"
@@ -46,7 +46,7 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
 
           <div className="relative mt-12 min-h-[356px] flex-1 md:min-h-[316px]">
             {/* In flow above the quote (not overlaid), sized as an icon so it can't collide with the text. */}
-            <svg aria-hidden viewBox="0 0 32 24" className="mb-6 h-8 w-auto text-accent/50" fill="currentColor">
+            <svg aria-hidden viewBox="0 0 32 24" className="mb-6 h-8 w-auto text-royal/30" fill="currentColor">
               <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
             </svg>
             <AnimatePresence mode="wait">
@@ -64,7 +64,7 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
                 </blockquote>
                 <figcaption className="mt-8 font-text">
                   <span className="block text-base font-semibold">{q.name}</span>
-                  <span className="text-sm text-ivory/65">
+                  <span className="text-sm text-slate-ink">
                     {q.role} · {q.org}
                   </span>
                 </figcaption>
@@ -82,11 +82,11 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
                 aria-label={`Show testimonial from ${item.name}`}
                 className="lux-focus group text-left"
               >
-                <span className="relative block h-px overflow-hidden bg-white/15">
+                <span className="relative block h-px overflow-hidden bg-ink-900/10">
                   {i === active && (
                     <motion.span
                       key={`${active}-${paused}`}
-                      className="absolute inset-0 origin-left bg-accent"
+                      className="absolute inset-0 origin-left bg-royal"
                       initial={{ scaleX: paused ? 1 : 0 }}
                       animate={{ scaleX: 1 }}
                       transition={{ duration: paused || reduce ? 0 : HOLD_MS / 1000, ease: "linear" }}
@@ -95,7 +95,7 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
                 </span>
                 <span
                   className={`mt-3 block font-text text-xs font-semibold uppercase tracking-[0.14em] transition-colors ${
-                    i === active ? "text-ivory" : "text-ivory/45 group-hover:text-ivory/75"
+                    i === active ? "text-ink-900" : "text-ink-900/55 group-hover:text-ink-900/80"
                   }`}
                 >
                   {item.org} · {item.role}
@@ -106,8 +106,8 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
         </div>
 
         <Reveal delay={0.1}>
-          <Bezel>
-            <aside className="lux-on-light bg-ivory p-8 text-ink-900 md:p-10">
+          <Bezel tone="light">
+            <aside className="lux-on-light bg-white p-8 text-ink-900 md:p-10">
               <p className="lux-label text-royal">Meet your advisor</p>
               <h3 className="lux-display mt-5 text-4xl md:text-[44px]">
                 Talk to a Delhi NCR <em>relationship</em> manager.

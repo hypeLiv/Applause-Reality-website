@@ -24,6 +24,9 @@ export default async function Walkthrough() {
       }
       // The footage is bright, so the opening title sits on a light veil.
       openingVeil={0.4}
+      // Keep the interior's daylight: a lighter close and softer edges than the dusk tours.
+      closingVeil={0.38}
+      shade="soft"
       scrubDistance={2600}
     />
   );

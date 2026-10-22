@@ -10,7 +10,7 @@ import { nav, site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
 
 /** Pages whose hero is dark, matched by path so the first paint is already right. */
-const DARK_HERO = /^\/($|projects|blog|about-applause-reality|testimonials)/;
+const DARK_HERO = /^\/(projects|blog|about-applause-reality|testimonials)/;
 
 export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Img }) {
   const pathname = usePathname();
