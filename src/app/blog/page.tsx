@@ -26,12 +26,13 @@ export default async function BlogPage() {
       <SmoothScroll />
 
       {/* Masthead */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-40 pt-40 text-ivory md:px-10 md:pb-52 md:pt-48">
-        <div aria-hidden className="absolute -right-40 -top-40 -z-10 h-[520px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
+      <section className="lux-scope lux-on-light relative isolate overflow-hidden bg-mist px-4 sm:px-6 pb-40 pt-40 text-ink-900 md:px-10 md:pb-52 md:pt-48">
+        <div aria-hidden className="absolute -right-40 -top-40 -z-10 h-[520px] w-[620px] rounded-full bg-periwinkle-soft/35 blur-[140px]" />
+        <div aria-hidden className="absolute -left-32 bottom-0 -z-10 h-[360px] w-[460px] rounded-full bg-gold/15 blur-[140px]" />
         <div className="mx-auto grid max-w-[1320px] items-end gap-10 lg:grid-cols-[1.4fr_0.6fr]">
           <div>
             <Reveal>
-              <p className="lux-label text-accent-soft">The Applause journal</p>
+              <p className="lux-label text-royal">The Applause journal</p>
             </Reveal>
             <Words
               as="h1"
@@ -42,11 +43,11 @@ export default async function BlogPage() {
             />
           </div>
           <Reveal delay={0.3}>
-            <p className="font-text text-lg leading-relaxed text-ivory/65">
+            <p className="font-text text-lg leading-relaxed text-slate-ink">
               Guides, location deep-dives and project notes from our advisory desk — written to help
               families and investors decide with confidence.
             </p>
-            <p className="mt-6 font-text text-xs font-semibold uppercase tracking-[0.18em] text-ivory/45">
+            <p className="mt-6 font-text text-xs font-semibold uppercase tracking-[0.18em] text-ink-900/45">
               {posts.length} articles · Updated {formatDate(featured.date)}
             </p>
           </Reveal>

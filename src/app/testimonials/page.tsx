@@ -46,11 +46,11 @@ export default async function TestimonialsPage() {
       <JsonLd data={reviewSchema(testimonials)} />
 
       {/* Masthead */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-40 pt-36 text-ivory md:px-10 md:pb-52 md:pt-44">
-        <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[520px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
+      <section className="lux-scope lux-on-light relative isolate overflow-hidden bg-mist px-4 sm:px-6 pb-40 pt-36 text-ink-900 md:px-10 md:pb-52 md:pt-44">
+        <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[520px] w-[620px] rounded-full bg-periwinkle-soft/35 blur-[140px]" />
+        <div aria-hidden className="absolute -right-40 top-1/3 -z-10 h-[420px] w-[520px] rounded-full bg-gold/15 blur-[140px]" />
         <div className="mx-auto max-w-[1320px]">
           <Breadcrumbs
-            tone="dark"
             items={[
               { name: "Home", href: "/" },
               { name: "Testimonials", href: "/testimonials" },
@@ -59,7 +59,7 @@ export default async function TestimonialsPage() {
           <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1.4fr_0.6fr]">
             <div>
               <Reveal>
-                <p className="lux-label text-accent-soft">Client testimonials</p>
+                <p className="lux-label text-royal">Client testimonials</p>
               </Reveal>
               <Words
                 as="h1"
@@ -70,11 +70,11 @@ export default async function TestimonialsPage() {
               />
             </div>
             <Reveal delay={0.3}>
-              <p className="font-text text-lg leading-relaxed text-ivory/65">
+              <p className="font-text text-lg leading-relaxed text-slate-ink">
                 Bankers, investors and first-time buyers on what it was like to buy a bank-approved Delhi NCR
                 home with Rajiv ji&rsquo;s team, in their own words.
               </p>
-              <p className="mt-6 font-text text-xs font-semibold uppercase tracking-[0.18em] text-ivory/45">
+              <p className="mt-6 font-text text-xs font-semibold uppercase tracking-[0.18em] text-ink-900/45">
                 {testimonials.length} client reviews · English &amp; हिंदी
               </p>
             </Reveal>
@@ -99,7 +99,7 @@ export default async function TestimonialsPage() {
                   </svg>
                   <blockquote className="font-serif text-[clamp(1.6rem,2.6vw,2.4rem)] leading-[1.3]">{lead.quote}</blockquote>
                   <figcaption className="flex items-center gap-4 border-t border-ink-900/[0.08] pt-6">
-                    <span aria-hidden className="grid h-12 w-12 place-items-center rounded-full bg-ink-900 font-sans text-base font-semibold text-white">
+                    <span aria-hidden className="grid h-12 w-12 place-items-center rounded-full bg-royal font-sans text-base font-semibold text-white">
                       {lead.name.charAt(0)}
                     </span>
                     <span>
@@ -114,13 +114,13 @@ export default async function TestimonialsPage() {
             {stats.map((s, i) => (
               <Reveal key={s.label} delay={0.08 + i * 0.08} className="lg:col-span-4">
                 <Bezel
-                  tone="ink"
-                  className="h-full shadow-[0_40px_80px_-48px_rgba(11,23,51,0.5)]"
-                  coreClassName="h-full"
+                  tone="light"
+                  className="h-full shadow-[0_40px_80px_-48px_rgba(11,23,51,0.45)]"
+                  coreClassName="h-full bg-white"
                 >
-                  <dl className="flex h-full flex-col justify-between gap-6 p-7 text-ivory md:p-8">
-                    <dt className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-ivory/55">{s.label}</dt>
-                    <dd className="lux-display text-[clamp(2.6rem,4vw,3.6rem)]">
+                  <dl className="flex h-full flex-col justify-between gap-6 p-7 text-ink-900 md:p-8">
+                    <dt className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-slate-ink">{s.label}</dt>
+                    <dd className="lux-display text-[clamp(2.6rem,4vw,3.6rem)] text-royal">
                       <CountUp to={s.to} />
                       {s.suffix}
                     </dd>

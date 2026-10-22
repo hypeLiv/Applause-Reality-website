@@ -28,7 +28,7 @@ export default function CorridorNav({ items }: { items: Item[] }) {
 
   return (
     <nav aria-label="Locations" className="sticky top-[80px] z-40 flex justify-center px-4">
-      <ul className="lux-glass flex max-w-full backdrop-blur-xl gap-1 overflow-x-auto rounded-full p-1.5 [scrollbar-width:none]">
+      <ul className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-white/85 p-1.5 shadow-[0_24px_48px_-24px_rgba(11,23,51,0.3)] ring-1 ring-ink-900/10 backdrop-blur-xl [scrollbar-width:none]">
         {items.map((item) => {
           const on = item.id === active;
           return (
@@ -37,11 +37,11 @@ export default function CorridorNav({ items }: { items: Item[] }) {
                 href={`#${item.id}`}
                 aria-current={on ? "location" : undefined}
                 className={`lux-focus flex items-baseline gap-2 rounded-full px-4 py-2 font-text text-sm font-semibold transition-colors duration-300 ${
-                  on ? "bg-ivory text-ink-950" : "text-ivory/75 hover:text-ivory"
+                  on ? "bg-royal text-white" : "text-ink-900/70 hover:text-ink-900"
                 }`}
               >
                 {item.label}
-                <span className={`hidden text-xs font-medium sm:inline ${on ? "text-ink-950/55" : "text-ivory/45"}`}>{item.note}</span>
+                <span className={`hidden text-xs font-medium sm:inline ${on ? "text-white/70" : "text-ink-900/45"}`}>{item.note}</span>
               </a>
             </li>
           );

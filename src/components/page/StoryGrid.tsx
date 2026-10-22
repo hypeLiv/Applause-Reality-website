@@ -2,7 +2,7 @@ import { Reveal, Words } from "@/components/home/motion";
 import { Bezel } from "@/components/home/ui";
 import type { PageStory } from "@/content/testimonials";
 
-/** Client stories on navy: bezel cards in an asymmetric bento that lift on hover. */
+/** Client stories on pale sky: bezel cards in an asymmetric bento that lift on hover. */
 export default function StoryGrid({
   label = "Client success stories",
   title,
@@ -15,18 +15,18 @@ export default function StoryGrid({
   stories: PageStory[];
 }) {
   return (
-    <section className="lux-scope bg-ink-900 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-mist px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <Reveal>
-              <p className="lux-label text-accent-soft">{label}</p>
+              <p className="lux-label text-royal">{label}</p>
             </Reveal>
             <Words text={title} className="lux-display mt-6 text-[clamp(2.4rem,4.4vw,4rem)]" />
           </div>
           {intro && (
             <Reveal delay={0.1}>
-              <p className="font-text text-lg leading-relaxed text-ivory/70">{intro}</p>
+              <p className="font-text text-lg leading-relaxed text-slate-ink">{intro}</p>
             </Reveal>
           )}
         </div>
@@ -42,27 +42,28 @@ export default function StoryGrid({
                 className={lead ? "md:col-span-7 md:row-span-2" : "md:col-span-5"}
               >
                 <Bezel
+                  tone="light"
                   className="h-full transition-[translate] duration-700 ease-[var(--ease-spring)] hover:-translate-y-1"
-                  coreClassName="bg-gradient-to-b from-white/[0.07] to-white/[0.02]"
+                  coreClassName="bg-white"
                 >
                   <figure className={`flex h-full flex-col p-7 ${lead ? "md:p-10" : ""}`}>
-                    <span aria-hidden className="font-sans text-6xl font-semibold leading-none text-accent/50">
+                    <span aria-hidden className="font-sans text-6xl font-semibold leading-none text-royal/30">
                       &ldquo;
                     </span>
-                    <p className="mt-2 font-text text-xs font-semibold uppercase tracking-[0.16em] text-accent-soft">
+                    <p className="mt-2 font-text text-xs font-semibold uppercase tracking-[0.16em] text-royal">
                       {s.eyebrow}
                     </p>
                     {s.title && <p className="mt-2 font-sans text-xl font-semibold tracking-[-0.01em]">{s.title}</p>}
-                    {s.meta && <p className="mt-1 font-text text-sm text-ivory/55">{s.meta}</p>}
+                    {s.meta && <p className="mt-1 font-text text-sm text-slate-ink">{s.meta}</p>}
                     <blockquote
-                      className={`mt-5 flex-1 font-text text-ivory/85 ${
+                      className={`mt-5 flex-1 font-text text-ink-900/85 ${
                         lead ? "text-[clamp(1.4rem,2.2vw,2rem)] leading-snug tracking-[-0.01em]" : "text-[17px] leading-relaxed"
                       }`}
                     >
                       {s.quote}
                     </blockquote>
                     {s.by && (
-                      <figcaption className="mt-6 border-t border-white/10 pt-4 font-text text-sm text-ivory/60">
+                      <figcaption className="mt-6 border-t border-ink-900/10 pt-4 font-text text-sm text-slate-ink">
                         {s.by}
                       </figcaption>
                     )}

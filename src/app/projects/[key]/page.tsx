@@ -79,20 +79,20 @@ export default async function ProjectPage({ params }: Params) {
         lead={p.summary}
         actions={
           <>
-            <a href={downloadHref(p.brochure)} download className={lux.heroPrimary}>
+            <a href={downloadHref(p.brochure)} download className={lux.dayPrimary}>
               <Icon name="download" className="h-5 w-5" /> Download brochure
             </a>
-            <Cta href={site.whatsappProjects} className={lux.heroGlass}>
+            <Cta href={site.whatsappProjects} className={lux.dayGlass}>
               Talk to an advisor
             </Cta>
           </>
         }
       >
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-ink-900/[0.08] ring-1 ring-ink-900/10 shadow-[0_24px_48px_-24px_rgba(11,23,51,0.3)] md:grid-cols-4">
           {p.facts.map((f) => (
-            <div key={f.label} className="bg-ink-950/50 px-5 py-4 backdrop-blur-md">
-              <dd className="font-sans text-xl font-semibold tabular-nums text-white md:text-2xl">{f.value}</dd>
-              <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-white/60">{f.label}</dt>
+            <div key={f.label} className="bg-white/85 px-5 py-4 backdrop-blur-md">
+              <dd className="font-sans text-xl font-semibold tabular-nums text-ink-900 md:text-2xl">{f.value}</dd>
+              <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-slate-ink">{f.label}</dt>
             </div>
           ))}
         </dl>
@@ -225,19 +225,19 @@ function Homes({ project: p }: { project: Project }) {
 
           {specs?.length ? (
             <Reveal delay={0.08} className={unitPlans?.length ? "lg:col-span-5" : "lg:col-span-12"}>
-              <Bezel tone="ink" coreClassName="p-6 text-ivory sm:p-8">
-                <p className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-accent-soft">
+              <Bezel tone="light" coreClassName="bg-white p-6 text-ink-900 sm:p-8">
+                <p className="font-text text-xs font-semibold uppercase tracking-[0.16em] text-royal">
                   Included in the price
                 </p>
                 <ol className="mt-5 space-y-4">
                   {specs.map((sp, i) => (
-                    <li key={sp.title} className="grid grid-cols-[2rem_1fr] gap-3 border-t border-white/10 pt-4 first:border-0 first:pt-0">
-                      <span className="font-text text-xs font-semibold tabular-nums tracking-[0.16em] text-accent">
+                    <li key={sp.title} className="grid grid-cols-[2rem_1fr] gap-3 border-t border-ink-900/[0.08] pt-4 first:border-0 first:pt-0">
+                      <span className="font-text text-xs font-semibold tabular-nums tracking-[0.16em] text-royal">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span>
                         <span className="block font-sans text-[15px] font-semibold sm:text-base">{sp.title}</span>
-                        {sp.detail && <span className="mt-0.5 block font-text text-sm text-ivory/60">{sp.detail}</span>}
+                        {sp.detail && <span className="mt-0.5 block font-text text-sm text-slate-ink">{sp.detail}</span>}
                       </span>
                     </li>
                   ))}
@@ -271,10 +271,10 @@ function Inside({ project: p }: { project: Project }) {
   const { film, highlights, gallery } = p;
   if (!film && !highlights && !gallery?.length) return null;
   return (
-    <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
+    <section className="lux-scope lux-on-light bg-mist px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
       <div className="mx-auto max-w-[1320px]">
         <Reveal>
-          <p className="lux-label text-accent-soft">Inside the project</p>
+          <p className="lux-label text-royal">Inside the project</p>
           <h2 className="lux-display mt-6 max-w-[18ch] text-[clamp(2.2rem,4vw,3.6rem)]">
             See it before you visit.
           </h2>
@@ -297,7 +297,7 @@ function Inside({ project: p }: { project: Project }) {
                 src={film.src}
                 poster={film.poster}
                 title={film.title}
-                className={`w-full rounded-[24px] ring-1 ring-white/10 ${
+                className={`w-full rounded-[24px] ring-1 ring-ink-900/10 ${
                   film.portrait ? "mx-auto aspect-[9/16] max-w-sm lg:max-w-none" : "aspect-video"
                 }`}
               />
@@ -311,7 +311,7 @@ function Inside({ project: p }: { project: Project }) {
                   href={highlights}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-white/10"
+                  className="lux-focus group block overflow-hidden rounded-[24px] bg-white ring-1 ring-ink-900/10"
                 >
                   <Image
                     src={highlights}
@@ -322,9 +322,9 @@ function Inside({ project: p }: { project: Project }) {
                     className="h-auto w-full transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.02]"
                   />
                 </a>
-                <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-ivory/60">
+                <figcaption className="mt-4 flex items-center justify-between gap-4 font-text text-sm text-slate-ink">
                   <span>Project highlights</span>
-                  <a href={highlights} target="_blank" rel="noopener noreferrer" className="lux-focus -my-2 py-2 font-semibold text-ivory/80 hover:text-ivory">
+                  <a href={highlights} target="_blank" rel="noopener noreferrer" className="lux-focus -my-2 py-2 font-semibold text-ink-900/80 hover:text-royal">
                     Open full size ↗
                   </a>
                 </figcaption>
@@ -342,7 +342,7 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
     <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-4 sm:px-6 py-20 text-ink-900 md:px-10 md:py-28">
       <Reveal className="mx-auto max-w-[1320px]">
         <div className="grid items-center gap-8 rounded-[28px] bg-white p-7 ring-1 ring-ink-900/[0.06] md:grid-cols-[auto_1fr_auto] md:gap-10 md:p-10">
-          <span className="relative grid h-24 w-20 place-items-center rounded-xl bg-ink-900 text-white">
+          <span className="relative grid h-24 w-20 place-items-center rounded-xl bg-royal text-white">
             <Icon name="document" className="h-8 w-8" />
             <span className="absolute bottom-2 font-text text-[10px] font-bold tracking-[0.18em]">PDF</span>
           </span>
@@ -388,7 +388,7 @@ function OtherLaunches({ projects: list }: { projects: Project[] }) {
             <li key={o.key} data-expand-root>
               <Reveal delay={i * 0.06}>
                 <ExpandLink href={`/projects/${o.key}`} className="lux-focus group block">
-                  <span data-expand-source className="relative block aspect-[4/3] overflow-hidden rounded-[22px] bg-ink-900">
+                  <span data-expand-source className="relative block aspect-[4/3] overflow-hidden rounded-[22px] bg-mist">
                     <Image
                       src={o.photo}
                       alt={o.photoAlt}
@@ -402,7 +402,7 @@ function OtherLaunches({ projects: list }: { projects: Project[] }) {
                       <span className="block font-sans text-xl font-semibold tracking-[-0.01em]">{o.name}</span>
                       <span className="mt-1 block font-text text-sm text-slate-ink">{o.location}</span>
                     </span>
-                    <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-900/15 transition-colors group-hover:border-ink-900 group-hover:bg-ink-900 group-hover:text-white">
+                    <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-900/15 transition-colors group-hover:border-royal group-hover:bg-royal group-hover:text-white">
                       <Icon name="arrow" className="h-4 w-4" />
                     </span>
                   </span>

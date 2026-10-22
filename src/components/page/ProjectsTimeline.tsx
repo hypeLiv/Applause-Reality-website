@@ -12,7 +12,7 @@ import { ExpandLink } from "./ExpandTransition";
  * scroll, with each project's details and photo alternating either side of it.
  * The project nearest the middle of the screen is lit; the rest wait dimmed.
  * Phones get the same timeline with the spine down the left edge. Renders the
- * list only, on a dark (ink-950) surface supplied by the caller.
+ * list only, on a light (mist) surface supplied by the caller.
  */
 export default function ProjectsTimeline({ projects, className = "" }: { projects: Project[]; className?: string }) {
   const listRef = useRef<HTMLOListElement>(null);
@@ -23,11 +23,11 @@ export default function ProjectsTimeline({ projects, className = "" }: { project
   return (
     <ol ref={listRef} aria-label="Current launches" className={`relative ${className}`}>
       {/* Spine: a faint track with the scroll-driven fill on top. */}
-      <span aria-hidden className="absolute bottom-0 left-[7px] top-0 w-px bg-white/10 lg:left-1/2" />
+      <span aria-hidden className="absolute bottom-0 left-[7px] top-0 w-px bg-ink-900/10 lg:left-1/2" />
       <motion.span
         aria-hidden
         style={{ scaleY: fill }}
-        className="absolute bottom-0 left-[7px] top-0 w-px origin-top bg-accent lg:left-1/2"
+        className="absolute bottom-0 left-[7px] top-0 w-px origin-top bg-royal lg:left-1/2"
       />
 
       {projects.map((p, i) => (
@@ -51,13 +51,13 @@ function Row({ project: p, index }: { project: Project; index: number }) {
       {/* Node on the spine */}
       <span
         aria-hidden
-        className="absolute left-[7px] top-10 grid h-4 w-4 -translate-x-1/2 place-items-center rounded-full border border-white/20 bg-ink-950 lg:left-1/2"
+        className="absolute left-[7px] top-10 grid h-4 w-4 -translate-x-1/2 place-items-center rounded-full border border-ink-900/15 bg-white lg:left-1/2"
       >
-        <motion.span style={{ scale: node }} className="h-2 w-2 rounded-full bg-accent" />
+        <motion.span style={{ scale: node }} className="h-2 w-2 rounded-full bg-royal" />
       </span>
 
       <motion.div style={{ opacity }} className="grid items-start gap-6 lg:grid-cols-2 lg:gap-24">
-        <article className={`rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-5 sm:p-7 md:p-10 ${flip ? "lg:order-2" : ""}`}>
+        <article className={`rounded-[28px] bg-white p-5 ring-1 ring-ink-900/5 shadow-[0_24px_48px_-24px_rgba(11,23,51,0.3)] sm:p-7 md:p-10 ${flip ? "lg:order-2" : ""}`}>
           <ProjectDetails project={p} index={index} />
         </article>
 
@@ -66,7 +66,7 @@ function Row({ project: p, index }: { project: Project; index: number }) {
           aria-label={`View ${p.name}`}
           className={`lux-focus group block rounded-[28px] lg:mt-16 ${flip ? "lg:order-1" : ""}`}
         >
-          <span data-expand-source className="relative block aspect-[5/4] overflow-hidden rounded-[28px] ring-1 ring-white/10">
+          <span data-expand-source className="relative block aspect-[5/4] overflow-hidden rounded-[28px] ring-1 ring-ink-900/10">
             <Image
               src={p.photo}
               alt={p.photoAlt}
@@ -90,10 +90,10 @@ function ProjectDetails({ project: p, index }: { project: Project; index: number
   return (
     <div>
       <div className="flex items-center justify-between gap-4">
-        <span className="font-text text-sm font-semibold tabular-nums text-accent">
+        <span className="font-text text-sm font-semibold tabular-nums text-royal">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="font-text text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory/40">
+        <span className="font-text text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-900/45">
           {p.featured ? "Featured launch" : `Project ${index + 1}`}
         </span>
       </div>
@@ -101,27 +101,27 @@ function ProjectDetails({ project: p, index }: { project: Project; index: number
       <h3 className="lux-display mt-6 text-[clamp(2.2rem,3.6vw,3.4rem)] leading-[1.02]">
         {p.name}
       </h3>
-      <p className="mt-3 flex items-center gap-2 font-text text-sm text-ivory/60">
+      <p className="mt-3 flex items-center gap-2 font-text text-sm text-slate-ink">
         <Icon name="pin" className="h-4 w-4" />
         {p.location}
       </p>
 
-      <dl className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
+      <dl className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-900/10 bg-ink-900/10">
         {p.facts.map((f) => (
-          <div key={f.label} className="bg-ink-950 px-4 py-3">
+          <div key={f.label} className="bg-white px-4 py-3">
             <dd className="font-sans text-base font-semibold tabular-nums">{f.value}</dd>
-            <dt className="order-first font-text text-xs text-ivory/55">{f.label}</dt>
+            <dt className="order-first font-text text-xs text-slate-ink">{f.label}</dt>
           </div>
         ))}
       </dl>
 
-      <p className="mt-6 font-text text-[15px] leading-relaxed text-ivory/70">{p.summary}</p>
+      <p className="mt-6 font-text text-[15px] leading-relaxed text-slate-ink">{p.summary}</p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <ExpandLink href={`/projects/${p.key}`} className={lux.primary}>
           View project <Arrow />
         </ExpandLink>
-        <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostDark}>
+        <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
           <Icon name="download" className="h-4 w-4" /> Brochure
         </a>
         {p.highlights && <HighlightsButton project={p} src={p.highlights} />}
@@ -138,7 +138,7 @@ function HighlightsButton({ project: p, src }: { project: Project; src: string }
       <button
         type="button"
         onClick={() => ref.current?.showModal()}
-        className="lux-focus -my-2 inline-flex items-center gap-2 py-2 font-text text-sm font-semibold text-ivory/80 underline-offset-4 hover:text-ivory hover:underline"
+        className="lux-focus -my-2 inline-flex items-center gap-2 py-2 font-text text-sm font-semibold text-ink-900/75 underline-offset-4 hover:text-ink-900 hover:underline"
       >
         <Icon name="document" className="h-4 w-4" /> View highlights
       </button>

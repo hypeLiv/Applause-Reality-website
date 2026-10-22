@@ -9,9 +9,6 @@ import { Arrow } from "@/components/home/ui";
 import { nav, site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
 
-/** Pages whose hero is dark, matched by path so the first paint is already right. */
-const DARK_HERO = /^\/($|projects|blog|about-applause-reality|testimonials)/;
-
 export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Img }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -49,15 +46,14 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
     };
   }, [pathname]);
 
-  // Over a dark hero the bar dissolves into it: on any page that opens on a
-  // dark hero until you scroll, and over any marked section while it's behind
-  // the bar. Light-topped pages (consultation, privacy) keep the frosted pill.
-  const darkTop = DARK_HERO.test(pathname);
-  // The open menu is a dark full-screen sheet, so the bar dissolves into it too.
-  const onHero = open || (darkTop && !scrolled) || overDark;
+  // Every page opens on a light hero, so the bar is the white pill; it dissolves
+  // only over a marked dark section while that sits behind it (e.g. a pinned video).
+  // The open menu is a light full-screen sheet: the bar dissolves into it but keeps its ink.
+  const clear = open || overDark;
+  const onHero = overDark && !open;
 
   const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-    onHero
+    clear
       ? "max-w-[1320px] border-transparent bg-transparent px-3 md:px-6"
       : `max-w-[1060px] px-1.5 pl-4 ${
           scrolled
@@ -77,7 +73,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
         // Above the floating chat button (z-50) while the menu sheet covers the screen.
         open ? "z-[60]" : "z-50"
       } ${
-        onHero ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"
+        clear ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"
       } transition-[padding] duration-500`}
     >
       <div className={shell}>
@@ -145,7 +141,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
             className={`hidden whitespace-nowrap rounded-full px-4 py-2 font-text text-[13px] font-semibold transition-colors md:block ${
               onHero
                 ? "border border-white/35 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
-                : "bg-ink-900 text-ivory hover:bg-royal"
+                : "bg-royal text-white hover:bg-[#1c3880]"
             }`}
           >
             Free Consultation
@@ -181,7 +177,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
       <div
         id="site-menu"
         aria-hidden={!open}
-        className={`fixed inset-0 -z-10 flex flex-col bg-ink-950/90 backdrop-blur-3xl transition-[opacity,visibility] duration-500 ease-[var(--ease-spring)] lg:hidden ${
+        className={`fixed inset-0 -z-10 flex flex-col bg-ivory/95 backdrop-blur-3xl transition-[opacity,visibility] duration-500 ease-[var(--ease-spring)] lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
@@ -190,7 +186,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
             {nav.map((item, i) => {
               const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
               return (
-                <li key={item.href} className="overflow-hidden border-b border-white/10">
+                <li key={item.href} className="overflow-hidden border-b border-ink-900/10">
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
@@ -201,10 +197,10 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
                       open ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                     }`}
                   >
-                    <span className={`lux-display text-[clamp(2.4rem,9vw,3.6rem)] ${active ? "text-ivory" : "text-ivory/70"}`}>
+                    <span className={`lux-display text-[clamp(2.4rem,9vw,3.6rem)] ${active ? "text-ink-900" : "text-ink-900/60"}`}>
                       {item.label}
                     </span>
-                    <span className="font-text text-xs font-semibold tracking-[0.2em] text-accent tabular-nums">
+                    <span className="font-text text-xs font-semibold tracking-[0.2em] text-royal tabular-nums">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </Link>
@@ -221,7 +217,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
         >
           <ConsultLink
             onClick={() => setOpen(false)}
-            className="lux-btn flex items-center justify-between rounded-full bg-ivory py-2 pl-6 pr-2 font-text text-[15px] font-semibold text-ink-950 transition-transform duration-500 ease-[var(--ease-spring)] active:scale-[0.98]"
+            className="lux-btn flex items-center justify-between rounded-full bg-royal py-2 pl-6 pr-2 font-text text-[15px] font-semibold text-white transition-transform duration-500 ease-[var(--ease-spring)] active:scale-[0.98]"
           >
             Free Consultation
             <Arrow />
@@ -229,7 +225,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
           <a
             href={site.phone.href}
             tabIndex={open ? undefined : -1}
-            className="rounded-full border border-white/20 px-6 py-4 text-center font-text text-[15px] font-semibold text-ivory"
+            className="rounded-full border border-ink-900/15 px-6 py-4 text-center font-text text-[15px] font-semibold text-ink-900"
           >
             Call {site.phone.display}
           </a>

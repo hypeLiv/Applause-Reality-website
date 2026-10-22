@@ -139,26 +139,26 @@ export default function RollingJourney({
   return (
     <section
       ref={sectionRef}
-      className={`lux-scope relative bg-ink-950 text-ivory ${className}`}
+      className={`lux-scope lux-on-light relative bg-mist text-ink-900 ${className}`}
       style={{ height: reduce ? undefined : "330vh" }}
     >
       <div className={`${reduce ? "" : "sticky top-0 h-[100svh]"} flex flex-col px-10 pb-8 pt-28`}>
         <div className="mx-auto grid w-full max-w-[1320px] items-end gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <Reveal>
-              <p className="lux-label text-accent-soft">{label}</p>
+              <p className="lux-label text-royal">{label}</p>
             </Reveal>
             <Words text={title} className="lux-display mt-5 text-[clamp(2.2rem,3.4vw,3.4rem)]" />
           </div>
           <Reveal delay={0.1}>
-            <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+            <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-royal">
               {route[0]}
               <svg width="22" height="10" viewBox="0 0 22 10" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
                 <path d="M0 5h20M16 1l4 4-4 4" />
               </svg>
               {route[1]}
             </p>
-            <p className="mt-3 max-w-[34rem] font-text text-[17px] leading-relaxed text-ivory/65">{intro}</p>
+            <p className="mt-3 max-w-[34rem] font-text text-[17px] leading-relaxed text-slate-ink">{intro}</p>
           </Reveal>
         </div>
 
@@ -172,7 +172,7 @@ export default function RollingJourney({
               ref={(el) => {
                 colRefs.current[i] = el;
               }}
-              className="relative flex flex-col justify-between overflow-hidden rounded-[22px] bg-royal p-7"
+              className="relative flex flex-col justify-between overflow-hidden rounded-[22px] bg-gradient-to-b from-periwinkle to-royal p-7 text-ivory"
               style={{ clipPath: `inset(${((1 - (START_VISIBLE[i] ?? 0.1)) * 100).toFixed(2)}% 0 0 0 round 22px)` }}
             >
               {geo.w > 0 && (

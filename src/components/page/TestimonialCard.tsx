@@ -20,7 +20,7 @@ export default function TestimonialCard({ testimonial: t }: { testimonial: Testi
           <span
             aria-hidden
             lang={t.lang}
-            className={`grid h-10 w-10 place-items-center rounded-full bg-ink-900 text-sm font-semibold text-white ${deva ? "font-deva" : "font-sans"}`}
+            className={`grid h-10 w-10 place-items-center rounded-full bg-royal text-sm font-semibold text-white ${deva ? "font-deva" : "font-sans"}`}
           >
             {t.name.charAt(0)}
           </span>

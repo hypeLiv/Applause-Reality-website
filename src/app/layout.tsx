@@ -94,7 +94,8 @@ export default async function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
       </head>
-      <body>
+      {/* lux-day: the site-wide daylight treatment (royal actions and accents; see globals.css). */}
+      <body className="lux-day">
         <JsonLd data={businessSchema(media)} />
         <IntroLoader />
         <BlurProvider map={blurMap}>

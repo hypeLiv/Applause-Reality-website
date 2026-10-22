@@ -52,7 +52,7 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
       onFocus={() => setHeld(true)}
       onBlur={() => setHeld(false)}
     >
-      <Bezel coreClassName="relative">
+      <Bezel tone="light" coreClassName="relative">
         <MorphGallery
           items={pillars.map((p) => ({ src: textureSrc(p.src), alt: p.alt }))}
           index={index}
@@ -84,8 +84,8 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
                 onClick={() => setIndex(i)}
                 aria-current={on}
                 aria-label={`Show ${p.label}`}
-                className={`lux-focus group relative block aspect-square w-full overflow-hidden rounded-xl ring-1 transition-[box-shadow,opacity] duration-500 md:aspect-[16/9] md:rounded-2xl ${
-                  on ? "opacity-100 ring-2 ring-accent" : "opacity-50 ring-white/10 hover:opacity-85"
+                className={`lux-focus group relative block aspect-square w-full overflow-hidden rounded-xl ring-1 transition-[box-shadow,opacity,filter] duration-500 md:aspect-[16/9] md:rounded-2xl ${
+                  on ? "opacity-100 ring-2 ring-royal" : "opacity-80 saturate-[0.8] ring-ink-900/10 hover:opacity-100 hover:saturate-100"
                 }`}
               >
                 <Image

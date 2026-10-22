@@ -23,7 +23,7 @@ export function ReadLink() {
     <span className="inline-flex items-center gap-3 font-text text-[15px] font-semibold text-ink-900">
       Read article
       {/* Island: fills, nudges up-right and swells slightly on hover of the parent card. */}
-      <span className="grid h-10 w-10 place-items-center rounded-full bg-ink-900/[0.06] ring-1 ring-ink-900/10 transition-[background-color,color,translate,scale] duration-500 ease-[var(--ease-spring)] group-hover:-translate-y-px group-hover:translate-x-1 group-hover:scale-105 group-hover:bg-ink-900 group-hover:text-white">
+      <span className="grid h-10 w-10 place-items-center rounded-full bg-ink-900/[0.06] ring-1 ring-ink-900/10 transition-[background-color,color,translate,scale] duration-500 ease-[var(--ease-spring)] group-hover:-translate-y-px group-hover:translate-x-1 group-hover:scale-105 group-hover:bg-royal group-hover:text-white">
         <Icon name="arrow" className="h-4 w-4" />
       </span>
     </span>
