@@ -17,7 +17,7 @@ Open http://localhost:3000.
 
 1. Netlify → Add new project → Import from Git → pick this repo. Leave base directory empty (`studio/` deploys separately with `sanity deploy`).
 2. Project configuration → Environment variables: add the keys from `.env.example`. `NEXT_PUBLIC_*` values are baked in at build time, so redeploy after changing them.
-3. Domain management → add `applausereality.com` and `www`. If you switch nameservers to Netlify DNS, recreate the MX records first so `concierge@` mail keeps arriving.
+3. Domain management → add `applausereality.com` and `www.applausereality.com`, and make `www` the primary domain (canonical URLs and the sitemap use `www`). At the DNS host (Hostinger), point the `www` CNAME at `<project>.netlify.app` and the `@` ALIAS at `apex-loadbalancer.netlify.com`. Leave the mail records (MX, SPF, DKIM, DMARC) as they are.
 4. Point the Sanity webhook at `https://<your domain>/api/revalidate` with `SANITY_REVALIDATE_SECRET`.
 
 ## Structure
