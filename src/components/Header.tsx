@@ -77,13 +77,13 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
       } transition-[padding] duration-500`}
     >
       <div className={shell}>
-        <Link href="/" className="relative h-8 w-[112px] shrink-0" onClick={() => setOpen(false)}>
+        <Link href="/" className="relative h-10 w-[140px] shrink-0" onClick={() => setOpen(false)}>
           <Image
             src={logoOnDark.src}
             alt={logoOnDark.alt}
             aria-hidden
             fill
-            sizes="112px"
+            sizes="140px"
             priority
             className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : "opacity-0"}`}
           />
@@ -91,7 +91,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
             src={logo.src}
             alt={logo.alt}
             fill
-            sizes="112px"
+            sizes="140px"
             priority
             className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-0" : "opacity-100"}`}
           />

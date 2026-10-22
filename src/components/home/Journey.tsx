@@ -156,7 +156,7 @@ function Rail() {
               {
                 "--gap": "clamp(300px, 27vw, 420px)",
                 "--pad": "4vw",
-                width: `calc(${steps.length - 1} * var(--gap) + 2 * var(--pad) + 320px)`,
+                width: `calc(${steps.length - 1} * var(--gap) + 2 * var(--pad) + 380px)`,
               } as React.CSSProperties
             }
           >
@@ -223,19 +223,19 @@ function Milestone({
   const tip = `absolute -left-[4px] h-[9px] w-[9px] rounded-full bg-royal shadow-[0_0_0_5px_rgba(36,69,160,0.12)] transition-transform duration-300 ${
     on ? "scale-100 delay-500" : "scale-0"
   }`;
-  const copy = `w-[300px] transition-all duration-700 ${ease} ${
+  const copy = `w-[360px] transition-all duration-700 ${ease} ${
     on ? "translate-y-0 opacity-100 delay-300" : "translate-y-3 opacity-0"
   }`;
   const body = (
     <>
-      <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-royal tabular-nums">
-        <Icon name={icon} className="h-5 w-5 text-periwinkle" />
+      <p className="flex items-center gap-3 font-text text-sm font-semibold uppercase tracking-[0.18em] text-royal tabular-nums">
+        <Icon name={icon} className="h-6 w-6 text-periwinkle" />
         Step {String(index + 1).padStart(2, "0")}
       </p>
-      <h3 className="mt-3 font-sans text-[clamp(1.4rem,1.9vw,1.85rem)] font-semibold leading-tight tracking-[-0.02em]">
+      <h3 className="mt-3 font-sans text-[clamp(1.75rem,2.4vw,2.4rem)] font-semibold leading-tight tracking-[-0.02em]">
         {title}
       </h3>
-      <p className="mt-2 font-text text-[15px] leading-relaxed text-slate-ink">{text}</p>
+      <p className="mt-3 font-text text-lg leading-relaxed text-slate-ink">{text}</p>
     </>
   );
 
@@ -309,14 +309,14 @@ function Stacked() {
               className="absolute -left-[37px] top-1 h-[9px] w-[9px] rounded-full bg-royal shadow-[0_0_0_5px_rgba(36,69,160,0.12)]"
             />
             <Reveal>
-              <p className="flex items-center gap-3 font-text text-xs font-semibold uppercase tracking-[0.18em] text-royal">
-                <Icon name={s.icon} className="h-5 w-5 text-periwinkle" />
+              <p className="flex items-center gap-3 font-text text-sm font-semibold uppercase tracking-[0.18em] text-royal">
+                <Icon name={s.icon} className="h-6 w-6 text-periwinkle" />
                 Step {String(i + 1).padStart(2, "0")}
               </p>
-              <p role="heading" aria-level={3} className="mt-2 font-sans text-2xl font-semibold tracking-[-0.02em]">
+              <p role="heading" aria-level={3} className="mt-2 font-sans text-[1.75rem] font-semibold leading-tight tracking-[-0.02em]">
                 {s.title}
               </p>
-              <p className="mt-2 font-text text-base leading-relaxed text-slate-ink">{s.text}</p>
+              <p className="mt-2 font-text text-lg leading-relaxed text-slate-ink">{s.text}</p>
             </Reveal>
           </li>
         ))}
