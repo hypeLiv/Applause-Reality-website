@@ -22,8 +22,8 @@ export default function CoverImage({
   zoom?: boolean;
 }) {
   return (
-    <span className={`relative block overflow-hidden bg-ink-900 ${className}`}>
-      <Image src={src} alt="" aria-hidden fill sizes="200px" className="scale-125 object-cover opacity-70 blur-2xl" />
+    <span className={`relative block overflow-hidden bg-mist ${className}`}>
+      <Image src={src} alt="" aria-hidden fill sizes="200px" className="scale-125 object-cover opacity-80 blur-2xl" />
       <Image
         src={src}
         alt={alt}

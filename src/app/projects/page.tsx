@@ -149,12 +149,13 @@ export default async function ProjectsPage() {
       />
 
       {/* Corridors, each carrying its own launches */}
-      <div id="launches" className="lux-scope relative bg-ink-950 pb-24 text-ivory md:pb-32">
+      <div id="launches" className="lux-scope lux-on-light relative isolate overflow-x-clip bg-mist pb-24 text-ink-900 md:pb-32">
+        <div aria-hidden className="absolute left-1/2 top-0 -z-10 h-[460px] w-[900px] -translate-x-1/2 rounded-full bg-periwinkle-soft/35 blur-[150px]" />
         <header className="mx-auto max-w-[1320px] px-4 sm:px-6 pb-14 pt-24 md:px-10 md:pt-32">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <Reveal>
-                <p className="lux-label text-accent-soft">Three corridors, {projects.length} launches</p>
+                <p className="lux-label text-royal">Three corridors, {projects.length} launches</p>
               </Reveal>
               <Words
                 text="Where your money *works hardest.*"
@@ -162,22 +163,22 @@ export default async function ProjectsPage() {
               />
             </div>
             <Reveal delay={0.1}>
-              <p className="font-text text-lg leading-relaxed text-ivory/65">
+              <p className="font-text text-lg leading-relaxed text-slate-ink">
                 Price bands, growth drivers and the bank-approved projects we are guiding families toward
                 right now — grouped by where they stand.
               </p>
             </Reveal>
           </div>
           <Reveal delay={0.15}>
-            <dl className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+            <dl className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-ink-900/10 bg-ink-900/10 sm:grid-cols-3">
               {[
                 { v: String(projects.length), l: "Current launches" },
                 { v: "100%", l: "Bank-approved" },
                 { v: "SBI · PNB", l: "Fast-track schemes" },
               ].map((s) => (
-                <div key={s.l} className="flex flex-col bg-ink-950 px-5 py-4">
+                <div key={s.l} className="flex flex-col bg-white px-5 py-4">
                   <dd className="font-sans text-2xl font-semibold tabular-nums">{s.v}</dd>
-                  <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-ivory/55">{s.l}</dt>
+                  <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-slate-ink">{s.l}</dt>
                 </div>
               ))}
             </dl>
@@ -196,37 +197,37 @@ export default async function ProjectsPage() {
             className="scroll-mt-36 px-4 pt-16 sm:px-6 md:px-10 md:pt-24"
           >
             <div className="mx-auto max-w-[1320px]">
-              <div className="grid gap-10 border-t border-white/10 pt-12 lg:grid-cols-12 lg:gap-10">
+              <div className="grid gap-10 border-t border-ink-900/10 pt-12 lg:grid-cols-12 lg:gap-10">
                 <Reveal className="lg:col-span-6">
-                  <p className="font-text text-sm font-semibold tabular-nums text-accent">
+                  <p className="font-text text-sm font-semibold tabular-nums text-royal">
                     {String(i + 1).padStart(2, "0")} / {String(chapters.length).padStart(2, "0")}
                   </p>
                   <h2 id={`${c.id}-title`} className="lux-display mt-5 text-[clamp(2.75rem,5.5vw,5rem)] leading-[0.98]">
                     {c.name}
                   </h2>
-                  <p className="mt-6 max-w-[34rem] font-text text-lg leading-relaxed text-ivory/70">{c.summary}</p>
+                  <p className="mt-6 max-w-[34rem] font-text text-lg leading-relaxed text-slate-ink">{c.summary}</p>
                 </Reveal>
 
                 <Reveal delay={0.1} className="lg:col-span-5 lg:col-start-8">
-                  <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
-                    <div className="flex flex-col bg-ink-950 px-5 py-4">
+                  <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-900/10 bg-ink-900/10">
+                    <div className="flex flex-col bg-white px-5 py-4">
                       <dd className="font-sans text-xl font-semibold tabular-nums md:text-2xl">{c.price}</dd>
-                      <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-ivory/55">Price band</dt>
+                      <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-slate-ink">Price band</dt>
                     </div>
-                    <div className="flex flex-col bg-ink-950 px-5 py-4">
+                    <div className="flex flex-col bg-white px-5 py-4">
                       <dd className="font-sans text-base font-semibold leading-snug md:text-lg">{c.potential}</dd>
-                      <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-ivory/55">Outlook</dt>
+                      <dt className="order-first font-text text-xs uppercase tracking-[0.14em] text-slate-ink">Outlook</dt>
                     </div>
                   </dl>
                   <ul className="mt-6 space-y-2.5">
                     {c.advantages.map((a) => (
-                      <li key={a} className="flex items-start gap-3 font-text text-[15px] text-ivory/80">
-                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                      <li key={a} className="flex items-start gap-3 font-text text-[15px] text-ink-900/75">
+                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-royal" />
                         {a}
                       </li>
                     ))}
                   </ul>
-                  <Cta href={site.whatsapp} className={`${lux.ghostDark} mt-8`}>
+                  <Cta href={site.whatsapp} className={`${lux.ghostLight} mt-8`}>
                     Schedule a site visit <Arrow />
                   </Cta>
                 </Reveal>
@@ -277,10 +278,10 @@ export default async function ProjectsPage() {
                 <Reveal delay={i * 0.06}>
                   <div className="flex items-center justify-between">
                     <p className="flex items-center gap-2 font-text text-xs font-semibold uppercase tracking-[0.16em] text-royal">
-                      <Icon name="pin" className="h-4 w-4 text-accent" />
+                      <Icon name="pin" className="h-4 w-4 text-periwinkle" />
                       {a.area}
                     </p>
-                    <span className="font-text text-xs font-semibold tabular-nums text-ink-900/30 transition-colors group-hover:text-accent">
+                    <span className="font-text text-xs font-semibold tabular-nums text-ink-900/30 transition-colors group-hover:text-royal">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -327,11 +328,11 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Questions we answer */}
-      <section className="lux-scope bg-ink-900 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
-              <p className="lux-label text-accent-soft">Not sure yet?</p>
+              <p className="lux-label text-royal">Not sure yet?</p>
             </Reveal>
             <Words
               text="Questions we answer *every week.*"
@@ -343,16 +344,16 @@ export default async function ProjectsPage() {
               </Cta>
             </Reveal>
           </div>
-          <ol className="divide-y divide-white/10 border-y border-white/10">
+          <ol className="divide-y divide-ink-900/10 border-y border-ink-900/10">
             {questions.map((item, i) => (
               <li key={item.q}>
                 <Reveal delay={i * 0.06} className="grid gap-4 py-9 sm:grid-cols-[60px_1fr]">
-                  <span className="font-text text-sm font-semibold tabular-nums text-accent">
+                  <span className="font-text text-sm font-semibold tabular-nums text-royal">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <h3 className="lux-display text-[clamp(1.4rem,2.2vw,1.9rem)] leading-tight">{item.q}</h3>
-                    <p className="mt-3 max-w-[36rem] font-text text-base leading-relaxed text-ivory/70">{item.a}</p>
+                    <p className="mt-3 max-w-[36rem] font-text text-base leading-relaxed text-slate-ink">{item.a}</p>
                   </div>
                 </Reveal>
               </li>

@@ -31,7 +31,7 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
     <div>
       {groups.length > 1 && (
         <div className="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:px-0">
-          <div role="tablist" aria-label="Gallery sections" className="inline-flex gap-1 rounded-full bg-white/[0.06] p-1 ring-1 ring-white/10">
+          <div role="tablist" aria-label="Gallery sections" className="inline-flex gap-1 rounded-full bg-white p-1 ring-1 ring-ink-900/10">
             {groups.map((g) => (
               <button
                 key={g}
@@ -42,11 +42,11 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
                 aria-controls={`${id}-panel`}
                 onClick={() => choose(g)}
                 className={`lux-focus whitespace-nowrap rounded-full px-4 py-2 font-text text-sm font-semibold transition-colors ${
-                  g === group ? "bg-ivory text-ink-950" : "text-ivory/65 hover:text-ivory"
+                  g === group ? "bg-royal text-white" : "text-slate-ink hover:text-ink-900"
                 }`}
               >
                 {g}
-                <span className={`ml-1.5 tabular-nums ${g === group ? "text-ink-950/45" : "text-ivory/35"}`}>
+                <span className={`ml-1.5 tabular-nums ${g === group ? "text-white/60" : "text-ink-900/35"}`}>
                   {images.filter((im) => im.group === g).length}
                 </span>
               </button>
@@ -56,7 +56,7 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
       )}
 
       <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-${group}`} className="mt-6">
-        <Bezel coreClassName="relative">
+        <Bezel tone="light" coreClassName="relative">
           <MorphGallery
             // A new group remounts the gallery with only that group's textures.
             key={group}
@@ -90,7 +90,7 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
                   aria-current={on}
                   aria-label={`Show ${im.caption}`}
                   className={`lux-focus group relative block aspect-[16/10] w-28 overflow-hidden rounded-xl ring-1 transition-[box-shadow,opacity] duration-500 md:w-40 ${
-                    on ? "opacity-100 ring-2 ring-accent" : "opacity-50 ring-white/10 hover:opacity-85"
+                    on ? "opacity-100 ring-2 ring-royal" : "opacity-50 ring-ink-900/10 hover:opacity-85"
                   }`}
                 >
                   <Image

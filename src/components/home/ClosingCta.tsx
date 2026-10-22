@@ -4,7 +4,7 @@ import { getSiteMedia } from "@/sanity/media";
 import { ParallaxImage, Reveal, Words } from "./motion";
 import { Arrow, Bezel, Icon, lux } from "./ui";
 
-/** An ink panel over a darkened photo, or (the homepage) a white panel over a bright one. */
+/** A white panel over a bright photo (the default), or an ink panel over a darkened one. */
 const tones = {
   dark: {
     section: "bg-ink-950 text-ivory",
@@ -39,7 +39,7 @@ export default async function ClosingCta({
   text = "Your home should be a celebration of your family's achievements. From the first tour to the final handover and beyond, we manage every legal and financial detail for you.",
   actionLabel = "Schedule a site visit",
   footnote = "Dedicated household growth · Total guidance",
-  tone = "dark",
+  tone = "light",
 }: {
   /** Background photo; defaults to the banner photo set in Sanity. */
   image?: string;

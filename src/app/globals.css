@@ -148,8 +148,8 @@ body {
   outline-offset: 3px;
 }
 
-/* Daylight scope (the homepage): royal blue carries the actions, the
-   stressed headline phrase and the focus ring on its light surfaces. */
+/* Daylight scope (set on <body>): royal blue carries the actions, the
+   stressed headline phrase and the focus ring on light surfaces. */
 .lux-day .lux-primary {
   background: var(--color-royal);
   color: #fff;
@@ -370,7 +370,7 @@ body {
 }
 
 /* ---------- First-visit intro ---------- */
-/* A midnight wall slides off an ivory stage, uncovering the wordmark; the
+/* A royal-blue wall slides off an ivory stage, uncovering the wordmark; the
    stage then lifts away. Hidden outright once html.intro-done is set. */
 .intro {
   position: fixed;
@@ -421,8 +421,8 @@ body {
 .intro-wall {
   position: absolute;
   inset: 0;
-  background: var(--color-ink-950);
-  box-shadow: -40px 0 80px -20px rgb(5 12 31 / 0.45);
+  background: var(--color-royal);
+  box-shadow: -40px 0 80px -20px rgb(36 69 160 / 0.35);
   will-change: transform;
 }
 /* Leading edge: an accent hairline carrying the load counter. */
@@ -431,7 +431,7 @@ body {
   inset-block: 0;
   left: 0;
   width: 1px;
-  background: var(--color-accent);
+  background: var(--color-accent-soft);
 }
 .intro-count {
   position: absolute;
@@ -443,5 +443,5 @@ body {
   font-weight: 600;
   letter-spacing: 0.2em;
   font-variant-numeric: tabular-nums;
-  color: rgb(247 244 238 / 0.6);
+  color: rgb(247 244 238 / 0.75);
 }

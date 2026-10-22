@@ -18,16 +18,16 @@ export default function JourneyLine({ steps }: { steps: { icon: IconName; title:
   return (
     <ol ref={ref} className="relative mt-16 grid gap-10 md:mt-20 md:grid-cols-4 md:gap-8">
       {/* Track + drawn line: across the node row on desktop, down the left on phones */}
-      <span aria-hidden className="absolute left-[23px] top-6 h-[calc(100%-3rem)] w-px bg-white/10 md:left-6 md:right-6 md:h-px md:w-auto" />
+      <span aria-hidden className="absolute left-[23px] top-6 h-[calc(100%-3rem)] w-px bg-ink-900/10 md:left-6 md:right-6 md:h-px md:w-auto" />
       <motion.span
         aria-hidden
         style={{ scaleY: draw }}
-        className="absolute left-[23px] top-6 h-[calc(100%-3rem)] w-px origin-top bg-accent md:hidden"
+        className="absolute left-[23px] top-6 h-[calc(100%-3rem)] w-px origin-top bg-royal md:hidden"
       />
       <motion.span
         aria-hidden
         style={{ scaleX: draw }}
-        className="absolute left-6 right-6 top-6 hidden h-px origin-left bg-accent md:block"
+        className="absolute left-6 right-6 top-6 hidden h-px origin-left bg-royal md:block"
       />
 
       {steps.map((s, i) => (
@@ -51,23 +51,23 @@ function Step({
   // A node lights once the line has reached its position along the row.
   const at = count > 1 ? index / (count - 1) : 0;
   const reached = (p: number) => p >= at - 0.02;
-  const bg = useTransform(draw, (p) => (reached(p) ? "#8ea6e8" : "#13224a"));
-  const fg = useTransform(draw, (p) => (reached(p) ? "#050c1f" : "rgb(247 244 238 / 0.7)"));
+  const bg = useTransform(draw, (p) => (reached(p) ? "#2445a0" : "#ffffff"));
+  const fg = useTransform(draw, (p) => (reached(p) ? "#ffffff" : "#46506a"));
 
   return (
     <li className="relative flex gap-5 md:block">
       <motion.span
         style={{ backgroundColor: bg, color: fg }}
-        className="relative z-[1] grid h-12 w-12 shrink-0 place-items-center rounded-full ring-4 ring-ink-950 transition-colors duration-300"
+        className="relative z-[1] grid h-12 w-12 shrink-0 place-items-center rounded-full shadow-[0_10px_24px_-12px_rgba(11,23,51,0.4)] ring-4 ring-mist transition-colors duration-300"
       >
         <Icon name={step.icon} className="h-5 w-5" />
       </motion.span>
       <div className="md:mt-7">
-        <p className="font-text text-xs font-semibold tabular-nums tracking-[0.18em] text-accent-soft">
+        <p className="font-text text-xs font-semibold tabular-nums tracking-[0.18em] text-royal">
           {String(index + 1).padStart(2, "0")}
         </p>
         <h3 className="mt-2 font-sans text-xl font-semibold tracking-[-0.015em]">{step.title}</h3>
-        <p className="mt-2 max-w-[28ch] font-text text-[15px] leading-relaxed text-ivory/65">{step.text}</p>
+        <p className="mt-2 max-w-[28ch] font-text text-[15px] leading-relaxed text-slate-ink">{step.text}</p>
       </div>
     </li>
   );

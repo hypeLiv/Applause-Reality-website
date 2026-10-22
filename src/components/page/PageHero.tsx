@@ -7,7 +7,7 @@ import BrandTagline from "@/components/BrandTagline";
 import { EASE, Words } from "@/components/home/motion";
 
 /**
- * Inner-page hero: the homepage's framed photo treatment at a shorter height.
+ * Inner-page hero: the homepage's daylight photo treatment at a shorter height.
  * `title` uses the Words *accent* syntax. `children` fills the bottom strip
  * (stats, a project index, …).
  */
@@ -42,7 +42,7 @@ export default function PageHero({
 
   return (
     <section ref={ref} className="lux-scope bg-ivory p-2 sm:p-3 md:p-4">
-      <div className="lux-grain relative isolate flex min-h-[78svh] flex-col overflow-hidden rounded-[24px] bg-ink-950 text-white md:rounded-[32px]">
+      <div className="lux-on-light relative isolate flex min-h-[78svh] flex-col overflow-hidden rounded-[24px] bg-mist text-ink-900 md:rounded-[32px]">
         <motion.div style={{ y: bgY }} className="absolute inset-0 -z-20">
           <motion.div
             className="absolute inset-0"
@@ -53,15 +53,16 @@ export default function PageHero({
             <Image src={image} alt={alt} fill priority sizes="100vw" className="object-cover" />
           </motion.div>
         </motion.div>
-        <div className="absolute inset-0 -z-10 bg-ink-950/45" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950/85 via-ink-950/50 to-ink-950/10" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-56 bg-gradient-to-t from-ink-950/85 to-transparent" />
+        {/* Daylight veil, as on the homepage hero: near-white behind the copy, clear toward the photo. */}
+        <div className="absolute inset-0 -z-10 bg-white/60 lg:hidden" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/70 via-45% to-transparent max-lg:hidden" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-56 bg-gradient-to-t from-white/85 to-transparent" />
 
         <motion.div
           style={{ opacity: fade }}
           className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-center px-4 sm:px-6 pb-10 pt-32 md:px-12"
         >
-          <motion.p {...rise(0.1)} className="lux-label text-accent-soft">
+          <motion.p {...rise(0.1)} className="lux-label text-royal">
             {eyebrow}
           </motion.p>
           <Words
@@ -72,11 +73,11 @@ export default function PageHero({
             className="lux-display mt-6 max-w-[17ch] text-[clamp(2.4rem,5vw,4.6rem)] leading-[1.02]"
           />
           <motion.div {...rise(0.6)} className="mt-7">
-            <BrandTagline onDark size="md" />
+            <BrandTagline size="md" />
           </motion.div>
           <motion.p
             {...rise(0.72)}
-            className="mt-6 max-w-[38rem] font-text text-base leading-relaxed text-white/80 md:text-lg"
+            className="mt-6 max-w-[38rem] font-text text-base leading-relaxed text-ink-900/75 md:text-lg"
           >
             {lead}
           </motion.p>

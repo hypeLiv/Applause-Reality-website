@@ -82,12 +82,13 @@ export default async function AboutPage() {
       <SmoothScroll />
 
       {/* 1 · Founder hero */}
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-24 pt-36 text-ivory md:px-10 md:pb-32 md:pt-44">
-        <div aria-hidden className="absolute -left-48 top-10 -z-10 h-[520px] w-[640px] rounded-full bg-royal/30 blur-[150px]" />
+      <section className="lux-scope lux-on-light relative isolate overflow-hidden bg-mist px-4 sm:px-6 pb-24 pt-36 text-ink-900 md:px-10 md:pb-32 md:pt-44">
+        <div aria-hidden className="absolute -left-48 top-10 -z-10 h-[520px] w-[640px] rounded-full bg-periwinkle-soft/35 blur-[150px]" />
+        <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[420px] w-[520px] rounded-full bg-gold/15 blur-[140px]" />
         <div className="mx-auto grid max-w-[1320px] items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           <div>
             <Reveal>
-              <p className="lux-label text-accent-soft">About Applause Reality</p>
+              <p className="lux-label text-royal">About Applause Reality</p>
             </Reveal>
             <Words
               as="h1"
@@ -97,7 +98,7 @@ export default async function AboutPage() {
               className="lux-display mt-7 max-w-[14ch] text-[clamp(2.8rem,5.8vw,5.25rem)] leading-[1]"
             />
             <Reveal delay={0.35}>
-              <p className="mt-8 max-w-[34rem] font-text text-lg leading-relaxed text-ivory/70">
+              <p className="mt-8 max-w-[34rem] font-text text-lg leading-relaxed text-slate-ink">
                 Founded and led by Rajiv Kr. Pandey, Applause Reality guides families, investors and SBI &amp;
                 PNB professionals to bank-approved homes across Delhi NCR — and stays with them long after
                 the keys are handed over.
@@ -106,20 +107,20 @@ export default async function AboutPage() {
                 <Cta href={site.whatsapp} className={lux.primary}>
                   Talk to Rajiv ji&rsquo;s team <Arrow />
                 </Cta>
-                <a href="#stories" className={lux.ghostDark}>
+                <a href="#stories" className={lux.ghostLight}>
                   Read client stories
                 </a>
               </div>
             </Reveal>
             <Reveal delay={0.5}>
-              <dl className="mt-14 grid max-w-[34rem] grid-cols-3 gap-6 border-t border-white/10 pt-8">
+              <dl className="mt-14 grid max-w-[34rem] grid-cols-3 gap-6 border-t border-ink-900/10 pt-8">
                 {[
                   { v: "23+", l: "Years in NCR" },
                   { v: "100%", l: "Bank-approved" },
                   { v: "SBI · PNB", l: "Trusted by" },
                 ].map((s) => (
                   <div key={s.l}>
-                    <dt className="font-text text-xs uppercase tracking-[0.14em] text-ivory/50">{s.l}</dt>
+                    <dt className="font-text text-xs uppercase tracking-[0.14em] text-slate-ink">{s.l}</dt>
                     <dd className="mt-2 font-sans text-2xl font-semibold tabular-nums md:text-3xl">{s.v}</dd>
                   </div>
                 ))}
@@ -129,8 +130,8 @@ export default async function AboutPage() {
 
           <Reveal delay={0.2} className="relative mx-auto w-full max-w-[460px]">
             <Tilt max={5} className="rounded-[2rem]">
-              <Bezel tone="glass">
-                <figure className="relative">
+              <Bezel tone="light" className="shadow-[0_40px_80px_-40px_rgba(11,23,51,0.35)]">
+                <figure className="relative text-ivory">
                   <Image
                     src={media.founderPortrait.src}
                     alt={media.founderPortrait.alt}
@@ -150,9 +151,9 @@ export default async function AboutPage() {
             </Tilt>
             {/* Proof chip, offset off the frame */}
             <Bezel
-              tone="glass"
+              tone="light"
               radius="1.5rem"
-              className="absolute -left-8 top-10 hidden -rotate-3 shadow-[0_30px_60px_-30px_rgba(5,12,31,0.7)] transition-[rotate,translate] duration-700 ease-[var(--ease-spring)] hover:-translate-y-1 hover:rotate-0 md:block"
+              className="absolute -left-8 top-10 hidden -rotate-3 shadow-[0_30px_60px_-30px_rgba(11,23,51,0.45)] transition-[rotate,translate] duration-700 ease-[var(--ease-spring)] hover:-translate-y-1 hover:rotate-0 md:block"
               coreClassName="flex items-center gap-3 bg-white px-4 py-3 text-ink-900"
             >
               <Image
@@ -257,18 +258,18 @@ export default async function AboutPage() {
         route={["First visit", "Keys in hand"]}
         steps={journey}
       />
-      <section className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32 lg:hidden">
-        <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[460px] w-[620px] rounded-full bg-royal/25 blur-[150px]" />
+      <section className="lux-scope lux-on-light relative isolate overflow-hidden bg-mist px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32 lg:hidden">
+        <div aria-hidden className="absolute -right-40 bottom-0 -z-10 h-[460px] w-[620px] rounded-full bg-periwinkle-soft/35 blur-[150px]" />
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <Reveal>
-                <p className="lux-label text-accent-soft">Walking with you</p>
+                <p className="lux-label text-royal">Walking with you</p>
               </Reveal>
               <Words text="One family guide, *every* milestone." className="lux-display mt-6 text-[clamp(2.3rem,4.4vw,4rem)]" />
             </div>
             <Reveal delay={0.1}>
-              <p className="font-text text-lg leading-relaxed text-ivory/65">
+              <p className="font-text text-lg leading-relaxed text-slate-ink">
                 Applause Reality stays beside you as a trusted family guide — from the first visit and
                 booking to bank approvals and possession, and on into the years after.
               </p>
@@ -333,17 +334,17 @@ export default async function AboutPage() {
       </section>
 
       {/* 6 · Recognition */}
-      <section className="lux-scope bg-ink-950 px-4 sm:px-6 py-24 text-ivory md:px-10 md:py-32">
+      <section className="lux-scope lux-on-light bg-mist px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto max-w-[1320px]">
           <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <Reveal>
-                <p className="lux-label text-accent-soft">Awards, mentions &amp; trust</p>
+                <p className="lux-label text-royal">Awards, mentions &amp; trust</p>
               </Reveal>
               <Words text="Recognised by the people *we work with.*" className="lux-display mt-6 max-w-[18ch] text-[clamp(2.3rem,4.4vw,4rem)]" />
             </div>
             <Reveal delay={0.1}>
-              <p className="font-text text-lg leading-relaxed text-ivory/65">
+              <p className="font-text text-lg leading-relaxed text-slate-ink">
                 From India&rsquo;s largest bank to the NCR&rsquo;s leading developers. Select any frame to see
                 it in full.
               </p>

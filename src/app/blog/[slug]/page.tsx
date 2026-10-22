@@ -145,12 +145,11 @@ export default async function PostPage({ params }: Params) {
       <JsonLd data={articleSchema} />
 
       {/* Masthead */}
-      <header className="lux-scope lux-grain relative isolate overflow-hidden bg-ink-950 px-4 sm:px-6 pb-56 pt-36 text-ivory md:px-10 md:pb-72 md:pt-44">
-        <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[480px] w-[620px] rounded-full bg-royal/30 blur-[140px]" />
+      <header className="lux-scope lux-on-light relative isolate overflow-hidden bg-ivory px-4 sm:px-6 pb-56 pt-36 text-ink-900 md:px-10 md:pb-72 md:pt-44">
+        <div aria-hidden className="absolute -left-40 -top-40 -z-10 h-[480px] w-[620px] rounded-full bg-periwinkle-soft/35 blur-[140px]" />
         <div className="mx-auto max-w-[920px]">
           <Reveal>
             <Breadcrumbs
-              tone="dark"
               items={[
                 { name: "Home", href: "/" },
                 { name: "Blog", href: "/blog" },
@@ -159,8 +158,8 @@ export default async function PostPage({ params }: Params) {
             />
           </Reveal>
           <Reveal delay={0.08}>
-            <p className="mt-10 flex flex-wrap items-center gap-3 font-text text-[13px] text-ivory/60">
-              <span className="rounded-full border border-white/20 px-3 py-1 font-semibold uppercase tracking-[0.14em] text-accent-soft">
+            <p className="mt-10 flex flex-wrap items-center gap-3 font-text text-[13px] text-slate-ink">
+              <span className="rounded-full bg-white px-3 py-1 font-semibold uppercase tracking-[0.14em] text-royal ring-1 ring-ink-900/10">
                 {post.topic}
               </span>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -173,7 +172,7 @@ export default async function PostPage({ params }: Params) {
             <h1 className="lux-display mt-6 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.06]">
               {post.title}
             </h1>
-            <p className="mt-6 max-w-[40rem] font-text text-lg leading-relaxed text-ivory/65">{post.excerpt}</p>
+            <p className="mt-6 max-w-[40rem] font-text text-lg leading-relaxed text-slate-ink">{post.excerpt}</p>
           </Reveal>
         </div>
       </header>
@@ -185,7 +184,7 @@ export default async function PostPage({ params }: Params) {
             alt={post.coverAlt ?? post.title}
             sizes="(min-width: 1100px) 1100px, 100vw"
             priority
-            className="aspect-[16/9] rounded-[28px] shadow-[0_40px_80px_-40px_rgba(11,23,51,0.55)]"
+            className="aspect-[16/9] rounded-[28px] shadow-[0_40px_80px_-40px_rgba(11,23,51,0.35)] ring-1 ring-ink-900/5"
           />
         </Reveal>
 
@@ -227,13 +226,13 @@ export default async function PostPage({ params }: Params) {
             </div>
 
             {/* Consultation */}
-            <div className="lux-grain relative isolate mt-12 max-w-[68ch] overflow-hidden rounded-[24px] bg-ink-950 p-8 text-ivory md:p-10">
-              <div aria-hidden className="absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-royal/40 blur-[90px]" />
-              <p className="lux-label text-accent-soft">Free consultation</p>
+            <div className="relative isolate mt-12 max-w-[68ch] overflow-hidden rounded-[24px] bg-mist p-8 text-ink-900 ring-1 ring-ink-900/5 md:p-10">
+              <div aria-hidden className="absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-periwinkle-soft/40 blur-[90px]" />
+              <p className="lux-label text-royal">Free consultation</p>
               <p className="mt-5 font-sans text-[clamp(1.5rem,2.6vw,2rem)] font-semibold leading-tight tracking-[-0.025em]">
                 Talk to a Delhi NCR property advisor.
               </p>
-              <p className="mt-3 font-text text-[15px] leading-relaxed text-ivory/65">
+              <p className="mt-3 font-text text-[15px] leading-relaxed text-slate-ink">
                 Share your budget and timeline — we&rsquo;ll shortlist bank-approved options that fit.
               </p>
               <Cta href={site.whatsapp} className={`${lux.primary} mt-7`}>

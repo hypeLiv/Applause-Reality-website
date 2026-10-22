@@ -36,7 +36,7 @@ export default function ConsultationPage() {
           <ul className="mt-8 space-y-3 font-text text-base text-ink-900">
             {reasons.map((r) => (
               <li key={r} className="flex items-start gap-3">
-                <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-royal" />
                 {r}
               </li>
             ))}
