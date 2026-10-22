@@ -11,6 +11,15 @@ npm run dev
 
 Open http://localhost:3000.
 
+## Deploy (Netlify)
+
+`netlify.toml` holds the build settings. Netlify adds its Next.js adapter automatically.
+
+1. Netlify → Add new project → Import from Git → pick this repo. Leave base directory empty (`studio/` deploys separately with `sanity deploy`).
+2. Project configuration → Environment variables: add the keys from `.env.example`. `NEXT_PUBLIC_*` values are baked in at build time, so redeploy after changing them.
+3. Domain management → add `applausereality.com` and `www.applausereality.com`, and make `www` the primary domain (canonical URLs and the sitemap use `www`). At the DNS host (Hostinger), point the `www` CNAME at `<project>.netlify.app` and the `@` ALIAS at `apex-loadbalancer.netlify.com`. Leave the mail records (MX, SPF, DKIM, DMARC) as they are.
+4. Point the Sanity webhook at `https://<your domain>/api/revalidate` with `SANITY_REVALIDATE_SECRET`.
+
 ## Structure
 
 - `src/app/` — one route per page: `/`, `/locations`, `/projects`, `/about-applause-reality`, `/blog`, `/post/[slug]`, `/privacy-policy`
