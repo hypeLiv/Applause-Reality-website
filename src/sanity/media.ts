@@ -185,7 +185,7 @@ export const getProjects = cache(async (): Promise<Project[]> => {
       gallery: pickGallery(doc.gallery, p.gallery),
       film,
       brochure: doc.brochure ?? p.brochure,
-      brochureBytes: doc.brochureBytes ?? undefined,
+      brochureBytes: doc.brochure ? (doc.brochureBytes ?? undefined) : p.brochureBytes,
     };
   });
 });
