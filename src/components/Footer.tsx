@@ -45,7 +45,7 @@ export default function Footer() {
       ))}
       columns={columns}
       note={`© ${new Date().getFullYear()} ${site.name} · Delhi NCR`}
-      palette={{ background: "#f0f4ff", ink: "#2445a0", warm: "#ffb800" }}
+      palette={{ background: "#050c1f", ink: "#f7f4ee", warm: "#8ea6e8" }}
       // Canvas fonts need a real family name (it ignores CSS variables); next/font registers this one.
       fontFamily='"Plus Jakarta Sans", system-ui, sans-serif'
       monoFamily={SANS}
