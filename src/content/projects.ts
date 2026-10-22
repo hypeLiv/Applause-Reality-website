@@ -39,7 +39,7 @@ export type Project = {
   /** Optional walkthrough film shown on the project page. */
   film?: { src: string; poster: string; title: string; portrait?: boolean };
   brochure: string;
-  /** Brochure size when it comes from Sanity; local brochures are measured on disk. */
+  /** Brochure size in bytes for the download button; update it when replacing a PDF in public/brochures. */
   brochureBytes?: number;
 };
 
@@ -144,6 +144,7 @@ export const projects: Project[] = [
       ["Residences", "balcony", 1672, 941, "Balcony", "Resident relaxing on a planted balcony overlooking the city"],
     ]),
     brochure: "/brochures/hero-homes.pdf",
+    brochureBytes: 11337044,
   },
   {
     key: "gulshan",
@@ -169,6 +170,7 @@ export const projects: Project[] = [
     ],
     film: { src: "/videos/gulshan.mp4", poster: "/images/poster-gulshan-headlines.jpg", title: "Gulshan Empire campaign film", portrait: true },
     brochure: "/brochures/gulshan-wave-city.pdf",
+    brochureBytes: 39115223,
   },
   {
     key: "godrej-arden",
@@ -194,6 +196,7 @@ export const projects: Project[] = [
     ],
     film: { src: "/videos/godrej-arden.mp4", poster: "/images/poster-godrej-arden.jpg", title: "Godrej Arden sample flat" },
     brochure: "/brochures/godrej-arden.pdf",
+    brochureBytes: 26950697,
   },
   {
     key: "eternia",
@@ -219,6 +222,7 @@ export const projects: Project[] = [
     ],
     film: { src: "/videos/eternia.mp4", poster: "/images/poster-eternia.jpg", title: "Eternia Residences lobby" },
     brochure: "/brochures/eternia.pdf",
+    brochureBytes: 10532399,
   },
 ];
 

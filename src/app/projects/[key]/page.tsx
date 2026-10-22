@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { Metadata } from "next";
 import Image from "@/components/Image";
 import Link from "next/link";
@@ -41,16 +39,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   });
 }
 
-/** Brochure size, e.g. "11.3 MB": from Sanity, or read from disk at build time. */
+/**
+ * Brochure size, e.g. "11.3 MB". Not read from disk: a runtime path into public/
+ * makes Next trace every video and PDF into the server function.
+ */
 function fileSize(p: Project) {
-  if (p.brochureBytes) return `${(p.brochureBytes / 1e6).toFixed(1)} MB`;
-  const href = p.brochure;
-  try {
-    const bytes = fs.statSync(path.join(process.cwd(), "public", href)).size;
-    return `${(bytes / 1e6).toFixed(1)} MB`;
-  } catch {
-    return null;
-  }
+  return p.brochureBytes ? `${(p.brochureBytes / 1e6).toFixed(1)} MB` : null;
 }
 
 const promises = ["Safe NCR growth", "Bank approved", "Corporate & HR schemes"];
