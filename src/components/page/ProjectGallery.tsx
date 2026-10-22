@@ -55,7 +55,14 @@ export default function ProjectGallery({ images }: { images: GalleryImage[] }) {
         </div>
       )}
 
-      <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-${group}`} className="mt-6">
+      <div
+        id={`${id}-panel`}
+        role="tabpanel"
+        aria-labelledby={`${id}-${group}`}
+        // WebGL photos the header can't sample: treat as dark for the logo.
+        data-backdrop="dark"
+        className="mt-6"
+      >
         <Bezel tone="light" coreClassName="relative">
           <MorphGallery
             // A new group remounts the gallery with only that group's textures.

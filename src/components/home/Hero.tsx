@@ -71,7 +71,7 @@ export default function Hero({
         {/* Legibility: a daylight veil lifts the copy side to near-white for ink text and
             fades out toward the skyline; phones, where copy spans the width, get an even wash */}
         <div className="absolute inset-0 -z-10 bg-white/60 lg:hidden" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/85 via-white/55 via-45% to-transparent max-lg:hidden" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/90 via-white/65 via-45% to-transparent max-lg:hidden" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-white/80 to-transparent" />
 
         <motion.div

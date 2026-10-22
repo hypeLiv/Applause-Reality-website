@@ -47,6 +47,8 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
   return (
     <div
       ref={ref}
+      // A WebGL canvas and night photos: the header can't sample them, so it takes this as dark.
+      data-backdrop="dark"
       onMouseEnter={() => setHeld(true)}
       onMouseLeave={() => setHeld(false)}
       onFocus={() => setHeld(true)}

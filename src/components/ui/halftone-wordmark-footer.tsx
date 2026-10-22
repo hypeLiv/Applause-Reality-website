@@ -160,17 +160,20 @@ const HWF_CSS = `
   font-family: var(--hwf-mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; line-height: 1.85;
 }
 .hwf-brand strong { display: block; font-size: 14px; font-weight: 500; }
-.hwf-brand span { opacity: .45; }
+/* Direct child only, so a span passed in as meta doesn't take the opacity twice. */
+.hwf-brand > span { opacity: .72; }
+/* Hindi lines keep normal tracking: wide letter-spacing breaks the Devanagari headstroke. */
+.hwf-brand > span :lang(hi), .hwf-brand > span:lang(hi) { font-size: 14px; letter-spacing: .02em; }
 .hwf-statement {
   margin-top: 18px; max-width: 36rem; font-family: var(--hwf-body, inherit); font-size: 17.5px; line-height: 1.75;
-  letter-spacing: 0; text-transform: none; opacity: .8;
+  letter-spacing: 0; text-transform: none; opacity: .9;
 }
 .hwf-statement p { margin: 0 0 6px; }
-.hwf-col h3 { margin: 0; font: inherit; opacity: .4; font-weight: 500; }
+.hwf-col h3 { margin: 0; font: inherit; opacity: .68; font-weight: 600; }
 .hwf-col ul { list-style: none; margin: 0; padding: 0; }
 .hwf-col li { overflow-wrap: anywhere; }
 .hwf-col a, .hwf-up {
-  color: inherit; text-decoration: none; opacity: .78; background: none; border: 0; padding: 0;
+  color: inherit; text-decoration: none; opacity: .92; background: none; border: 0; padding: 0;
   font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer;
   background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px;
   background-repeat: no-repeat; background-position: 0 100%; transition: opacity .25s ease, background-size .35s cubic-bezier(.2,.7,.1,1);
@@ -180,10 +183,10 @@ const HWF_CSS = `
 .hwf-rule {
   position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 16px;
   margin: clamp(18px, 2.6vw, 30px) clamp(20px, 3.4vw, 44px) 0; padding-top: 12px;
-  border-top: 0.5px solid color-mix(in srgb, var(--hwf-ink) 16%, transparent);
+  border-top: 0.5px solid color-mix(in srgb, var(--hwf-ink) 22%, transparent);
   font-family: var(--hwf-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
 }
-.hwf-note { opacity: .45; }
+.hwf-note { opacity: .7; }
 .hwf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 720px) {
   .hwf-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 18px; }

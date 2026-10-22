@@ -27,7 +27,7 @@ export default function VideoCard({
   const captioned = Boolean(meta || label);
 
   return (
-    <div className={`group/card relative overflow-hidden bg-black ${className}`}>
+    <div data-backdrop="dark" className={`group/card relative overflow-hidden bg-black ${className}`}>
       <video
         ref={ref}
         src={src}

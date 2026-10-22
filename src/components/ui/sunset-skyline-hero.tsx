@@ -245,6 +245,7 @@ export default function TokyoSkylineHero({
       ref={sectionRef}
       id={id}
       data-header-over-dark={darkHeader || undefined}
+      data-backdrop="dark"
       className={`relative bg-ink-950 ${className}`}
       style={{ height: reduce ? "100dvh" : `calc(100dvh + ${scrubDistance}px)`, ...style }}
     >

@@ -3,17 +3,24 @@
 import Image from "@/components/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConsultLink from "@/components/ConsultLink";
 import { Arrow } from "@/components/home/ui";
+import { isDarkBehind } from "@/lib/backdrop";
 import { nav, site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
+
+/** How often (ms) the logo re-checks what's behind it while scrolling: ~8 times a second. */
+const PROBE_MS = 125;
 
 export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Img }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
+  const [overBackdrop, setOverBackdrop] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
 
   // While the menu sheet is open: hold the page still and let Escape close it.
   useEffect(() => {
@@ -29,18 +36,42 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   }, [open]);
 
   useEffect(() => {
-    const onScroll = () => {
+    // The logo probe is the costly part, so it runs at most every PROBE_MS (with a trailing run once
+    // scrolling settles) and only from lg, where the logo stands bare; below lg it sits in the white pill.
+    const wide = window.matchMedia("(min-width: 1024px)");
+    let probeTimer = 0;
+    let lastProbe = -PROBE_MS;
+    const probe = () => {
+      probeTimer = 0;
+      lastProbe = performance.now();
+      if (!wide.matches) setOverBackdrop(false);
+      else if (logoRef.current && headerRef.current) setOverBackdrop(isDarkBehind(logoRef.current, headerRef.current));
+    };
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       setScrolled(window.scrollY > 24);
+      const behind = (selector: string) =>
+        [...document.querySelectorAll(selector)].some((el) => {
+          const r = el.getBoundingClientRect();
+          return r.top <= 0 && r.bottom > 80;
+        });
       // A section marked data-header-over-dark keeps the bar transparent for
       // as long as it sits behind it (e.g. a pinned full-bleed video hero).
-      const dark = document.querySelector("[data-header-over-dark]");
-      const r = dark?.getBoundingClientRect();
-      setOverDark(!!r && r.top <= 0 && r.bottom > 80);
+      setOverDark(behind("[data-header-over-dark]"));
+      // Whatever is directly behind the bare logo decides its colour (see lib/backdrop).
+      probeTimer ||= window.setTimeout(probe, Math.max(0, PROBE_MS - (performance.now() - lastProbe)));
     };
-    onScroll();
+    const onScroll = () => {
+      frame ||= requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(probeTimer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
@@ -51,8 +82,12 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   // The open menu is a light full-screen sheet: the bar dissolves into it but keeps its ink.
   const clear = open || overDark;
   const onHero = overDark && !open;
+  // Over a dark backdrop the bare (lg) logo turns white; below lg it still sits in the white pill.
+  const backdrop = overBackdrop && !open && !onHero;
 
-  const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+  // Below lg the bar is one pill; from lg it splits apart: a bare logo, the links pill and the
+  // consultation button, floating separately.
+  const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:grid lg:max-w-[1320px] lg:grid-cols-[1fr_auto_1fr] lg:gap-3 lg:border-transparent lg:bg-transparent lg:px-0 lg:pl-0 lg:shadow-none ${
     clear
       ? "max-w-[1320px] border-transparent bg-transparent px-3 md:px-6"
       : `max-w-[1060px] px-1.5 pl-4 ${
@@ -61,6 +96,36 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
             : "border-white/50 bg-white shadow-[0_8px_30px_-14px_rgba(8,21,45,0.2)]"
         }`
   }`;
+  const island = `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+    clear
+      ? "lg:border-transparent lg:bg-transparent lg:shadow-none"
+      : scrolled
+        ? "lg:border-white/70 lg:bg-white lg:shadow-[0_10px_40px_-12px_rgba(8,21,45,0.25)]"
+        : "lg:border-white/50 lg:bg-white lg:shadow-[0_8px_30px_-14px_rgba(8,21,45,0.2)]"
+  }`;
+
+  const phone = (shown: string) => (
+    <a
+      href={site.phone.href}
+      className={`${shown} items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 font-text text-[13px] font-semibold transition-colors ${
+        onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+        className={`h-3.5 w-3.5 ${onHero ? "text-accent-soft" : "text-royal"}`}
+      >
+        <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
+      </svg>
+      {site.phone.display}
+    </a>
+  );
 
   const linkIdle = onHero
     ? "text-white/80 hover:bg-white/10 hover:text-white"
@@ -69,79 +134,66 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 px-4 sm:px-6 ${
         // Above the floating chat button (z-50) while the menu sheet covers the screen.
         open ? "z-[60]" : "z-50"
-      } ${
-        clear ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"
-      } transition-[padding] duration-500`}
+      } ${clear ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"} transition-[padding] duration-500`}
     >
       <div className={shell}>
-        <Link href="/" className="relative h-10 w-[140px] shrink-0" onClick={() => setOpen(false)}>
-          <Image
-            src={logoOnDark.src}
-            alt={logoOnDark.alt}
-            aria-hidden
-            fill
-            sizes="140px"
-            priority
-            className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : "opacity-0"}`}
-          />
-          <Image
-            src={logo.src}
-            alt={logo.alt}
-            fill
-            sizes="140px"
-            priority
-            className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-0" : "opacity-100"}`}
-          />
-        </Link>
-
-        <nav className="hidden items-center gap-0.5 lg:flex">
-          {nav.map((item) => {
-            const active =
-              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-text text-[12px] font-medium uppercase tracking-[0.1em] transition-colors ${
-                  active ? linkActive : linkIdle
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center gap-1.5">
-          <a
-            href={site.phone.href}
-            className={`hidden items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 font-text text-[13px] font-semibold transition-colors md:flex ${
-              onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
-            }`}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        {/* From lg the logo stands on its own, no pill behind it (the PNG is transparent). */}
+        <div className="flex shrink-0 items-center lg:h-[52px] lg:justify-self-start lg:px-6">
+          <Link ref={logoRef} href="/" className="relative block h-10 w-[140px]" onClick={() => setOpen(false)}>
+            <Image
+              src={logoOnDark.src}
+              alt={logoOnDark.alt}
               aria-hidden
-              className={`h-3.5 w-3.5 ${onHero ? "text-accent-soft" : "text-royal"}`}
-            >
-              <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
-            </svg>
-            {site.phone.display}
-          </a>
+              fill
+              sizes="140px"
+              priority
+              className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : backdrop ? "opacity-0 lg:opacity-100" : "opacity-0"}`}
+            />
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              fill
+              sizes="140px"
+              priority
+              className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-0" : backdrop ? "opacity-100 lg:opacity-0" : "opacity-100"}`}
+            />
+          </Link>
+        </div>
+
+        <div
+          className={`hidden h-[52px] items-center gap-0.5 rounded-full border px-2 lg:flex lg:justify-self-center ${island}`}
+        >
+          <nav className="flex items-center gap-0.5">
+            {nav.map((item) => {
+              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-text text-[12px] font-medium uppercase tracking-[0.1em] transition-colors ${
+                    active ? linkActive : linkIdle
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+          {phone("hidden xl:flex")}
+        </div>
+
+        <div className="flex items-center gap-1.5 lg:justify-self-end">
+          {phone("hidden md:flex lg:hidden")}
           <ConsultLink
-            className={`hidden whitespace-nowrap rounded-full px-4 py-2 font-text text-[13px] font-semibold transition-colors md:block ${
+            className={`hidden whitespace-nowrap rounded-full px-4 py-2 font-text text-[13px] font-semibold transition-[background-color,box-shadow] md:block lg:inline-flex lg:h-[52px] lg:items-center lg:px-7 lg:text-[14px] ${
               onHero
                 ? "border border-white/35 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
-                : "bg-royal text-white hover:bg-[#1c3880]"
+                : "bg-royal text-white hover:bg-[#1c3880] lg:shadow-[0_12px_30px_-12px_rgba(36,69,160,0.6)]"
             }`}
           >
             Free Consultation
@@ -197,7 +249,9 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
                       open ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
                     }`}
                   >
-                    <span className={`lux-display text-[clamp(2.4rem,9vw,3.6rem)] ${active ? "text-ink-900" : "text-ink-900/60"}`}>
+                    <span
+                      className={`lux-display text-[clamp(2.4rem,9vw,3.6rem)] ${active ? "text-ink-900" : "text-ink-900/60"}`}
+                    >
                       {item.label}
                     </span>
                     <span className="font-text text-xs font-semibold tracking-[0.2em] text-royal tabular-nums">
