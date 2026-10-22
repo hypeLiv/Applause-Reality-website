@@ -168,6 +168,7 @@ export default function RollingJourney({
         >
           {steps.map((s, i) => (
             <li
+              data-backdrop="dark"
               key={s.title}
               ref={(el) => {
                 colRefs.current[i] = el;

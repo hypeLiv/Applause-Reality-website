@@ -3,9 +3,10 @@
 import Image from "@/components/Image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConsultLink from "@/components/ConsultLink";
 import { Arrow } from "@/components/home/ui";
+import { isDarkBehind } from "@/lib/backdrop";
 import { nav, site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
 
@@ -15,6 +16,8 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
   const [overBackdrop, setOverBackdrop] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
 
   // While the menu sheet is open: hold the page still and let Escape close it.
   useEffect(() => {
@@ -30,7 +33,9 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   }, [open]);
 
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       setScrolled(window.scrollY > 24);
       const behind = (selector: string) =>
         [...document.querySelectorAll(selector)].some((el) => {
@@ -40,13 +45,17 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
       // A section marked data-header-over-dark keeps the bar transparent for
       // as long as it sits behind it (e.g. a pinned full-bleed video hero).
       setOverDark(behind("[data-header-over-dark]"));
-      // Any dark footage behind the bar (data-dark-backdrop) turns the bare logo white.
-      setOverBackdrop(behind("[data-dark-backdrop]"));
+      // Whatever is directly behind the bare logo decides its colour (see lib/backdrop).
+      if (logoRef.current && headerRef.current) setOverBackdrop(isDarkBehind(logoRef.current, headerRef.current));
     };
-    onScroll();
+    const onScroll = () => {
+      frame ||= requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
@@ -57,7 +66,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   // The open menu is a light full-screen sheet: the bar dissolves into it but keeps its ink.
   const clear = open || overDark;
   const onHero = overDark && !open;
-  // Over dark footage the bare (lg) logo turns white; below lg it still sits in the white pill.
+  // Over a dark backdrop the bare (lg) logo turns white; below lg it still sits in the white pill.
   const backdrop = overBackdrop && !open && !onHero;
 
   // Below lg the bar is one pill; from lg it splits apart: a bare logo, the links pill and the
@@ -109,6 +118,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 px-4 sm:px-6 ${
         // Above the floating chat button (z-50) while the menu sheet covers the screen.
         open ? "z-[60]" : "z-50"
@@ -117,7 +127,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
       <div className={shell}>
         {/* From lg the logo stands on its own, no pill behind it (the PNG is transparent). */}
         <div className="flex shrink-0 items-center lg:h-[52px] lg:justify-self-start lg:px-6">
-          <Link href="/" className="relative block h-10 w-[140px]" onClick={() => setOpen(false)}>
+          <Link ref={logoRef} href="/" className="relative block h-10 w-[140px]" onClick={() => setOpen(false)}>
             <Image
               src={logoOnDark.src}
               alt={logoOnDark.alt}

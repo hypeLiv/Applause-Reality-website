@@ -302,6 +302,7 @@ export default async function AboutPage() {
             {services.map((s, i) => (
               <li
                 key={s.title}
+                data-backdrop="dark"
                 className="group relative isolate min-h-[22rem] overflow-hidden rounded-[24px] bg-ink-950 text-ivory transition-[flex-grow] duration-700 ease-[var(--ease-lux)] sm:min-h-[26rem] lg:min-h-0 lg:flex-1 lg:hover:flex-[2.1]"
               >
                 <Image
