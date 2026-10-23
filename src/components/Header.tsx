@@ -82,12 +82,18 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
   // The open menu is a light full-screen sheet: the bar dissolves into it but keeps its ink.
   const clear = open || overDark;
   const onHero = overDark && !open;
-  // Over a dark backdrop the bare (lg) logo turns white; below lg it still sits in the white pill.
-  const backdrop = overBackdrop && !open && !onHero;
+  // From lg, once the page is scrolled, the bare logo and the consultation button slide into the links
+  // pill, which stretches both ways to take them in.
+  const merged = scrolled && !clear;
+  // Over a dark backdrop the bare (lg) logo turns white; below lg (or merged) it sits in the white pill.
+  const backdrop = overBackdrop && !open && !onHero && !merged;
+  const glide = "duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]";
 
   // Below lg the bar is one pill; from lg it splits apart: a bare logo, the links pill and the
-  // consultation button, floating separately.
-  const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:grid lg:max-w-[1320px] lg:grid-cols-[1fr_auto_1fr] lg:gap-3 lg:border-transparent lg:bg-transparent lg:px-0 lg:pl-0 lg:shadow-none ${
+  // consultation button, floating separately. Flex spacers (not a grid) place them so the split can
+  // animate: at the top the row fills the bar and the links sit centred between logo and button (both
+  // 188px wide); merged, the row shrinks to its content and the outer spacers centre it.
+  const shell = `mx-auto flex h-[52px] items-center justify-between gap-2 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:max-w-[1320px] lg:justify-normal lg:gap-0 lg:border-transparent lg:bg-transparent lg:px-0 lg:pl-0 lg:shadow-none ${
     clear
       ? "max-w-[1320px] border-transparent bg-transparent px-3 md:px-6"
       : `max-w-[1060px] px-1.5 pl-4 ${
@@ -141,88 +147,121 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
       } ${clear ? "pt-4 sm:pt-5 md:pt-6" : "pt-3 sm:pt-4"} transition-[padding] duration-500`}
     >
       <div className={shell}>
-        {/* From lg the logo stands on its own, no pill behind it (the PNG is transparent). */}
-        <div className="flex shrink-0 items-center lg:h-[52px] lg:justify-self-start lg:px-6">
-          <Link ref={logoRef} href="/" className="relative block h-10 w-[140px]" onClick={() => setOpen(false)}>
-            <Image
-              src={logoOnDark.src}
-              alt={logoOnDark.alt}
-              aria-hidden
-              fill
-              sizes="140px"
-              priority
-              className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : backdrop ? "opacity-0 lg:opacity-100" : "opacity-0"}`}
-            />
-            <Image
-              src={logo.src}
-              alt={logo.alt}
-              fill
-              sizes="140px"
-              priority
-              className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-0" : backdrop ? "opacity-100 lg:opacity-0" : "opacity-100"}`}
-            />
-          </Link>
-        </div>
-
+        <span
+          aria-hidden
+          className={`hidden transition-[flex-grow] lg:block ${glide} ${merged ? "lg:grow" : "lg:grow-0"}`}
+        />
         <div
-          className={`hidden h-[52px] items-center gap-0.5 rounded-full border px-2 lg:flex lg:justify-self-center ${island}`}
+          className={`flex min-w-0 grow items-center justify-between transition-[flex-grow] lg:justify-normal ${glide} ${merged ? "lg:grow-0" : ""}`}
         >
-          <nav className="flex items-center gap-0.5">
-            {nav.map((item) => {
-              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-text text-[12px] font-medium uppercase tracking-[0.1em] transition-colors ${
-                    active ? linkActive : linkIdle
+          {/* From lg the logo stands on its own at the top, no pill behind it (the PNG is transparent). */}
+          <div
+            className={`relative flex shrink-0 items-center transition-[padding] lg:h-[52px] ${glide} ${merged ? "lg:pl-6 lg:pr-20" : "lg:px-6"}`}
+          >
+            <span
+              aria-hidden
+              className={`absolute right-9 top-1/2 hidden h-5 w-px -translate-y-1/2 bg-ink-900/10 transition-opacity lg:block ${glide} ${merged ? "opacity-100" : "opacity-0"}`}
+            />
+            <Link ref={logoRef} href="/" className="relative block h-10 w-[140px]" onClick={() => setOpen(false)}>
+              <Image
+                src={logoOnDark.src}
+                alt={logoOnDark.alt}
+                aria-hidden
+                fill
+                sizes="140px"
+                priority
+                className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-100" : backdrop ? "opacity-0 lg:opacity-100" : "opacity-0"}`}
+              />
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                fill
+                sizes="140px"
+                priority
+                className={`object-contain object-left transition-opacity duration-300 ${onHero ? "opacity-0" : backdrop ? "opacity-100 lg:opacity-0" : "opacity-100"}`}
+              />
+            </Link>
+          </div>
+
+          <span aria-hidden className="hidden lg:block lg:grow" />
+
+          <div className="relative hidden h-[52px] items-center gap-0.5 px-2 lg:flex">
+            {/* The pill itself: hugging the links at the top, merged it reaches over the logo's 244px slot
+                on the left and the button's 190px slot on the right. */}
+            <span
+              aria-hidden
+              className={`absolute inset-y-0 -z-10 rounded-full border ${island} ${
+                merged ? "-left-[244px] -right-[190px]" : "left-0 right-0"
+              }`}
+            />
+            <nav className="flex items-center gap-0.5">
+              {nav.map((item) => {
+                const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-text text-[12px] font-medium uppercase tracking-[0.1em] transition-colors ${
+                      active ? linkActive : linkIdle
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+            {phone("hidden xl:flex")}
+          </div>
+
+          <span aria-hidden className="hidden lg:block lg:grow" />
+
+          <div
+            className={`flex items-center gap-1.5 transition-[padding] ${glide} ${merged ? "lg:pl-2 lg:pr-1.5" : ""}`}
+          >
+            {phone("hidden md:flex lg:hidden")}
+            <ConsultLink
+              className={`hidden whitespace-nowrap rounded-full px-4 py-2 font-text text-[13px] font-semibold transition-[background-color,box-shadow,width,height] md:block lg:inline-flex lg:items-center lg:justify-center lg:px-0 lg:text-[14px] lg:duration-700 lg:ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                merged ? "lg:h-10 lg:w-[176px]" : "lg:h-[52px] lg:w-[188px]"
+              } ${
+                onHero
+                  ? "border border-white/35 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
+                  : `bg-royal text-white hover:bg-[#1c3880] ${merged ? "" : "lg:shadow-[0_12px_30px_-12px_rgba(36,69,160,0.6)]"}`
+              }`}
+            >
+              Free Consultation
+            </ConsultLink>
+            <button
+              type="button"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="site-menu"
+              onClick={() => setOpen((v) => !v)}
+              className={`grid h-10 w-10 place-items-center rounded-full transition-[background-color,translate,scale,rotate] duration-500 ease-[var(--ease-spring)] active:scale-[0.94] lg:hidden ${
+                onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
+              }`}
+            >
+              {/* Two lines that rotate into an X rather than swapping icons. */}
+              <span aria-hidden className="relative block h-3 w-5">
+                <span
+                  className={`absolute left-0 top-0 h-[1.5px] w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-spring)] ${
+                    open ? "translate-y-[5.25px] rotate-45" : ""
                   }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-          {phone("hidden xl:flex")}
+                />
+                <span
+                  className={`absolute bottom-0 left-0 h-[1.5px] w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-spring)] ${
+                    open ? "-translate-y-[5.25px] -rotate-45" : ""
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-1.5 lg:justify-self-end">
-          {phone("hidden md:flex lg:hidden")}
-          <ConsultLink
-            className={`hidden whitespace-nowrap rounded-full px-4 py-2 font-text text-[13px] font-semibold transition-[background-color,box-shadow] md:block lg:inline-flex lg:h-[52px] lg:items-center lg:px-7 lg:text-[14px] ${
-              onHero
-                ? "border border-white/35 bg-white/15 text-white backdrop-blur-md hover:bg-white/25"
-                : "bg-royal text-white hover:bg-[#1c3880] lg:shadow-[0_12px_30px_-12px_rgba(36,69,160,0.6)]"
-            }`}
-          >
-            Free Consultation
-          </ConsultLink>
-          <button
-            type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="site-menu"
-            onClick={() => setOpen((v) => !v)}
-            className={`grid h-10 w-10 place-items-center rounded-full transition-[background-color,translate,scale,rotate] duration-500 ease-[var(--ease-spring)] active:scale-[0.94] lg:hidden ${
-              onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
-            }`}
-          >
-            {/* Two lines that rotate into an X rather than swapping icons. */}
-            <span aria-hidden className="relative block h-3 w-5">
-              <span
-                className={`absolute left-0 top-0 h-[1.5px] w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-spring)] ${
-                  open ? "translate-y-[5.25px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute bottom-0 left-0 h-[1.5px] w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-spring)] ${
-                  open ? "-translate-y-[5.25px] -rotate-45" : ""
-                }`}
-              />
-            </span>
-          </button>
-        </div>
+        <span
+          aria-hidden
+          className={`hidden transition-[flex-grow] lg:block ${glide} ${merged ? "lg:grow" : "lg:grow-0"}`}
+        />
       </div>
 
       {/* Phones and tablets: a full-screen sheet; each link rises out of its own mask in turn. */}
