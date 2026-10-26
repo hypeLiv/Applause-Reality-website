@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
+// Stays out of the index until the approved policy below replaces the placeholder.
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  ...pageMeta({
+    title: "Privacy Policy",
+    description:
+      "How Applause Reality collects, uses and protects the details you share through consultation enquiries, WhatsApp and this website.",
+    path: "/privacy-policy",
+  }),
   robots: { index: false },
-  alternates: { canonical: "/privacy-policy" },
 };
 
 // TODO: paste the client's approved privacy policy text here before launch.

@@ -227,9 +227,12 @@ export const getPosts = cache(async (): Promise<Post[]> => {
       {
         slug: d.slug,
         title: d.title,
+        seoTitle: d.seoTitle || fallback?.seoTitle,
+        author: d.author || fallback?.author,
         excerpt: d.excerpt || fallback?.excerpt || "",
         topic: d.topic || fallback?.topic || "Insights",
         date: d.date,
+        updated: d.updated || fallback?.updated,
         readMinutes: readMinutesFor(body),
         body,
         cover,
