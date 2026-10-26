@@ -98,8 +98,9 @@ export default function Hero({
               {...rise(0.72)}
               className="mt-6 max-w-[34rem] font-text text-base leading-relaxed text-ink-900/75 md:text-lg"
             >
-              Only 100% bank-approved residential and corporate real estate across Delhi NCR — with a
-              consultant who stays beside you for a lifetime, from the first site visit to long after possession.
+              Applause Reality is a Delhi NCR real estate consultancy that shortlists only 100% bank-approved
+              residential and corporate projects, and stays beside you from the first site visit to long after
+              possession.
             </motion.p>
             <motion.div {...rise(0.85)} className="mt-9 flex flex-wrap gap-3">
               <Cta href={site.whatsapp} className={lux.dayPrimary}>

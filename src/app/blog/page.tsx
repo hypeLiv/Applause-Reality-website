@@ -11,7 +11,7 @@ import { pageMeta } from "@/lib/seo";
 import { getPosts } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
-  title: "Discover NCR Property Blogs | Real Estate Insights",
+  title: "NCR Property Blog & Real Estate Insights",
   description:
     "Guides on where to invest in Delhi NCR, new bank-approved launches and practical home-buying tips from the Applause Reality advisory desk.",
   path: "/blog",

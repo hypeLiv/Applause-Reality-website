@@ -16,7 +16,7 @@ import { site } from "@/lib/site";
 import { getSiteMedia, getTestimonials, type SiteMedia } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
-  title: "Trusted Real Estate Consultants for Delhi-NCR",
+  title: "Trusted Property Consultants in Delhi NCR",
   description:
     "Meet Rajiv Kr. Pandey and Applause Reality: 23+ years guiding families, investors and SBI/PNB professionals through bank-approved Delhi NCR property.",
   path: "/about-applause-reality",
