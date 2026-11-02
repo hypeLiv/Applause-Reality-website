@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const post = await findPost((await params).slug);
   if (!post) return {};
   return pageMeta({
-    title: post.title,
+    title: post.seoTitle ?? post.title,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
     images: [post.cover],
@@ -125,15 +125,16 @@ export default async function PostPage({ params }: Params) {
     .map((b) => ({ id: slugify(b.text), text: b.text.replace(/^\d+\.\s*/, "") }));
   const more = all.filter((p) => p.slug !== post.slug).slice(0, 3);
 
-  // Credited to the business until the client confirms per-post authors.
+  // Credited to the founder (the Person node in the root layout) unless the post names an author.
+  const author = post.author ?? site.founder;
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     image: [absolute(post.cover)],
-    ...(post.date ? { datePublished: post.date, dateModified: post.date } : {}),
-    author: { "@id": absolute("/#business") },
+    ...(post.date ? { datePublished: post.date, dateModified: post.updated ?? post.date } : {}),
+    author: post.author ? { "@type": "Person", name: post.author } : { "@id": absolute("/#founder") },
     publisher: { "@id": absolute("/#business") },
     mainEntityOfPage: absolute(`/blog/${post.slug}`),
     inLanguage: "en-IN",
@@ -162,7 +163,14 @@ export default async function PostPage({ params }: Params) {
               <span className="rounded-full bg-white px-3 py-1 font-semibold uppercase tracking-[0.14em] text-royal ring-1 ring-ink-900/10">
                 {post.topic}
               </span>
+              <span>By {author}</span>
+              <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
               <time dateTime={post.date}>{formatDate(post.date)}</time>
+              {post.updated && post.updated !== post.date ? (
+                <span>
+                  · Updated <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+                </span>
+              ) : null}
               <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
               <span className="inline-flex items-center gap-1.5">
                 <Icon name="clock" className="h-3.5 w-3.5" />

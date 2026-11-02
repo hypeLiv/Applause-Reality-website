@@ -6,6 +6,7 @@ export const site = {
     "mailto:concierge@applausereality.com?subject=Property%20Consultation%20Inquiry",
   phone: { display: "+91 99114 10109", href: "tel:+919911410109" },
   phones: ["+91 9911410109", "+91 9971314877"],
+  founder: "Rajiv Kumar Pandey",
   linkedin: "http://www.linkedin.com/in/rajiv-kumar-pandey-7b89aa417",
   tagline: "रिश्ता बुकिंग के साथ भी, Possession के बाद भी",
   // Consultation / site-visit enquiries go to this number on the live site.
@@ -19,6 +20,8 @@ export const site = {
     reviews: 35,
     reviewsUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,1",
     writeReviewUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,3",
+    // The same listing on Google Maps (the CID is the feature ID's second half, in decimal).
+    mapsUrl: "https://maps.google.com/?cid=8134806097919021018",
   },
 };
 

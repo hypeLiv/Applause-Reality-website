@@ -49,7 +49,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Site-wide business identity. No street address yet: add it (matching the
-// Google Business Profile exactly) as soon as the client confirms it.
+// Google Business Profile exactly) as soon as the client confirms it, along
+// with any company social profiles in sameAs.
 const businessSchema = (media: SiteMedia) => ({
   "@context": "https://schema.org",
   "@graph": [
@@ -70,8 +71,17 @@ const businessSchema = (media: SiteMedia) => ({
         { "@type": "City", name: "Ghaziabad" },
         { "@type": "AdministrativeArea", name: "Delhi NCR" },
       ],
-      founder: { "@type": "Person", name: "Rajiv Kumar Pandey", sameAs: [site.linkedin] },
+      sameAs: [site.google.mapsUrl],
+      founder: { "@id": absolute("/#founder") },
       knowsAbout: ["Residential sales", "Commercial leasing", "Investment advisory", "Home-loan assistance"],
+    },
+    {
+      "@type": "Person",
+      "@id": absolute("/#founder"),
+      name: site.founder,
+      jobTitle: "Founder",
+      worksFor: { "@id": absolute("/#business") },
+      sameAs: [site.linkedin],
     },
     {
       "@type": "WebSite",

@@ -62,9 +62,12 @@ export const MEDIA_QUERY = defineQuery(/* groq */ `{
   "posts": *[_type == "post" && defined(slug.current)]{
     "slug": slug.current,
     title,
+    seoTitle,
     excerpt,
     topic,
     date,
+    updated,
+    author,
     body,
     cover${image}
   },

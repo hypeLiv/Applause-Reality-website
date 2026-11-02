@@ -19,6 +19,14 @@ export const post = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "seoTitle",
+      title: "Search title",
+      description:
+        "Shorter title for Google and AI search results when the headline is long. \"| Applause Reality\" is added after it.",
+      type: "string",
+      validation: (rule) => rule.max(41).warning("Over 41 characters gets cut off in search results"),
+    }),
+    defineField({
       name: "slug",
       title: "URL slug",
       description: "The article's address, /blog/<slug>. Changing it breaks existing links.",
@@ -32,6 +40,19 @@ export const post = defineType({
       type: "date",
       options: { dateFormat: "D MMM YYYY" },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "updated",
+      title: "Last updated",
+      description: "Set this when the article is meaningfully revised, so search engines see it is current.",
+      type: "date",
+      options: { dateFormat: "D MMM YYYY" },
+    }),
+    defineField({
+      name: "author",
+      title: "Author",
+      description: "Shown as the byline. Leave empty to credit Rajiv Kumar Pandey.",
+      type: "string",
     }),
     defineField({
       name: "topic",
