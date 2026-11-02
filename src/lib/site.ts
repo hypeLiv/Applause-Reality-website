@@ -6,7 +6,23 @@ export const site = {
     "mailto:concierge@applausereality.com?subject=Property%20Consultation%20Inquiry",
   phone: { display: "+91 99114 10109", href: "tel:+919911410109" },
   phones: ["+91 9911410109", "+91 9971314877"],
-  linkedin: "http://www.linkedin.com/in/rajiv-kumar-pandey-7b89aa417",
+  // The founder's personal profile (schema only). The company's own profiles are in `social`.
+  founderLinkedin: "http://www.linkedin.com/in/rajiv-kumar-pandey-7b89aa417",
+  // Company profiles: shown in the footer and declared as the business's `sameAs` in the schema.
+  social: [
+    { label: "Instagram", href: "https://www.instagram.com/applause.reality/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/applausereality" },
+    { label: "Facebook", href: "https://www.facebook.com/people/Applause-reality/61590716309621/" },
+  ],
+  // The office, written as on the Google Business Profile. Keep every use (footer, /contact, schema) identical to it.
+  address: {
+    street: "B, A-61, Sector 63 Rd, Hazratpur Wajidpur, D Block, Sector 63",
+    locality: "Noida",
+    region: "Uttar Pradesh",
+    postalCode: "201309",
+    country: "IN",
+    oneLine: "B, A-61, Sector 63 Rd, Hazratpur Wajidpur, D Block, Sector 63, Noida, Uttar Pradesh 201309",
+  },
   tagline: "रिश्ता बुकिंग के साथ भी, Possession के बाद भी",
   // Consultation / site-visit enquiries go to this number on the live site.
   whatsapp: "https://api.whatsapp.com/send?phone=918796857733",
@@ -20,6 +36,13 @@ export const site = {
     reviewsUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,1",
     writeReviewUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,3",
   },
+};
+
+/** Google Maps search for the office, by business name and address (no API key needed). */
+const mapsQuery = encodeURIComponent(`${site.name} ${site.address.oneLine}`);
+export const maps = {
+  url: `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`,
+  embed: `https://www.google.com/maps?q=${mapsQuery}&output=embed`,
 };
 
 export const nav = [

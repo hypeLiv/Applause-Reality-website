@@ -7,14 +7,14 @@ Anything in **[CONFIRM: …]** is a fact only the client can verify — it ships
 
 ## Status
 
-Built from this document, using only wording the site already states. Every **[CONFIRM]** item and every new factual claim was left out.
+Built from this document, using only wording the site already states. Every **[CONFIRM]** item and every new factual claim was left out (the address came later from the client).
 
 | § | Done | Still open |
 |---|---|---|
 | 1 In-article links | 15 links across the four posts, on existing phrases only (4 / 4 / 4 / 3). | The "new words" sentences and the §1B launches section and fixes (they need a content decision). The links reach the live site only after `BODIES_ONLY=1 npm run seed:content` (Sanity is the source; see `studio/scripts/seed-content.ts`) or by adding them in the Studio. |
 | 2 FAQ | 7 of 10 questions on `/projects#faq` with FAQPage schema. The "projects right now" answer is built from the project list. | Q2 (fees), Q5 (SBI/PNB priority processing detail) and Q6 (other lenders) wait on **[CONFIRM]**. |
 | 3 Services | `/services` with four sections, Service schema, nav, footer, sitemap, `llms.txt`, and a link from About. | The extra bullets for commercial leasing and investment advisory; commercial leasing needs the tenant/landlord answer and whether NRIs are served. |
-| 4 Contact | — | Needs the street address (as on the Google Business Profile), hours and the social profile links before `/contact` can ship. |
+| 4 Contact | `/contact` with the office address, phones, email, directions link and a map. The address is also in the footer and the `RealEstateAgent` schema (`PostalAddress`, `hasMap`), and the company Instagram, LinkedIn and Facebook are in the footer and schema `sameAs`, all from `src/lib/site.ts`. | Opening hours and the Google Business Profile link. The WhatsApp number is not shown on the page. The map embed needs a look in a real browser. |
 | 5 Promise block | `/projects` now has its own wording (a trimmed version of Option B that adds no new claims). | — |
 
 Also done outside this list: a visible "By Applause Reality" byline on posts, and full bank names as alt text on the home hero logos.

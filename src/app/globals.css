@@ -445,3 +445,15 @@ body {
   font-variant-numeric: tabular-nums;
   color: rgb(247 244 238 / 0.75);
 }
+
+/* Footer height. The giant word is fitted to the width, so its height scales with vw, and the floor leaves
+   room for the link block. Under 720px the footer stacks to two columns and the address and social links
+   wrap, so phones get a taller floor (the larger of two lines, fitted to the measured link-block height). */
+:root {
+  --footer-h: max(740px, calc(360px + 22vw), calc(1000px - 55vw));
+}
+@media (max-width: 720px) {
+  :root {
+    --footer-h: max(740px, calc(1547px - 142.7vw), calc(1060px - 29vw));
+  }
+}

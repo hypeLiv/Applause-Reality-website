@@ -1,11 +1,12 @@
 import HalftoneWordmarkFooter from "@/components/ui/halftone-wordmark-footer";
-import { nav, site } from "@/lib/site";
+import { maps, nav, site } from "@/lib/site";
 
 const columns = [
   { title: "Explore", links: nav.map((n) => ({ label: n.label, href: n.href })) },
   {
     title: "Contact",
     links: [
+      { label: site.address.oneLine, href: maps.url },
       { label: site.email, href: site.emailHref },
       ...site.phones.map((p) => ({ label: p, href: `tel:${p.replace(/\s/g, "")}` })),
     ],
@@ -16,7 +17,8 @@ const columns = [
       // The footer is plain anchors, so it always points at the form page;
       // the page itself offers WhatsApp to phone visitors.
       { label: "Free consultation", href: "/consultation" },
-      { label: "LinkedIn", href: site.linkedin },
+      { label: "Contact us", href: "/contact" },
+      ...site.social,
       { label: "Privacy policy", href: "/privacy-policy" },
     ],
   },
@@ -52,8 +54,8 @@ export default function Footer() {
       // Baseline on the bottom edge: the letters sit whole, only the descenders crop.
       crop={0}
       // The word is fitted to the width, so its height scales with vw. The
-      // floor leaves room for the link block plus the promise lines on phones.
-      height="max(740px, calc(360px + 22vw), calc(1000px - 55vw))"
+      // formula lives in globals.css (--footer-h) because phones need a taller floor.
+      height="var(--footer-h)"
     />
   );
 }
