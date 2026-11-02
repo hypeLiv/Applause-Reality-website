@@ -8,6 +8,7 @@ import { Arrow, Icon, lux } from "@/components/home/ui";
 import CorridorNav from "@/components/page/CorridorNav";
 import ProjectsTimeline from "@/components/page/ProjectsTimeline";
 import StoryGrid from "@/components/page/StoryGrid";
+import JsonLd from "@/components/seo/JsonLd";
 import { Cta } from "@/components/sections";
 import TokyoSkylineHero from "@/components/ui/sunset-skyline-hero";
 import type { Project } from "@/content/projects";
@@ -67,18 +68,41 @@ const corridors: {
 
 const launchCount = (n: number) => (n === 0 ? "On request" : `${n} launch${n === 1 ? "" : "es"}`);
 
-const questions = [
+/** "A, B and C". */
+const list = (items: string[]) => (items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`);
+
+/**
+ * Buyer questions, answered in the buyer's own words. They render on the page and feed its
+ * FAQPage schema. Answers stick to what the site already states about the service.
+ */
+const faqs = (projects: Project[]) => [
   {
-    q: "Confused about where to invest?",
-    a: "Our market experts track growth corridors, infrastructure developments and demand trends so you invest with confidence.",
+    q: "What does \"bank-approved project\" mean?",
+    a: "A lender has reviewed the project's land title and approvals and agreed to finance homes in it, so you can apply for a home loan against that project. It makes the loan smoother, but it doesn't replace your own checks of the RERA registration and the builder-buyer agreement.",
   },
   {
-    q: "Looking for the best property within your budget?",
-    a: "From premium apartments to commercial assets, we shortlist properties that match your goals and financial plans.",
+    q: "Which areas do you cover?",
+    a: "Noida, Greater Noida, Greater Noida West and Wave City in Ghaziabad, along with the wider Delhi NCR corridors we track, including Vaishali.",
   },
   {
-    q: "Need guidance before making a decision?",
-    a: "Get personalised recommendations, side-by-side project comparisons and financing support from experienced advisors.",
+    q: "Which projects are you offering right now?",
+    a: `We're currently guiding buyers on ${list(projects.map((p) => `${p.name} (${p.location})`))}. Each has its own page with the full details.`,
+  },
+  {
+    q: "What documents do I need for a home loan?",
+    a: "Identity and address proof, income proof (salary slips or ITRs), six months of bank statements, and the property papers from the developer, such as the allotment letter and builder-buyer agreement. Your bank may ask for more depending on your profile.",
+  },
+  {
+    q: "Will you come with me on site visits?",
+    a: "Yes. We shortlist options that fit your budget and attend the site visits with you, so you can compare projects with someone on your side.",
+  },
+  {
+    q: "What happens after I book?",
+    a: "We handle the booking forms, checks and signatures, process your home loan through our SBI and PNB relationships, and stay with you through to possession, and on call long after the handover.",
+  },
+  {
+    q: "How can I check a project's RERA registration?",
+    a: "Search the project name or registration number on the UP RERA portal (up-rera.in). Check that the registration is active, that the approved plans match what you're being sold, and that the possession date in your agreement matches the RERA filing.",
   },
 ];
 
@@ -109,10 +133,22 @@ const advantages = [
 export default async function ProjectsPage() {
   const [media, projects] = await Promise.all([getSiteMedia(), getProjects()]);
   const chapters = corridors.map((c) => ({ ...c, launches: projects.filter(c.match) }));
+  const questions = faqs(projects);
 
   return (
     <>
       <SmoothScroll />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: questions.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }}
+      />
       <TokyoSkylineHero
         videoSrc={media.locationsTour.src}
         videoSrcSmall={media.locationsTour.srcSmall}
@@ -328,7 +364,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Questions we answer */}
-      <section className="lux-scope lux-on-light bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
+      <section id="faq" className="lux-scope lux-on-light scroll-mt-24 bg-white px-4 sm:px-6 py-24 text-ink-900 md:px-10 md:py-32">
         <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
@@ -368,8 +404,8 @@ export default async function ProjectsPage() {
           <p className="lux-label justify-center text-royal">Our partnership promise</p>
           <BrandTagline size="lg" align="center" className="mt-8" />
           <p className="mx-auto mt-8 max-w-[44rem] font-sans text-[clamp(1.4rem,2.4vw,2.1rem)] font-medium leading-snug tracking-[-0.02em]">
-            Beyond the transaction, Applause Reality stays by your side as a dedicated ally — with
-            support that begins before booking and lasts long after possession.
+            On every launch on this page, you get one advisor from your first site visit to the day you
+            move in — handling the paperwork and loan approvals, and on call long after possession.
           </p>
         </Reveal>
       </section>
