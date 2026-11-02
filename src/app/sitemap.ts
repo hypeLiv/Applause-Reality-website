@@ -9,10 +9,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages: MetadataRoute.Sitemap = [
     { url: absolute("/"), changeFrequency: "weekly", priority: 1 },
     { url: absolute("/projects"), changeFrequency: "weekly", priority: 0.9 },
+    { url: absolute("/services"), changeFrequency: "monthly", priority: 0.8 },
     { url: absolute("/about-applause-reality"), changeFrequency: "monthly", priority: 0.7 },
     { url: absolute("/blog"), changeFrequency: "weekly", priority: 0.7 },
     { url: absolute("/testimonials"), changeFrequency: "monthly", priority: 0.7 },
     { url: absolute("/consultation"), changeFrequency: "yearly", priority: 0.6 },
+    { url: absolute("/contact"), changeFrequency: "yearly", priority: 0.6 },
   ];
   return [
     ...pages,

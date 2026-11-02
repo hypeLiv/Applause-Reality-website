@@ -9,7 +9,7 @@ import IntroLoader from "@/components/IntroLoader";
 import JsonLd from "@/components/seo/JsonLd";
 import { introGateScript } from "@/lib/intro";
 import { absolute, DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { maps, site } from "@/lib/site";
 import { getBlurMap, getSiteMedia, type SiteMedia } from "@/sanity/media";
 
 // Warm geometric sans for body, labels and UI.
@@ -48,8 +48,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// Site-wide business identity. No street address yet: add it (matching the
-// Google Business Profile exactly) as soon as the client confirms it.
+// Site-wide business identity. The address comes from site.ts and must match
+// the Google Business Profile exactly.
 const businessSchema = (media: SiteMedia) => ({
   "@context": "https://schema.org",
   "@graph": [
@@ -64,13 +64,23 @@ const businessSchema = (media: SiteMedia) => ({
       slogan: site.tagline,
       email: site.email,
       telephone: site.phones,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: site.address.street,
+        addressLocality: site.address.locality,
+        addressRegion: site.address.region,
+        postalCode: site.address.postalCode,
+        addressCountry: site.address.country,
+      },
+      hasMap: maps.url,
+      sameAs: site.social.map((s) => s.href),
       areaServed: [
         { "@type": "City", name: "Noida" },
         { "@type": "City", name: "Greater Noida" },
         { "@type": "City", name: "Ghaziabad" },
         { "@type": "AdministrativeArea", name: "Delhi NCR" },
       ],
-      founder: { "@type": "Person", name: "Rajiv Kumar Pandey", sameAs: [site.linkedin] },
+      founder: { "@type": "Person", name: "Rajiv Kumar Pandey", sameAs: [site.founderLinkedin] },
       knowsAbout: ["Residential sales", "Commercial leasing", "Investment advisory", "Home-loan assistance"],
     },
     {

@@ -142,10 +142,10 @@ export default function Hero({
               Verified by
               <span className="flex items-center gap-1.5">
                 <span className="grid h-7 place-items-center rounded-full bg-white px-2.5 ring-1 ring-ink-900/5">
-                  <Image src={banks.sbi.src} alt="SBI" width={banks.sbi.width} height={banks.sbi.height} className="h-4 w-auto" />
+                  <Image src={banks.sbi.src} alt={banks.sbi.alt} width={banks.sbi.width} height={banks.sbi.height} className="h-4 w-auto" />
                 </span>
                 <span className="grid h-7 place-items-center rounded-full bg-white px-2.5 ring-1 ring-ink-900/5">
-                  <Image src={banks.pnb.src} alt="PNB" width={banks.pnb.width} height={banks.pnb.height} className="h-4 w-auto" />
+                  <Image src={banks.pnb.src} alt={banks.pnb.alt} width={banks.pnb.width} height={banks.pnb.height} className="h-4 w-auto" />
                 </span>
               </span>
             </li>

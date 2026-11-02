@@ -73,19 +73,40 @@ export function toPostBlocks(value: unknown): PostBlock[] {
   return out;
 }
 
-/** The site's article blocks → Sanity rich text, for seeding. Keys are stable so re-runs diff cleanly. */
+/** Spans → Sanity children plus the link annotations they point at. Plain text keeps its original key. */
+function children(key: string, text: string, spans?: Span[]) {
+  if (!spans) return { markDefs: [], children: [{ _type: "span", _key: `${key}s`, text, marks: [] as string[] }] };
+  const markDefs: { _key: string; _type: "link"; href: string }[] = [];
+  const out = spans.map((s, i) => {
+    const marks: string[] = [];
+    if (s.bold) marks.push("strong");
+    if (s.italic) marks.push("em");
+    if (s.href) {
+      markDefs.push({ _key: `${key}l${i}`, _type: "link", href: s.href });
+      marks.push(`${key}l${i}`);
+    }
+    return { _type: "span", _key: `${key}s${i}`, text: s.text, marks };
+  });
+  return { markDefs, children: out };
+}
+
+/**
+ * The site's article blocks → Sanity rich text, for seeding. Keys are stable so
+ * re-runs diff cleanly. Bold, italic and links carry over (see toPostBlocks).
+ */
 export function fromPostBlocks(blocks: PostBlock[]) {
   const style = { p: "normal", h2: "h2", h3: "h3", quote: "blockquote", note: "note" } as const;
-  const block = (key: string, text: string, extra: Record<string, unknown>) => ({
+  const block = (key: string, text: string, spans: Span[] | undefined, extra: Record<string, unknown>) => ({
     _type: "block",
     _key: key,
-    markDefs: [],
-    children: [{ _type: "span", _key: `${key}s`, text, marks: [] }],
+    ...children(key, text, spans),
     ...extra,
   });
   return blocks.flatMap((b, i) =>
     "items" in b
-      ? b.items.map((item, j) => block(`b${i}i${j}`, item, { style: "normal", listItem: b.type === "ol" ? "number" : "bullet", level: 1 }))
-      : [block(`b${i}`, b.text, { style: style[b.type] })],
+      ? b.items.map((item, j) =>
+          block(`b${i}i${j}`, item, b.itemSpans?.[j], { style: "normal", listItem: b.type === "ol" ? "number" : "bullet", level: 1 }),
+        )
+      : [block(`b${i}`, b.text, b.spans, { style: style[b.type] })],
   );
 }

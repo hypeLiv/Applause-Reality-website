@@ -11,9 +11,10 @@ import RollingJourney from "@/components/page/RollingJourney";
 import TestimonialCard from "@/components/page/TestimonialCard";
 import Tilt from "@/components/page/Tilt";
 import { Cta } from "@/components/sections";
+import { services } from "@/content/services";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
-import { getSiteMedia, getTestimonials, type SiteMedia } from "@/sanity/media";
+import { getSiteMedia, getTestimonials } from "@/sanity/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Trusted Real Estate Consultants for Delhi-NCR",
@@ -55,13 +56,6 @@ const cascade = [
   { place: "md:z-10", tilt: "md:-rotate-2" },
   { place: "md:z-20 md:-ml-6 md:mt-12", tilt: "md:rotate-[1.5deg]" },
   { place: "md:z-30 md:-ml-6 md:mt-4", tilt: "md:-rotate-1" },
-];
-
-const services: { icon: IconName; title: string; text: string; photo: keyof SiteMedia["services"] }[] = [
-  { icon: "home", title: "Residential sales", text: "Premium NCR homes and villas with verified bank approvals for secure living.", photo: "residential" },
-  { icon: "building", title: "Commercial leasing", text: "Strategic leasing for office and retail spaces in high-visibility NCR business districts.", photo: "commercial" },
-  { icon: "chart", title: "Investment advisory", text: "Clear analysis and ROI strategies for residential and commercial property portfolios.", photo: "investment" },
-  { icon: "bank", title: "Home-loan assistance", text: "Seamless loan processing and documentation through our bank-approved partnerships.", photo: "homeLoans" },
 ];
 
 const journey: { icon: IconName; title: string; text: string }[] = [
@@ -331,6 +325,11 @@ export default async function AboutPage() {
               </li>
             ))}
           </ul>
+          <Reveal delay={0.1} className="mt-10">
+            <Cta href="/services" className={lux.ghostLight}>
+              Explore our services <Arrow />
+            </Cta>
+          </Reveal>
         </div>
       </section>
 

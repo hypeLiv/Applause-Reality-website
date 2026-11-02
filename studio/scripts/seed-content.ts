@@ -6,6 +6,7 @@
  *   npm run seed:content                 # fill in only what's empty in Sanity
  *   FORCE=1 npm run seed:content         # overwrite Sanity with the code's text
  *   DRY_RUN=1 npm run seed:content       # print the plan, change nothing
+ *   BODIES_ONLY=1 npm run seed:content   # overwrite only each post's article body (e.g. to ship new in-article links)
  *
  * By default nothing edited in the Studio is overwritten (setIfMissing), so
  * it's safe to re-run. Post documents must already exist (npm run seed:media
@@ -17,6 +18,8 @@ import { fromPostBlocks } from "../../src/sanity/portable-text";
 
 const DRY_RUN = process.env.DRY_RUN === "1";
 const FORCE = process.env.FORCE === "1";
+/** Touches nothing but post bodies: titles, dates, summaries, covers and testimonials stay as edited in the Studio. */
+const BODIES_ONLY = process.env.BODIES_ONLY === "1";
 
 /** Stable document IDs, so re-runs update rather than duplicate. Non-Latin names fall back to their position. */
 const testimonialId = (name: string, i: number) => {
@@ -28,9 +31,11 @@ const testimonialId = (name: string, i: number) => {
 };
 
 async function main() {
-  console.log(`${posts.length} posts, ${testimonials.length} testimonials${FORCE ? " (overwriting)" : " (filling empty fields only)"}.`);
+  const mode = BODIES_ONLY ? " (post bodies only, overwriting)" : FORCE ? " (overwriting)" : " (filling empty fields only)";
+  console.log(`${posts.length} posts, ${BODIES_ONLY ? 0 : testimonials.length} testimonials${mode}.`);
   if (DRY_RUN) {
-    testimonials.forEach((t, i) => console.log(`  ${testimonialId(t.name, i)}  ${t.name}`));
+    if (BODIES_ONLY) posts.forEach((p) => console.log(`  ${p.slug}  (body)`));
+    else testimonials.forEach((t, i) => console.log(`  ${testimonialId(t.name, i)}  ${t.name}`));
     console.log("Dry run: nothing changed.");
     return;
   }
@@ -47,8 +52,14 @@ async function main() {
       continue;
     }
     const fields = { title: p.title, date: p.date, topic: p.topic, excerpt: p.excerpt, body: fromPostBlocks(p.body) };
-    tx.patch(id, (patch) => (FORCE ? patch.set(fields) : patch.setIfMissing(fields)));
+    tx.patch(id, (patch) => (BODIES_ONLY ? patch.set({ body: fields.body }) : FORCE ? patch.set(fields) : patch.setIfMissing(fields)));
     console.log(`  ${p.slug}`);
+  }
+
+  if (BODIES_ONLY) {
+    await tx.commit();
+    console.log("Done.");
+    return;
   }
 
   console.log("Testimonials");

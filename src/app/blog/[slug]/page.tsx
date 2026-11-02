@@ -68,7 +68,8 @@ function Spans({ spans }: { spans: Span[] }) {
 
 /** "Label: rest" → a bold lead-in, which most of these guides use for scannable points. Formatted text is shown as written. */
 function Rich({ text, spans }: { text: string; spans?: Span[] }) {
-  if (spans) return <Spans spans={spans} />;
+  // A list with one linked item stores plain spans for the rest; those still get the lead-in treatment.
+  if (spans?.some((s) => s.bold || s.italic || s.href)) return <Spans spans={spans} />;
   const m = text.match(/^([^:]{2,42}):\s+(.+)$/);
   if (!m) return <>{text}</>;
   return (
@@ -162,6 +163,13 @@ export default async function PostPage({ params }: Params) {
               <span className="rounded-full bg-white px-3 py-1 font-semibold uppercase tracking-[0.14em] text-royal ring-1 ring-ink-900/10">
                 {post.topic}
               </span>
+              <span>
+                By{" "}
+                <Link href="/about-applause-reality" className="lux-focus font-semibold text-ink-900 underline-offset-4 hover:underline">
+                  {site.name}
+                </Link>
+              </span>
+              <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
               <time dateTime={post.date}>{formatDate(post.date)}</time>
               <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
               <span className="inline-flex items-center gap-1.5">
