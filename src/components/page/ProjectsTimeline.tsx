@@ -121,9 +121,11 @@ function ProjectDetails({ project: p, index }: { project: Project; index: number
         <ExpandLink href={`/projects/${p.key}`} className={lux.primary}>
           View project <Arrow />
         </ExpandLink>
-        <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
-          <Icon name="download" className="h-4 w-4" /> Brochure
-        </a>
+        {p.brochure && (
+          <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
+            <Icon name="download" className="h-4 w-4" /> Brochure
+          </a>
+        )}
         {p.highlights && <HighlightsButton project={p} src={p.highlights} />}
       </div>
     </div>

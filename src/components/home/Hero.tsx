@@ -177,7 +177,7 @@ function FeaturedCard({ featured }: { featured: Project }) {
           />
           <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/80 to-transparent" />
           <span className="absolute bottom-3 left-4 font-text text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80">
-            Bank approved · Corporate &amp; HR schemes
+            {featured.preLaunch ? "Pre-launch · EOI open" : "Bank approved · Corporate & HR schemes"}
           </span>
           <span className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 font-text text-[11px] font-semibold uppercase tracking-[0.16em] text-royal ring-1 ring-ink-900/5">
             <span className="relative flex h-2 w-2">
@@ -219,15 +219,17 @@ function FeaturedCard({ featured }: { featured: Project }) {
               Explore project
               <Arrow />
             </Link>
-            <a
-              href={featured.brochure}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="lux-focus inline-flex items-center justify-center gap-2 rounded-full border border-ink-900/15 px-5 py-3 font-text text-sm font-semibold transition-[translate,scale,rotate,background-color,border-color] duration-500 ease-[var(--ease-spring)] hover:border-ink-900/30 hover:bg-ink-900/[0.03] active:scale-[0.98]"
-            >
-              <Icon name="document" className="h-4 w-4" />
-              Brochure
-            </a>
+            {featured.brochure && (
+              <a
+                href={featured.brochure}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lux-focus inline-flex items-center justify-center gap-2 rounded-full border border-ink-900/15 px-5 py-3 font-text text-sm font-semibold transition-[translate,scale,rotate,background-color,border-color] duration-500 ease-[var(--ease-spring)] hover:border-ink-900/30 hover:bg-ink-900/[0.03] active:scale-[0.98]"
+              >
+                <Icon name="document" className="h-4 w-4" />
+                Brochure
+              </a>
+            )}
           </div>
         </div>
       </article>
