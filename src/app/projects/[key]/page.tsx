@@ -48,6 +48,7 @@ function fileSize(p: Project) {
 }
 
 const promises = ["Safe NCR growth", "Bank approved", "Corporate & HR schemes"];
+const preLaunchNotes = ["Pre-launch", "EOI open", "UP-RERA registration awaited"];
 
 const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
 /** "Four" for 4, so small counts read as words in display headings. */
@@ -73,9 +74,11 @@ export default async function ProjectPage({ params }: Params) {
         lead={p.summary}
         actions={
           <>
-            <a href={downloadHref(p.brochure)} download className={lux.dayPrimary}>
-              <Icon name="download" className="h-5 w-5" /> Download brochure
-            </a>
+            {p.brochure && (
+              <a href={downloadHref(p.brochure)} download className={lux.dayPrimary}>
+                <Icon name="download" className="h-5 w-5" /> Download brochure
+              </a>
+            )}
             <Cta href={site.whatsappProjects} className={lux.dayGlass}>
               Talk to an advisor
             </Cta>
@@ -95,15 +98,15 @@ export default async function ProjectPage({ params }: Params) {
       <Overview project={p} banks={{ sbi: media.partners.sbi.logo, pnb: media.partners.pnb.logo }} />
       <Homes project={p} />
       <Inside project={p} />
-      <Brochure project={p} size={size} />
+      {p.brochure && <Brochure brochure={p.brochure} name={p.name} size={size} />}
       <OtherLaunches projects={others} />
 
       <ClosingCta
         label="Plan a visit"
         title={`See *${p.name}* in person.`}
-        text="We arrange the site visit, walk you through the bank-approved paperwork and stay with you through possession and beyond."
+        text={`We arrange the site visit, walk you through the ${p.preLaunch ? "" : "bank-approved "}paperwork and stay with you through possession and beyond.`}
         actionLabel="Book a site visit"
-        footnote="Bank approved · Corporate & HR schemes"
+        footnote={p.preLaunch ? "Pre-launch · EOI open" : "Bank approved · Corporate & HR schemes"}
       />
     </>
   );
@@ -138,7 +141,7 @@ function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; 
             </div>
 
             <ul className="mt-8 flex flex-wrap gap-2">
-              {promises.map((t) => (
+              {(p.preLaunch ? preLaunchNotes : promises).map((t) => (
                 <li
                   key={t}
                   className="inline-flex items-center gap-2 rounded-full border border-ink-900/10 px-4 py-2 font-text text-sm font-medium text-ink-900"
@@ -149,14 +152,16 @@ function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; 
               ))}
             </ul>
 
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-ink-900/[0.08] pt-8">
-              <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">100% verified by</p>
-              <div className="flex items-center gap-5">
-                {[banks.sbi, banks.pnb].map((b) => (
-                  <Image key={b.alt} src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-9 w-auto" />
-                ))}
+            {!p.preLaunch && (
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-ink-900/[0.08] pt-8">
+                <p className="font-text text-xs font-semibold uppercase tracking-[0.18em] text-slate-ink">100% verified by</p>
+                <div className="flex items-center gap-5">
+                  {[banks.sbi, banks.pnb].map((b) => (
+                    <Image key={b.alt} src={b.src} alt={b.alt} width={b.width} height={b.height} className="h-9 w-auto" />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </Reveal>
         </div>
       </div>
@@ -167,6 +172,7 @@ function Overview({ project: p, banks }: { project: Project; banks: { sbi: Img; 
 /** Unit plans, included specifications and amenity chips, for projects that list them. */
 function Homes({ project: p }: { project: Project }) {
   const { unitPlans, specs, amenities } = p;
+  const hasTowers = unitPlans?.some((u) => u.towers);
   if (!unitPlans?.length && !specs?.length && !amenities?.length) return null;
   return (
     <section className="lux-scope lux-on-light bg-ivory px-4 py-24 text-ink-900 sm:px-6 md:px-10 md:py-32">
@@ -181,7 +187,7 @@ function Homes({ project: p }: { project: Project }) {
 
         <div className="mt-14 grid items-start gap-5 lg:grid-cols-12">
           {unitPlans?.length ? (
-            <Reveal className="lg:col-span-7">
+            <Reveal className={specs?.length ? "lg:col-span-7" : "lg:col-span-12"}>
               <Bezel tone="light" coreClassName="bg-white p-5 sm:p-8">
                 <table className="w-full border-collapse text-left font-text">
                   <caption className="sr-only">Unit plans</caption>
@@ -189,7 +195,7 @@ function Homes({ project: p }: { project: Project }) {
                     <tr className="text-xs uppercase tracking-[0.14em] text-slate-ink">
                       <th scope="col" className="pb-4 pr-3 font-semibold">Plan</th>
                       <th scope="col" className="pb-4 pr-3 font-semibold">Saleable area</th>
-                      <th scope="col" className="hidden pb-4 font-semibold sm:table-cell">Towers</th>
+                      {hasTowers && <th scope="col" className="hidden pb-4 font-semibold sm:table-cell">Towers</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -198,12 +204,14 @@ function Homes({ project: p }: { project: Project }) {
                         <th scope="row" className="py-4 pr-3 font-sans text-[15px] font-semibold sm:text-base">
                           {u.plan}
                           {/* Phones fold the towers column in under the plan name. */}
-                          <span className="mt-1 block font-text text-sm font-normal text-slate-ink sm:hidden">
-                            Towers {u.towers}
-                          </span>
+                          {u.towers && (
+                            <span className="mt-1 block font-text text-sm font-normal text-slate-ink sm:hidden">
+                              Towers {u.towers}
+                            </span>
+                          )}
                         </th>
                         <td className="whitespace-nowrap py-4 pr-3 text-[15px] tabular-nums sm:text-base">{u.area}</td>
-                        <td className="hidden py-4 text-[15px] text-slate-ink sm:table-cell sm:text-base">{u.towers}</td>
+                        {hasTowers && <td className="hidden py-4 text-[15px] text-slate-ink sm:table-cell sm:text-base">{u.towers}</td>}
                       </tr>
                     ))}
                   </tbody>
@@ -331,7 +339,7 @@ function Inside({ project: p }: { project: Project }) {
   );
 }
 
-function Brochure({ project: p, size }: { project: Project; size: string | null }) {
+function Brochure({ brochure, name, size }: { brochure: string; name: string; size: string | null }) {
   return (
     <section id="brochure" className="lux-scope lux-on-light scroll-mt-24 bg-ivory px-4 sm:px-6 py-20 text-ink-900 md:px-10 md:py-28">
       <Reveal className="mx-auto max-w-[1320px]">
@@ -343,17 +351,17 @@ function Brochure({ project: p, size }: { project: Project; size: string | null 
           <div>
             <p className="lux-label text-royal">Project brochure</p>
             <h2 className="lux-display mt-4 text-[clamp(1.6rem,2.6vw,2.25rem)] leading-tight">
-              {p.name} brochure
+              {name} brochure
             </h2>
             <p className="mt-2 font-text text-[15px] text-slate-ink">
-              The developer&rsquo;s full brochure for {p.name}{size ? <> · PDF, {size}</> : null}
+              The developer&rsquo;s full brochure for {name}{size ? <> · PDF, {size}</> : null}
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href={downloadHref(p.brochure)} download className={lux.primary}>
+            <a href={downloadHref(brochure)} download className={lux.primary}>
               <Icon name="download" className="h-4 w-4" /> Download
             </a>
-            <a href={p.brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
+            <a href={brochure} target="_blank" rel="noopener noreferrer" className={lux.ghostLight}>
               View online
             </a>
           </div>
@@ -377,7 +385,7 @@ function OtherLaunches({ projects: list }: { projects: Project[] }) {
           </Link>
         </div>
 
-        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+        <ul className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {list.map((o, i) => (
             <li key={o.key} data-expand-root>
               <Reveal delay={i * 0.06}>
@@ -387,7 +395,7 @@ function OtherLaunches({ projects: list }: { projects: Project[] }) {
                       src={o.photo}
                       alt={o.photoAlt}
                       fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
+                      sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-[1.04]"
                     />
                   </span>

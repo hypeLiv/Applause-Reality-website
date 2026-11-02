@@ -11,6 +11,8 @@ export type Project = {
   name: string;
   location: string;
   featured?: boolean;
+  /** Not yet registered or bank-approved: swaps those claims for pre-launch wording. */
+  preLaunch?: boolean;
   logo: { src: string; alt: string; w: number; h: number };
   photo: string;
   photoAlt: string;
@@ -27,7 +29,7 @@ export type Project = {
   /** Developer credit shown beside the location, e.g. "Hero Realty". */
   developer?: string;
   /** Floor plans on offer, shown as a table on the project page. */
-  unitPlans?: { plan: string; area: string; towers: string }[];
+  unitPlans?: { plan: string; area: string; towers?: string }[];
   /** One line under the unit plans about what every home includes. */
   planNote?: string;
   /** Specifications included in the price. */
@@ -38,15 +40,16 @@ export type Project = {
   gallery?: GalleryImage[];
   /** Optional walkthrough film shown on the project page. */
   film?: { src: string; poster: string; title: string; portrait?: boolean };
-  brochure: string;
+  /** Leave out until the developer's PDF is in hand; the brochure buttons hide. */
+  brochure?: string;
   /** Brochure size in bytes for the download button; update it when replacing a PDF in public/brochures. */
   brochureBytes?: number;
 };
 
-/** Hero Homes gallery rows: [group, file name in /images/hero-homes, width, height, caption, alt]. */
-function heroGallery(rows: [GalleryGroup, string, number, number, string, string][]): GalleryImage[] {
+/** Gallery rows: [group, file name in /images/<dir>, width, height, caption, alt]. */
+function galleryFrom(dir: string, rows: [GalleryGroup, string, number, number, string, string][]): GalleryImage[] {
   return rows.map(([group, file, width, height, caption, alt]) => ({
-    src: `/images/hero-homes/${file}.jpg`,
+    src: `/images/${dir}/${file}.jpg`,
     alt,
     caption,
     group,
@@ -57,12 +60,63 @@ function heroGallery(rows: [GalleryGroup, string, number, number, string, string
 
 export const projects: Project[] = [
   {
+    key: "godrej-global-business-city",
+    name: "Godrej Global Business City",
+    location: "DMIC Corridor, Greater Noida",
+    developer: "Godrej Properties",
+    seoTitle: "Godrej Global Business City, Greater Noida",
+    featured: true,
+    preLaunch: true,
+    logo: { src: "/images/godrej.png", alt: "Godrej Properties logo", w: 1881, h: 836 },
+    photo: "/images/godrej-global-business-city/towers-dusk.jpg",
+    photoAlt: "Artistic impression of Godrej Global Business City's towers and clubhouse at dusk, Greater Noida",
+    facts: [
+      { value: "1, 2 & 3 BHK", label: "Premium residences" },
+      { value: "~985–2,500", label: "Sq. ft. homes" },
+      { value: "~23 acres", label: "In a ~750-acre township" },
+      { value: "~1 km", label: "To Eastern Peripheral Expy" },
+    ],
+    metaDescription:
+      "Godrej Global Business City, Greater Noida: pre-launch 1, 2 and 3 BHK homes of ~985–2,500 sq ft in a 23-acre enclave on the DMIC corridor. EOI open.",
+    summary:
+      "A pre-launch enclave of 1, 2 and 3 BHK homes by Godrej Properties, on about 23 acres inside a roughly 750-acre, government-backed township on the DMIC corridor. Expressions of interest are open.",
+    overview: [
+      "Godrej Global Business City is a pre-launch project by Godrej Properties in Greater Noida: a residential enclave of about 23 acres inside a roughly 750-acre, government-backed integrated township on the Delhi–Mumbai Industrial Corridor (DMIC). Homes come in 1, 2 and 3 BHK layouts from about 985 to 2,500 sq ft.",
+      "The township is being planned with cycle tracks, wide roads, underground utilities, optical fibre and command-and-control systems built in from the start.",
+      "It sits about 1 km from the Eastern Peripheral Expressway and about 4 km from the Boraki multi-modal hub for rail, metro and bus. Yamuna Expressway and Pari Chowk are each about 10 km away, and Noida International Airport at Jewar about 40 km.",
+      "UP-RERA registration is awaited and expressions of interest are open. Areas, specifications and availability are indicative and may change at the developer's discretion, so ask an advisor for the latest details before you decide.",
+    ],
+    unitPlans: [
+      { plan: "1 BHK", area: "~985 sq ft" },
+      { plan: "2 BHK", area: "~1,400–1,700 sq ft" },
+      { plan: "3 BHK", area: "~2,100–2,500 sq ft" },
+    ],
+    planNote:
+      "All areas are approximate and all images are artistic impressions. UP-RERA registration is awaited, and details may change at the developer's discretion.",
+    amenities: [
+      "Dedicated cycle tracks",
+      "Wide internal roads",
+      "Underground utilities",
+      "Optical fibre network",
+      "Command and control systems",
+    ],
+    gallery: galleryFrom("godrej-global-business-city", [
+      ["Exteriors", "towers-dusk", 1400, 700, "The towers at dusk", "Artistic impression of the towers and lit clubhouse at sunset"],
+      ["Exteriors", "entrance", 1400, 781, "The entrance", "Artistic impression of the Godrej Global Business City entrance plaza at dusk"],
+      ["Exteriors", "towers-pool", 1100, 823, "Towers and pool", "Artistic impression of the towers rising behind a landscaped pool deck"],
+      ["Exteriors", "podium-pool", 1200, 630, "Poolside podium", "Artistic impression of palms and a planted podium beside the pool at dusk"],
+      ["Clubhouse", "atrium", 1100, 788, "Arrival atrium", "Artistic impression of a tall glass atrium with a reception desk and indoor trees"],
+      ["Clubhouse", "gym", 1200, 900, "Gym", "Artistic impression of a gym with treadmills facing a city skyline"],
+      ["Residences", "living-room", 1080, 571, "Living room", "Artistic impression of a bright living room with a study counter"],
+      ["Residences", "bedroom", 1200, 675, "Bedroom", "Artistic impression of a warm, wood-panelled bedroom with a balcony door"],
+    ]),
+  },
+  {
     key: "hero-homes",
     name: "Hero Homes Leafsong Retreat",
     location: "Sector MU, Greater Noida",
     developer: "Hero Realty",
     seoTitle: "Hero Homes Leafsong Retreat, Greater Noida",
-    featured: true,
     logo: { src: "/images/hero-homes-logo.png", alt: "Hero Homes logo", w: 490, h: 193 },
     photo: "/images/hero-homes/towers-dusk.jpg",
     photoAlt: "Leafsong Retreat by Hero Realty: three G+31 towers at dusk, Sector MU, Greater Noida",
@@ -111,7 +165,7 @@ export const projects: Project[] = [
       "Vastu compliant",
     ],
     // Renders from the developer's Leafsong Retreat presentation (16 Oct 2026).
-    gallery: heroGallery([
+    gallery: galleryFrom("hero-homes", [
       ["Exteriors", "towers-dusk", 2000, 1126, "The three towers", "Leafsong Retreat's three G+31 towers at dusk, seen from the approach road"],
       ["Exteriors", "towers-sky", 2000, 1126, "G+31 towers", "Looking up at the three Leafsong Retreat towers against a clear sky"],
       ["Exteriors", "arrival", 1686, 933, "The arrival", "Leafsong Retreat entrance gate with Hero Homes signage and a car arriving"],

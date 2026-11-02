@@ -134,7 +134,7 @@ async function main() {
       photo: await image(p.photo, p.photoAlt),
       logo: await image(p.logo.src, p.logo.alt),
       ...(p.highlights ? { highlights: await image(p.highlights, `${p.name} project highlights`) } : {}),
-      brochure: await file(p.brochure),
+      ...(p.brochure ? { brochure: await file(p.brochure) } : {}),
       ...(p.film
         ? {
             film: {
