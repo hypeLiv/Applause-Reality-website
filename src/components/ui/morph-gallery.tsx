@@ -52,6 +52,8 @@ export type MorphGalleryProps = {
   index?: number
   defaultIndex?: number
   onIndexChange?: (index: number) => void
+  /** Fires once images are showing: the textures landed, or the cross-fade fallback took over. */
+  onReady?: () => void
   className?: string
 }
 
@@ -259,6 +261,7 @@ export default function MorphGallery({
   index,
   defaultIndex = 0,
   onIndexChange,
+  onReady,
   className = "",
 }: MorphGalleryProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null)
@@ -272,6 +275,10 @@ export default function MorphGallery({
   const [generation, setGeneration] = React.useState(0)
   const [reduced, setReduced] = React.useState(false)
   const [paused, setPaused] = React.useState(false)
+
+  React.useEffect(() => {
+    if (ready || failed) onReady?.()
+  }, [ready, failed, onReady])
 
   React.useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)")

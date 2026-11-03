@@ -231,12 +231,22 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
             >
               Free Consultation
             </ConsultLink>
-            <button
-              type="button"
+            {/* A link so it still works before hydration, jumping to the footer's navigation. */}
+            <a
+              href="#site-footer"
+              role="button"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="site-menu"
-              onClick={() => setOpen((v) => !v)}
+              onClick={(e) => {
+                e.preventDefault();
+                setOpen((v) => !v);
+              }}
+              onKeyDown={(e) => {
+                if (e.key !== " ") return;
+                e.preventDefault();
+                setOpen((v) => !v);
+              }}
               className={`grid h-10 w-10 place-items-center rounded-full transition-[background-color,translate,scale,rotate] duration-500 ease-[var(--ease-spring)] active:scale-[0.94] lg:hidden ${
                 onHero ? "text-white hover:bg-white/10" : "text-ink-900 hover:bg-ink-900/[0.05]"
               }`}
@@ -254,7 +264,7 @@ export default function Header({ logo, logoOnDark }: { logo: Img; logoOnDark: Im
                   }`}
                 />
               </span>
-            </button>
+            </a>
           </div>
         </div>
 

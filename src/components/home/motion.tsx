@@ -13,37 +13,62 @@ import { useEffect, useRef } from "react";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
 
+/**
+ * The entrances below are CSS (.lux-rise, .lux-word), so content shows from first
+ * paint without waiting for hydration. Whatever is still below the fold at hydration
+ * is held back with .lux-wait, then plays when `amount` of it scrolls into view.
+ */
+function useScrollEntrance(amount: number, enabled = true) {
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!enabled || !el || el.getBoundingClientRect().top < window.innerHeight) return;
+    el.classList.add("lux-wait");
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        el.classList.remove("lux-wait");
+        io.disconnect();
+      },
+      { threshold: amount },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount, enabled]);
+  return ref;
+}
+
+/** Start delay (seconds) for an element with the .lux-rise entrance. */
+export const riseDelay = (delay: number) => ({ "--rise-delay": `${delay}s` }) as React.CSSProperties;
+
 /** Fade-and-rise once when scrolled into view. */
 export function Reveal({
   children,
   delay = 0,
   y = 44,
-  className,
+  className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
   y?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const ref = useScrollEntrance(0.25);
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: reduce ? 0 : y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 1, ease: EASE, delay }}
+    <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`lux-rise ${className}`}
+      style={{ ...riseDelay(delay), "--rise-y": `${y}px`, animationDuration: "1s" } as React.CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
-
-const tags = { h1: motion.h1, h2: motion.h2, h3: motion.h3, p: motion.p } as const;
 
 /**
  * Headline that rises word by word. Wrap words in *asterisks* to set them in
  * the muted two-tone accent, e.g. "One partner, *every* milestone."
+ * `immediate` plays on load wherever the headline is; otherwise it waits to be scrolled to.
  */
 export function Words({
   text,
@@ -54,15 +79,15 @@ export function Words({
   ariaLevel,
 }: {
   text: string;
-  as?: keyof typeof tags;
+  as?: "h1" | "h2" | "h3" | "p";
   /** Heading level for a non-heading tag, so a duplicate layout stays out of the h1–h6 outline. */
   ariaLevel?: number;
   className?: string;
   immediate?: boolean;
   delay?: number;
 }) {
-  const reduce = useReducedMotion();
-  const Tag = tags[as];
+  const ref = useScrollEntrance(0.5, !immediate);
+  const Tag = as;
 
   let inEm = false;
   const words = text.split(" ").map((raw) => {
@@ -74,31 +99,19 @@ export function Words({
     return { word: raw.replace(/\*/g, ""), em };
   });
 
-  const trigger = immediate
-    ? { animate: "show" as const }
-    : { whileInView: "show" as const, viewport: { once: true, amount: 0.5 } };
-
   return (
     <Tag
+      ref={ref as never}
       className={className}
       {...(ariaLevel ? { role: "heading", "aria-level": ariaLevel } : {})}
-      initial="hidden"
-      {...trigger}
-      transition={{ staggerChildren: 0.06, delayChildren: delay }}
       aria-label={text.replace(/\*/g, "")}
     >
       {words.map(({ word, em }, i) => (
         <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.12em] align-bottom">
-          <motion.span
-            className="inline-block"
-            variants={{
-              hidden: { y: reduce ? 0 : "105%", opacity: reduce ? 0 : 1 },
-              show: { y: 0, opacity: 1, transition: { duration: 0.9, ease: EASE } },
-            }}
-          >
+          <span className="lux-word inline-block" style={{ animationDelay: `${delay + i * 0.06}s` }}>
             {em ? <em>{word}</em> : word}
-            {i < words.length - 1 ? " " : ""}
-          </motion.span>
+            {i < words.length - 1 ? "\u00A0" : ""}
+          </span>
         </span>
       ))}
     </Tag>
