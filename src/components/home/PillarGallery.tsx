@@ -1,15 +1,33 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "@/components/Image";
-import { useEffect, useRef, useState } from "react";
-import MorphGallery from "@/components/ui/morph-gallery";
-import { textureSrc } from "@/lib/texture";
+import { Component, useEffect, useRef, useState } from "react";
+import { textureSrc, textureWidth } from "@/lib/texture";
 import { Bezel } from "./ui";
 
 type Pillar = { label: string; src: string; alt: string };
 
 /** How long each pillar holds before the next one burns through. */
 const DWELL = 5500;
+const HEIGHT = "clamp(22rem, 62svh, 38rem)";
+
+// WebGL plus four large textures: loaded only as the section nears the viewport, so they don't weigh on page load.
+const MorphGallery = dynamic(() => import("@/components/ui/morph-gallery"), { ssr: false });
+
+/** If the gallery's code can't load (a deploy since the page opened, a lost connection), the poster photos stay. */
+class GalleryBoundary extends Component<{ onError: () => void; children: React.ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch() {
+    this.props.onError();
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
 
 /**
  * The four service pillars as one morphing frame, with photo previews below.
@@ -22,6 +40,10 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
   const [index, setIndex] = useState(0);
   const [held, setHeld] = useState(false);
   const [inView, setInView] = useState(false);
+  /** Set as the section nears the viewport; until then the gallery isn't mounted. */
+  const [texture, setTexture] = useState<number | null>(null);
+  const [ready, setReady] = useState(false);
+  const [broken, setBroken] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -37,11 +59,24 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
     if (!el) return;
     const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
     io.observe(el);
-    return () => io.disconnect();
+    const nearing = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        setTexture(textureWidth());
+        nearing.disconnect();
+      },
+      { rootMargin: "1000px 0px" },
+    );
+    nearing.observe(el);
+    return () => {
+      io.disconnect();
+      nearing.disconnect();
+    };
   }, []);
 
   const next = () => setIndex((i) => (i + 1) % pillars.length);
-  const running = inView && !held;
+  // The cycle waits for the textures, so it can't advance past pillars nobody has seen.
+  const running = inView && !held && (ready || broken);
   const current = pillars[index];
 
   return (
@@ -55,15 +90,26 @@ export default function PillarGallery({ pillars }: { pillars: Pillar[] }) {
       onBlur={() => setHeld(false)}
     >
       <Bezel tone="light" coreClassName="relative">
-        <MorphGallery
-          items={pillars.map((p) => ({ src: textureSrc(p.src), alt: p.alt }))}
-          index={index}
-          onIndexChange={setIndex}
-          height="clamp(22rem, 62svh, 38rem)"
-          duration={1600}
-          thumbnails={false}
-          className="bg-ink-950"
-        />
+        <div className="relative bg-ink-950" style={{ height: HEIGHT }}>
+          {texture !== null && (
+            <GalleryBoundary onError={() => setBroken(true)}>
+              <MorphGallery
+                items={pillars.map((p) => ({ src: textureSrc(p.src, texture), alt: p.alt }))}
+                index={index}
+                onIndexChange={setIndex}
+                onReady={() => setReady(true)}
+                height={HEIGHT}
+                duration={1600}
+                thumbnails={false}
+                className="bg-ink-950"
+              />
+            </GalleryBoundary>
+          )}
+          {/* Holds the frame until the textures land. The previews below carry the alt text. */}
+          <div className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}>
+            <Image src={current.src} alt="" fill sizes="100vw" className="object-cover" />
+          </div>
+        </div>
         <div className="pointer-events-none absolute inset-x-6 bottom-6 z-10 md:inset-x-10 md:bottom-9">
           <div key={index} className="motion-safe:animate-[pillar-rise_800ms_var(--ease-lux)_both]">
             <p className="font-text text-xs font-semibold tracking-[0.22em] text-accent tabular-nums">

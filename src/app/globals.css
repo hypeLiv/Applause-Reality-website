@@ -369,17 +369,101 @@ body {
   line-height: 1.65;
 }
 
+/* ---------- Above-the-fold entrances ---------- */
+/* CSS, not motion: they play from first paint, so hero text never waits on hydration
+   (seconds on a slow phone). See riseDelay() and Words in components/home/motion.tsx. */
+@keyframes lux-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--rise-x, 0), var(--rise-y, 16px), 0);
+  }
+}
+@keyframes lux-word {
+  from {
+    transform: translateY(105%);
+  }
+}
+@keyframes lux-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes lux-zoom {
+  from {
+    transform: scale(var(--zoom-from, 1.12));
+  }
+}
+.lux-rise {
+  animation: lux-rise 0.9s var(--ease-lux) var(--rise-delay, 0s) backwards;
+}
+.lux-word {
+  animation: lux-word 0.9s var(--ease-lux) backwards;
+}
+/* The hero photo's settle-in. */
+.lux-zoom {
+  transform: scale(var(--zoom-to, 1.04));
+  animation: lux-zoom 2.6s var(--ease-lux);
+}
+/* Below the fold at hydration: held until scrolled to (useScrollEntrance). */
+.lux-rise.lux-wait,
+.lux-wait .lux-word {
+  animation-name: none;
+}
+.lux-rise.lux-wait {
+  opacity: 0;
+}
+.lux-wait .lux-word {
+  transform: translateY(105%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lux-rise,
+  .lux-word {
+    animation-name: lux-fade;
+  }
+  .lux-zoom {
+    animation: none;
+  }
+  .lux-wait .lux-word {
+    opacity: 0;
+    transform: none;
+  }
+}
+
 /* ---------- First-visit intro ---------- */
 /* A royal-blue wall slides off an ivory stage, uncovering the wordmark; the
-   stage then lifts away. Hidden outright once html.intro-done is set. */
+   stage then lifts away. CSS only, 1.2s from first paint, and it lets clicks through.
+   Hidden outright once html.intro-done is set. */
+@keyframes intro-wall {
+  to {
+    /* Past the edge by more than its shadow, which would otherwise linger over the page. */
+    transform: translate3d(calc(100% + 120px), 0, 0);
+  }
+}
+@keyframes intro-lift {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+@keyframes intro-end {
+  to {
+    visibility: hidden;
+  }
+}
 .intro {
   position: fixed;
   inset: 0;
   z-index: 100;
   overflow: hidden;
+  pointer-events: none;
+  animation: intro-end 0s linear 1.2s forwards;
 }
 .intro-done .intro {
   display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
 }
 .intro-stage {
   position: absolute;
@@ -394,10 +478,7 @@ body {
   background: var(--color-ivory);
   color: var(--color-ink-950);
   clip-path: inset(0 0 0 0);
-  transition: clip-path 0.9s var(--ease-lux);
-}
-.intro[data-state="lift"] .intro-stage {
-  clip-path: inset(0 0 100% 0);
+  animation: intro-lift 0.4s var(--ease-lux) 0.8s forwards;
 }
 .intro-word {
   font-family: var(--font-heading);
@@ -423,27 +504,15 @@ body {
   inset: 0;
   background: var(--color-royal);
   box-shadow: -40px 0 80px -20px rgb(36 69 160 / 0.35);
-  will-change: transform;
+  animation: intro-wall 0.8s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
-/* Leading edge: an accent hairline carrying the load counter. */
+/* Leading edge: an accent hairline. */
 .intro-edge {
   position: absolute;
   inset-block: 0;
   left: 0;
   width: 1px;
   background: var(--color-accent-soft);
-}
-.intro-count {
-  position: absolute;
-  top: 50%;
-  left: 1.25rem;
-  transform: translateY(-50%);
-  font-family: var(--font-text);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  font-variant-numeric: tabular-nums;
-  color: rgb(247 244 238 / 0.75);
 }
 
 /* Footer height. The giant word is fitted to the width, so its height scales with vw, and the floor leaves

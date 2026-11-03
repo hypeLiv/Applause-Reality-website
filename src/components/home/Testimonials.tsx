@@ -49,7 +49,8 @@ export default function Testimonials({ quotes }: { quotes: Testimonial[] }) {
             <svg aria-hidden viewBox="0 0 32 24" className="mb-6 h-8 w-auto text-royal/30" fill="currentColor">
               <path d="M0 24V13.6C0 5.9 4.2 1.4 12.6 0l1.3 3.1C9.3 4.3 7 6.7 6.6 10.3H12V24H0zm18 0V13.6C18 5.9 22.2 1.4 30.6 0l1.4 3.1c-4.7 1.2-7 3.6-7.4 7.2H30V24H18z" />
             </svg>
-            <AnimatePresence mode="wait">
+            {/* initial={false}: the first quote is there from first paint, without waiting for hydration. */}
+            <AnimatePresence mode="wait" initial={false}>
               <motion.figure
                 key={active}
                 initial={{ opacity: 0, y: reduce ? 0 : 18 }}

@@ -473,6 +473,7 @@ export default function HalftoneWordmarkFooter({
 
   return (
     <footer
+      id="site-footer"
       ref={rootRef}
       className={"hwf-root " + className}
       style={

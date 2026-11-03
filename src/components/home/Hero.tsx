@@ -9,7 +9,7 @@ import { Cta } from "@/components/sections";
 import type { Project } from "@/content/projects";
 import { site } from "@/lib/site";
 import type { Img } from "@/sanity/media";
-import { EASE, Words } from "./motion";
+import { riseDelay, Words } from "./motion";
 import { Arrow, Bezel, Icon, lux } from "./ui";
 
 
@@ -38,12 +38,6 @@ export default function Hero({
   const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -50]);
   const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  const rise = (delay: number) => ({
-    initial: { opacity: 0, y: reduce ? 0 : 16 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.9, ease: EASE, delay },
-  });
-
   return (
     <section ref={ref} className="lux-scope bg-ivory">
       <motion.div
@@ -52,12 +46,7 @@ export default function Hero({
       >
         {/* Photo with a slow settle-in zoom and scroll parallax */}
         <motion.div style={{ y: bgY }} className="absolute inset-0 -z-20">
-          <motion.div
-            className="absolute inset-0"
-            initial={{ scale: reduce ? 1 : 1.12 }}
-            animate={{ scale: 1.04 }}
-            transition={{ duration: 2.6, ease: EASE }}
-          >
+          <div className="lux-zoom absolute inset-0">
             <Image
               src={background.src}
               alt={background.alt}
@@ -66,7 +55,7 @@ export default function Hero({
               sizes="100vw"
               className="object-cover"
             />
-          </motion.div>
+          </div>
         </motion.div>
         {/* Legibility: a daylight veil lifts the copy side to near-white for ink text and
             fades out toward the skyline; phones, where copy spans the width, get an even wash */}
@@ -80,9 +69,9 @@ export default function Hero({
         >
           {/* Brand promise */}
           <div>
-            <motion.p {...rise(0.1)} className="lux-label text-royal">
+            <p style={riseDelay(0.1)} className="lux-rise lux-label text-royal">
               Delhi NCR&apos;s most trusted assets
-            </motion.p>
+            </p>
             <Words
               as="h1"
               immediate
@@ -91,41 +80,39 @@ export default function Hero({
               // "lifetime" is the one bold word here, set in the royal accent.
               className="lux-display mt-6 max-w-[15ch] text-[clamp(2.4rem,4.2vw,4.25rem)] leading-[1.02] [&_em]:font-bold"
             />
-            <motion.div {...rise(0.6)} className="mt-7">
+            <div style={riseDelay(0.6)} className="lux-rise mt-7">
               <BrandTagline size="lg" />
-            </motion.div>
-            <motion.p
-              {...rise(0.72)}
+            </div>
+            {/* The page's main text, so it's there from first paint rather than fading in late. */}
+            <p
               className="mt-6 max-w-[34rem] font-text text-base leading-relaxed text-ink-900/75 md:text-lg"
             >
               Only 100% bank-approved residential and corporate real estate across Delhi NCR — with a
               consultant who stays beside you for a lifetime, from the first site visit to long after possession.
-            </motion.p>
-            <motion.div {...rise(0.85)} className="mt-9 flex flex-wrap gap-3">
+            </p>
+            <div style={riseDelay(0.85)} className="lux-rise mt-9 flex flex-wrap gap-3">
               <Cta href={site.whatsapp} className={lux.dayPrimary}>
                 Book a free consultation <Arrow />
               </Cta>
               <Cta href="/projects" className={lux.dayGlass}>
                 See running deals
               </Cta>
-            </motion.div>
+            </div>
           </div>
 
           {/* Featured launch */}
-          <motion.div
-            initial={{ opacity: 0, x: reduce ? 0 : 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.1, ease: EASE, delay: 0.55 }}
-            className="w-full max-w-[460px] justify-self-center lg:justify-self-end"
+          <div
+            style={{ ...riseDelay(0.55), "--rise-x": "40px", "--rise-y": "0px", animationDuration: "1.1s" } as React.CSSProperties}
+            className="lux-rise w-full max-w-[460px] justify-self-center lg:justify-self-end"
           >
             <FeaturedCard featured={featured} />
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Bottom bar: direct line + trust signals */}
-        <motion.div
-          {...rise(1.1)}
-          className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center gap-x-8 gap-y-4 px-4 sm:px-6 pb-6 md:px-12 md:pb-8"
+        <div
+          style={riseDelay(1.1)}
+          className="lux-rise mx-auto flex w-full max-w-[1320px] flex-wrap items-center gap-x-8 gap-y-4 px-4 sm:px-6 pb-6 md:px-12 md:pb-8"
         >
           <a
             href={site.phone.href}
@@ -156,7 +143,7 @@ export default function Hero({
               <span className="font-semibold text-ink-900 tabular-nums">1000+</span> families
             </li>
           </ul>
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
@@ -172,6 +159,7 @@ function FeaturedCard({ featured }: { featured: Project }) {
             src={featured.photo}
             alt={featured.photoAlt}
             fill
+            priority
             sizes="(min-width: 1024px) 460px, 100vw"
             className="object-cover transition-transform duration-1000 ease-[var(--ease-spring)] group-hover:scale-[1.04]"
           />
