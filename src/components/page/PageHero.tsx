@@ -62,7 +62,7 @@ export default function PageHero({
           style={{ opacity: fade }}
           className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-center px-4 sm:px-6 pb-10 pt-32 md:px-12"
         >
-          <motion.p {...rise(0.1)} className="lux-label text-royal">
+          <motion.p {...rise(0.1)} className="lux-label self-start text-royal">
             {eyebrow}
           </motion.p>
           <Words

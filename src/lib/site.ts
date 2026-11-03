@@ -32,16 +32,20 @@ export const site = {
   // Links use the listing's feature ID: #lrd=…,1 opens its reviews, …,3 the write-a-review box.
   google: {
     rating: 4.9,
-    reviews: 35,
+    reviews: 37,
     reviewsUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,1",
     writeReviewUrl: "https://www.google.com/search?q=Applause+Reality+Noida#lrd=0x390cfbfe5bc1efc5:0x70e4a30bc7250fda,3",
   },
 };
 
-/** Google Maps search for the office, by business name and address (no API key needed). */
+/**
+ * The office on Google Maps. `url` opens the Business Profile directly (the cid is the
+ * listing's feature ID, 0x70e4a30bc7250fda, in decimal); `embed` finds it by business
+ * name and address (no API key needed).
+ */
 const mapsQuery = encodeURIComponent(`${site.name} ${site.address.oneLine}`);
 export const maps = {
-  url: `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`,
+  url: "https://maps.google.com/?cid=8134806097919021018",
   embed: `https://www.google.com/maps?q=${mapsQuery}&output=embed`,
 };
 
