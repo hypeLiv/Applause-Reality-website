@@ -5,7 +5,7 @@ export const site = {
   emailHref:
     "mailto:concierge@applausereality.com?subject=Property%20Consultation%20Inquiry",
   phone: { display: "+91 99114 10109", href: "tel:+919911410109" },
-  phones: ["+91 9911410109", "+91 9971314877"],
+  phones: ["+91 9911410109", "+91 9205763615"],
   // The founder's personal profile (schema only). The company's own profiles are in `social`.
   founderLinkedin: "http://www.linkedin.com/in/rajiv-kumar-pandey-7b89aa417",
   // Company profiles: shown in the footer and declared as the business's `sameAs` in the schema.
@@ -27,7 +27,7 @@ export const site = {
   // Consultation / site-visit enquiries go to this number on the live site.
   whatsapp: "https://api.whatsapp.com/send?phone=918796857733",
   // "Click to Know More" on project cards uses the second line.
-  whatsappProjects: "https://api.whatsapp.com/send?phone=919971314877",
+  whatsappProjects: "https://api.whatsapp.com/send?phone=919205763615",
   // The Google Business Profile: rating copied by hand (update as reviews come in).
   // Links use the listing's feature ID: #lrd=…,1 opens its reviews, …,3 the write-a-review box.
   google: {

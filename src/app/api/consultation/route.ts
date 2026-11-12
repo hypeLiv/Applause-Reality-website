@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { leadEmailHtml } from "@/lib/leadEmail";
 
 /**
  * Consultation requests from the desktop form, delivered by email via Resend
@@ -76,6 +77,15 @@ export async function POST(req: Request) {
       reply_to: v.email,
       subject: `Consultation request — ${name} (${v.company})`,
       text,
+      html: leadEmailHtml({
+        firstName: v.firstName,
+        lastName: v.lastName,
+        email: v.email,
+        phone: v.phone,
+        company: v.company,
+        message: v.message,
+        page: v.page,
+      }),
     }),
   });
 
