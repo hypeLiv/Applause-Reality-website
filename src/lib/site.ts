@@ -16,12 +16,12 @@ export const site = {
   ],
   // The office, written as on the Google Business Profile. Keep every use (footer, /contact, schema) identical to it.
   address: {
-    street: "B, A-61, Sector 63 Rd, Hazratpur Wajidpur, D Block, Sector 63",
+    street: "A-61, Sector 63 Rd, Hazratpur Wajidpur, Sector 63",
     locality: "Noida",
     region: "Uttar Pradesh",
     postalCode: "201309",
     country: "IN",
-    oneLine: "B, A-61, Sector 63 Rd, Hazratpur Wajidpur, D Block, Sector 63, Noida, Uttar Pradesh 201309",
+    oneLine: "A-61, Sector 63 Rd, Hazratpur Wajidpur, Sector 63, Noida, Uttar Pradesh 201309",
   },
   tagline: "रिश्ता बुकिंग के साथ भी, Possession के बाद भी",
   // Consultation / site-visit enquiries go to this number on the live site.
