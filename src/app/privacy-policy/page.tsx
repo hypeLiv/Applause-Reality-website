@@ -20,6 +20,27 @@ export default function PrivacyPolicyPage() {
         </a>
         .
       </p>
+
+      <h2 className="mt-12 font-sans text-2xl font-semibold tracking-[-0.02em]">Analytics</h2>
+      <p className="mt-4 text-lg leading-relaxed text-slate-ink">
+        We use Google Analytics to understand how visitors find and use this website, such as which pages are
+        viewed, how visitors arrive here and whether they contact us. Google Analytics sets cookies and collects
+        information like your approximate location, device and browser; it does not give us your name or contact
+        details. You can learn how Google uses this data at{" "}
+        <a
+          href="https://policies.google.com/technologies/partner-sites"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-royal underline"
+        >
+          policies.google.com
+        </a>{" "}
+        and opt out with the{" "}
+        <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-royal underline">
+          Google Analytics opt-out browser add-on
+        </a>
+        .
+      </p>
     </section>
   );
 }
