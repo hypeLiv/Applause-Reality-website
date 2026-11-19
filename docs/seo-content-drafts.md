@@ -201,7 +201,7 @@ CTA: Read the FAQ → `/projects#faq`
 **Details block**
 - **Office:** **[CLIENT TO PROVIDE — full street address, exactly as on the Google Business Profile]**
 - **Phone:** +91 99114 10109 · +91 92057 63615
-- **WhatsApp:** +91 87968 57733 (consultations) **[CONFIRM: is this the public number?]**
+- **WhatsApp:** +91 92057 63615 (consultations and projects, confirmed by client)
 - **Email:** concierge@applausereality.com
 - **Hours:** **[CONFIRM: e.g. Mon–Sat, 10:00–19:00]**
 - **Map:** Google Maps embed of the office (needs the address)

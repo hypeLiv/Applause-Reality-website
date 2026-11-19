@@ -9,6 +9,7 @@ const columns = [
       { label: site.address.oneLine, href: maps.url },
       { label: site.email, href: site.emailHref },
       ...site.phones.map((p) => ({ label: p, href: `tel:${p.replace(/\s/g, "")}` })),
+      { label: `WhatsApp ${site.whatsappDisplay}`, href: site.whatsapp },
     ],
   },
   {

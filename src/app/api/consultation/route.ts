@@ -10,7 +10,8 @@ import { leadEmailHtml } from "@/lib/leadEmail";
  * Until configured, the route answers 503 and the form offers email/phone instead.
  */
 
-const REQUIRED = ["firstName", "lastName", "email", "phone", "company"] as const;
+// Only a name and a phone number are needed; the rest is optional.
+const REQUIRED = ["firstName", "phone"] as const;
 const LIMITS: Record<string, number> = {
   firstName: 80,
   lastName: 80,
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
   }
   const missing = REQUIRED.filter((k) => !v[k]);
   if (missing.length) return NextResponse.json({ error: "missing", fields: missing }, { status: 400 });
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) {
+  if (v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
   }
   if (v.phone.replace(/\D/g, "").length < 7) {
@@ -55,18 +56,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "not_configured" }, { status: 503 });
   }
 
-  const name = `${v.firstName} ${v.lastName}`;
+  const name = [v.firstName, v.lastName].filter(Boolean).join(" ");
   const text = [
     "New consultation request from applausereality.com",
     "",
     `Name:    ${name}`,
-    `Email:   ${v.email}`,
     `Phone:   ${v.phone}`,
-    `Company: ${v.company}`,
+    v.email ? `Email:   ${v.email}` : "",
+    v.company ? `Company: ${v.company}` : "",
     v.message ? `\nLooking for:\n${v.message}` : "",
     "",
     `Sent from: ${v.page || "unknown page"}`,
-  ].join("\n");
+  ]
+    .filter((line, i, all) => line !== "" || all[i - 1] !== "")
+    .join("\n");
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -74,8 +77,8 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       from: process.env.LEADS_EMAIL_FROM || "Applause Reality Website <onboarding@resend.dev>",
       to: to.split(",").map((s) => s.trim()).filter(Boolean),
-      reply_to: v.email,
-      subject: `Consultation request — ${name} (${v.company})`,
+      ...(v.email ? { reply_to: v.email } : {}),
+      subject: `Consultation request — ${name}${v.company ? ` (${v.company})` : ""}`,
       text,
       html: leadEmailHtml({
         firstName: v.firstName,

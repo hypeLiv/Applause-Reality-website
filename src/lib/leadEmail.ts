@@ -53,7 +53,7 @@ function row(label: string, value: string) {
 }
 
 export function leadEmailHtml(v: Lead) {
-  const name = esc(`${v.firstName} ${v.lastName}`);
+  const name = esc([v.firstName, v.lastName].filter(Boolean).join(" "));
   const digits = phoneDigits(v.phone);
   const pageUrl = v.page.startsWith("/") ? `${site.url}${v.page}` : "";
   const received = new Date().toLocaleString("en-IN", {
@@ -68,7 +68,7 @@ export function leadEmailHtml(v: Lead) {
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New consultation request</title></head>
 <body style="margin:0;padding:0;background:${C.ivory};">
-  <div style="display:none;max-height:0;overflow:hidden;">${name} · ${esc(v.phone)} · ${esc(v.company)}</div>
+  <div style="display:none;max-height:0;overflow:hidden;">${[name, esc(v.phone), esc(v.company)].filter(Boolean).join(" · ")}</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.ivory};">
     <tr><td align="center" style="padding:32px 16px;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid ${C.line};">
@@ -81,18 +81,18 @@ export function leadEmailHtml(v: Lead) {
         <tr><td style="padding:32px 32px 8px;">
           <p style="margin:0 0 8px;font-family:${SANS};font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${C.gold};font-weight:700;">New consultation request</p>
           <h1 style="margin:0 0 6px;font-family:${SERIF};font-size:28px;line-height:1.2;font-weight:600;color:${C.ink};">${name}</h1>
-          <p style="margin:0;font-family:${SANS};font-size:14px;color:${C.slate};">${esc(v.company)} · ${esc(received)} IST</p>
+          <p style="margin:0;font-family:${SANS};font-size:14px;color:${C.slate};">${v.company ? `${esc(v.company)} · ` : ""}${esc(received)} IST</p>
         </td></tr>
 
         <tr><td style="padding:20px 32px 4px;">
-          ${button(`tel:+${digits}`, "Call now", true)}${button(`https://wa.me/${digits}`, "WhatsApp")}${button(`mailto:${v.email}`, "Reply by email")}
+          ${button(`tel:+${digits}`, "Call now", true)}${button(`https://wa.me/${digits}`, "WhatsApp")}${v.email ? button(`mailto:${v.email}`, "Reply by email") : ""}
         </td></tr>
 
         <tr><td style="padding:12px 32px 8px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
             ${row("Phone", link(`tel:+${digits}`, v.phone))}
-            ${row("Email", link(`mailto:${v.email}`, v.email))}
-            ${row("Company", esc(v.company))}
+            ${v.email ? row("Email", link(`mailto:${v.email}`, v.email)) : ""}
+            ${v.company ? row("Company", esc(v.company)) : ""}
           </table>
         </td></tr>
 
@@ -108,7 +108,7 @@ export function leadEmailHtml(v: Lead) {
         <tr><td style="padding:24px 32px 28px;">
           <p style="margin:0;font-family:${SANS};font-size:12px;line-height:1.6;color:${C.slate};">
             Sent from ${pageUrl ? link(pageUrl, v.page) : esc(v.page || "the website")} on ${link(site.url, "applausereality.com")}.<br>
-            Hit reply to answer ${esc(v.firstName)} directly.
+            ${v.email ? `Hit reply to answer ${esc(v.firstName)} directly.` : `No email given: call or WhatsApp ${esc(v.firstName)} on the number above.`}
           </p>
         </td></tr>
 
