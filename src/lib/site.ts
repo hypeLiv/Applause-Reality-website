@@ -13,6 +13,7 @@ export const site = {
     { label: "Instagram", href: "https://www.instagram.com/applause.reality/" },
     { label: "LinkedIn", href: "https://www.linkedin.com/company/applausereality" },
     { label: "Facebook", href: "https://www.facebook.com/people/Applause-reality/61590716309621/" },
+    { label: "YouTube", href: "https://www.youtube.com/@applausereality" },
   ],
   // The office, written as on the Google Business Profile. Keep every use (footer, /contact, schema) identical to it.
   address: {
@@ -24,8 +25,10 @@ export const site = {
     oneLine: "A-61, Sector 63 Rd, Hazratpur Wajidpur, Sector 63, Noida, Uttar Pradesh 201309",
   },
   tagline: "रिश्ता बुकिंग के साथ भी, Possession के बाद भी",
-  // Consultation / site-visit enquiries go to this number on the live site.
-  whatsapp: "https://api.whatsapp.com/send?phone=918796857733",
+  // Every WhatsApp hand-off (phone CTAs, the form on phones, the floating button) uses this number.
+  whatsapp: "https://api.whatsapp.com/send?phone=919205763615",
+  // The same WhatsApp line, as shown on /contact, in the footer and on the floating button.
+  whatsappDisplay: "+91 92057 63615",
   // "Click to Know More" on project cards uses the second line.
   whatsappProjects: "https://api.whatsapp.com/send?phone=919205763615",
   // The Google Business Profile: rating copied by hand (update as reviews come in).

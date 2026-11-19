@@ -19,12 +19,12 @@ import { getSiteMedia, getTestimonials } from "@/sanity/media";
 export const metadata: Metadata = pageMeta({
   title: "Trusted Real Estate Consultants for Delhi-NCR",
   description:
-    "Meet Rajiv Kr. Pandey and Applause Reality: 23+ years guiding families, investors and SBI/PNB professionals through bank-approved Delhi NCR property.",
+    "Meet Mr. Rajiv Kr. Pandey and Applause Reality: 23+ years guiding families, investors and SBI/PNB professionals through bank-approved Delhi NCR property.",
   path: "/about-applause-reality",
 });
 
 const bio = [
-  "With a career spanning more than 23 years, Rajiv Kr. Pandey has become a pillar of trust for families and investors across Delhi NCR — a steady companion through the milestones of buying a home.",
+  "With a career spanning more than 23 years, Mr. Rajiv Kr. Pandey has become a pillar of trust for families and investors across Delhi NCR — a steady companion through the milestones of buying a home.",
   "His guidance is calm and composed by design: a quiet place to think in a market that is often anything but. He works especially closely with corporate professionals and employees of institutions such as SBI and PNB, pairing thorough market intelligence with a patient understanding of each family’s needs.",
   "Beyond the transaction, his promise is to stay a devoted partner through every phase — from the first site visit to the day you receive your keys, and well after. By managing documentation and loan approvals with complete transparency, he makes sure every client feels safe, protected and certain that their legacy is in capable hands.",
 ];
@@ -93,7 +93,7 @@ export default async function AboutPage() {
             />
             <Reveal delay={0.35}>
               <p className="mt-8 max-w-[34rem] font-text text-lg leading-relaxed text-slate-ink">
-                Founded and led by Rajiv Kr. Pandey, Applause Reality guides families, investors and SBI &amp;
+                Founded and led by Mr. Rajiv Kr. Pandey, Applause Reality guides families, investors and SBI &amp;
                 PNB professionals to bank-approved homes across Delhi NCR — and stays with them long after
                 the keys are handed over.
               </p>
@@ -137,7 +137,7 @@ export default async function AboutPage() {
                   />
                   <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink-950/85 to-transparent" />
                   <figcaption className="absolute inset-x-5 bottom-5">
-                    <span className="block font-sans text-xl font-semibold">Rajiv Kr. Pandey</span>
+                    <span className="block font-sans text-xl font-semibold">Mr. Rajiv Kr. Pandey</span>
                     <span className="font-text text-sm text-ivory/70">Founder &amp; Real Estate Consultant</span>
                   </figcaption>
                 </figure>

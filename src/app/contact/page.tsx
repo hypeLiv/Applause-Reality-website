@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/home/SmoothScroll";
 import { Arrow, Icon, lux } from "@/components/home/ui";
 import { Cta } from "@/components/sections";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import JsonLd from "@/components/seo/JsonLd";
 import { absolute, pageMeta } from "@/lib/seo";
 import { maps, site } from "@/lib/site";
@@ -92,6 +93,16 @@ export default function ContactPage() {
                           {p}
                         </a>
                       ))}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-ink">
+                      <WhatsAppIcon className="h-5 w-5 text-royal" /> WhatsApp
+                    </dt>
+                    <dd className="mt-3 text-base font-semibold">
+                      <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-royal">
+                        {site.whatsappDisplay}
+                      </a>
                     </dd>
                   </div>
                   <div>

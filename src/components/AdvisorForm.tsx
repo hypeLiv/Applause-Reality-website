@@ -6,12 +6,15 @@ import { site } from "@/lib/site";
 import { useIsMobileDevice } from "@/lib/useIsMobileDevice";
 
 const fields = [
-  { name: "firstName", label: "First name", type: "text", autoComplete: "given-name" },
-  { name: "lastName", label: "Last name", type: "text", autoComplete: "family-name" },
-  { name: "email", label: "Email", type: "email", autoComplete: "email" },
-  { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-  { name: "company", label: "Company name", type: "text", autoComplete: "organization" },
+  { name: "firstName", label: "First name", type: "text", autoComplete: "given-name", optional: false },
+  { name: "lastName", label: "Last name", type: "text", autoComplete: "family-name", optional: true },
+  { name: "email", label: "Email", type: "email", autoComplete: "email", optional: true },
+  { name: "phone", label: "Phone", type: "tel", autoComplete: "tel", optional: false },
+  { name: "company", label: "Company name", type: "text", autoComplete: "organization", optional: true },
 ] as const;
+
+/** Muted "(optional)" tag after a field label. */
+const Optional = () => <span className="normal-case tracking-normal opacity-70"> (optional)</span>;
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -21,7 +24,7 @@ const shell =
 
 /** Label that rests inside the field and floats up once it is focused or filled. */
 const floatLabel =
-  "pointer-events-none absolute top-[1.15rem] origin-left font-text text-[15px] text-slate-ink/80 transition-all duration-200 peer-focus:top-2.5 peer-focus:text-[11px] peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-[0.12em] peer-focus:text-royal peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.12em]";
+  "pointer-events-none absolute top-[1.15rem] origin-left whitespace-nowrap font-text text-[15px] text-slate-ink/80 transition-all duration-200 peer-focus:top-2.5 peer-focus:text-[11px] peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-[0.12em] peer-focus:text-royal peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.12em]";
 
 /**
  * Phones hand the details to WhatsApp (where the conversation continues);
@@ -41,7 +44,7 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
     );
     const summary = [
       "Hello Applause Reality, I'd like to meet an advisor.",
-      ...fields.map((f) => `${f.label}: ${values[f.name]}`),
+      ...fields.filter((f) => values[f.name]).map((f) => `${f.label}: ${values[f.name]}`),
       ...(values.message ? [`Message: ${values.message}`] : []),
     ].join("\n");
 
@@ -115,7 +118,7 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
             ) : (
               <>
                 <input
-                  required
+                  required={!f.optional}
                   id={id}
                   name={f.name}
                   type={f.type}
@@ -125,6 +128,7 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
                 />
                 <label htmlFor={id} className={`${floatLabel} left-4`}>
                   {f.label}
+                  {f.optional && <Optional />}
                 </label>
               </>
             )}
