@@ -24,6 +24,8 @@ export const site = {
     country: "IN",
     oneLine: "A-61, Sector 63 Rd, Hazratpur Wajidpur, Sector 63, Noida, Uttar Pradesh 201309",
   },
+  // Google Analytics 4 measurement ID (loaded in production only).
+  gaId: "G-5RSDX6ZWCM",
   tagline: "रिश्ता बुकिंग के साथ भी, Possession के बाद भी",
   // Every WhatsApp hand-off (phone CTAs, the form on phones, the floating button) uses this number.
   whatsapp: "https://api.whatsapp.com/send?phone=919205763615",

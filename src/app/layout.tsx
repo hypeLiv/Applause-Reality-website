@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Fraunces, Hind, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { BlurProvider } from "@/components/Image";
 import Footer from "@/components/Footer";
 import ChatButton from "@/components/ChatButton";
+import ContactClickTracker from "@/components/analytics/ContactClickTracker";
 import IntroLoader from "@/components/IntroLoader";
 import JsonLd from "@/components/seo/JsonLd";
 import { introGateScript } from "@/lib/intro";
@@ -114,7 +116,10 @@ export default async function RootLayout({
           <Footer />
           <ChatButton />
         </BlurProvider>
+        <ContactClickTracker />
       </body>
+      {/* Production only, so local development doesn't pollute the reports. */}
+      {process.env.NODE_ENV === "production" && <GoogleAnalytics gaId={site.gaId} />}
     </html>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { Arrow } from "@/components/home/ui";
+import { track } from "@/lib/analytics";
 import { site } from "@/lib/site";
 import { useIsMobileDevice } from "@/lib/useIsMobileDevice";
 
@@ -50,6 +51,7 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
 
     if (mobile) {
       window.open(`${site.whatsapp}&text=${encodeURIComponent(summary)}`, "_blank", "noopener,noreferrer");
+      track("generate_lead", { method: "whatsapp", form: withMessage ? "consultation_page" : "inline" });
       setStatus("sent");
       return;
     }
@@ -62,6 +64,7 @@ export default function AdvisorForm({ withMessage = false }: { withMessage?: boo
         body: JSON.stringify({ ...values, page: window.location.pathname }),
       });
       if (!res.ok) throw new Error(String(res.status));
+      track("generate_lead", { method: "form", form: withMessage ? "consultation_page" : "inline" });
       setStatus("sent");
     } catch {
       setFallback(

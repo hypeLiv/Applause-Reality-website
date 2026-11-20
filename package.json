@@ -10,6 +10,7 @@
     "blurhash": "node scripts/blurhash.mjs"
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.27",
     "@sanity/client": "8.9.0",
     "@sanity/webhook": "4.0.4",
     "blurhash": "^2.0.5",
